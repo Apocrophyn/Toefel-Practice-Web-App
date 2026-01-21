@@ -83,6 +83,7 @@ export function SpeakingPractice() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isStartingRecording = useRef(false);
 
   // Audio stage control
   const [currentStage, setCurrentStage] = useState<"waiting" | "playing" | "preparing" | "recording">("waiting");
@@ -393,6 +394,17 @@ export function SpeakingPractice() {
       }
     }
   }, [state, sentenceIndex, interviewIndex, currentScenario, currentInterview, currentStage, sentenceProgress, isPlayingAudio, isLoadingAudio, playAudio]);
+
+  // Trigger recording when stage changes to 'recording'
+  useEffect(() => {
+    if (currentStage === "recording" && !isRecording && !isStartingRecording.current) {
+      isStartingRecording.current = true;
+      startRecording().finally(() => {
+        isStartingRecording.current = false;
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStage, isRecording]);
 
   // Handle Interview recording - start background evaluation
   const handleInterviewRecording = async (audioBlob: Blob) => {
