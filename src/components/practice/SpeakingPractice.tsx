@@ -477,6 +477,22 @@ export function SpeakingPractice() {
   const goToNext = () => {
     // Clear any timers
     if (prepTimerRef.current) clearInterval(prepTimerRef.current);
+    if (recordingTimerRef.current) {
+      clearInterval(recordingTimerRef.current);
+      recordingTimerRef.current = null;
+    }
+
+    // Stop any ongoing recording
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
+      // Don't trigger onstop handler since we're moving to next
+      mediaRecorderRef.current.onstop = null;
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current = null;
+    }
+
+    // Reset recording state
+    setIsRecording(false);
+    isStartingRecording.current = false;
     setCurrentStage("waiting");
 
     if (currentTask === "listen_repeat" && currentScenario) {
@@ -1158,7 +1174,7 @@ export function SpeakingPractice() {
                       </div>
                       <div>
                         <p className="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">AI Feedback</p>
-                        <p className="text-sm text-white leading-relaxed">{answer.evaluationResult.feedback.fluency_notes}</p>
+                        <p className="text-sm text-white leading-relaxed">{answer.evaluationResult.feedback?.fluency_notes || "Feedback pending..."}</p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
@@ -1167,7 +1183,7 @@ export function SpeakingPractice() {
                             <CheckCircle className="w-3 h-3" /> Key Strengths
                           </p>
                           <ul className="text-xs text-slate-300 space-y-1">
-                            {answer.evaluationResult.feedback.strengths.map((s: string, i: number) => (
+                            {answer.evaluationResult.feedback?.strengths?.map((s: string, i: number) => (
                               <li key={i} className="flex items-start gap-2">
                                 <span className="text-emerald-500 mt-1">•</span>
                                 {s}
@@ -1180,7 +1196,7 @@ export function SpeakingPractice() {
                             <Sparkles className="w-3 h-3" /> Points to Improve
                           </p>
                           <ul className="text-xs text-slate-300 space-y-1">
-                            {answer.evaluationResult.feedback.improvements.map((s: string, i: number) => (
+                            {answer.evaluationResult.feedback?.improvements?.map((s: string, i: number) => (
                               <li key={i} className="flex items-start gap-2">
                                 <span className="text-amber-500 mt-1">•</span>
                                 {s}
