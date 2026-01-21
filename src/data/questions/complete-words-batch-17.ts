@@ -1,0 +1,253 @@
+// Complete the Words - Batch 17
+// TOEFL iBT 2026 Format - 10 passages per batch
+// Each passage: 80-120 words with 4-6 blanks
+
+import { CompleteWordsQuestion } from "./reading-2026";
+
+export const completeWordsBatch17: CompleteWordsQuestion[] = [
+      {
+            id: "CW_B17_001",
+            taskType: "complete_words",
+            passage: "Stratigraphy is the branch of geolo__ that studies rock layers (strata) and the process of layer_____. It is primarily used to understand the geologi___ history of the Earth and the sequence of events that have shap___ our planet over millio__ of years. By analyz___ the compos_____, texture, and fossil content of different layers, stratigraphi___ can reconstruct past environm____ and determine the relative ages of rocks. This field is essenti__ for resource explor_____, such as find___ oil, gas, and mineral deposits. Modern stratigra___ often uses advanced techniq____ like seismic reflection and isotopic dating to create detailed 3D models of the Earth's crust and improve our understand___ of its dynamic processes.",
+            blanks: [
+                  { position: 0, partialWord: "geolo__", answer: "geology" },
+                  { position: 1, partialWord: "layer_____", answer: "layering" },
+                  { position: 2, partialWord: "geologi___", answer: "geological" },
+                  { position: 3, partialWord: "shap___", answer: "shaping" },
+                  { position: 4, partialWord: "millio__", answer: "millions" },
+                  { position: 5, partialWord: "analyz___", answer: "analyzing" },
+                  { position: 6, partialWord: "compos_____", answer: "composition" },
+                  { position: 7, partialWord: "stratigraphi___", answer: "stratigraphers" },
+                  { position: 8, partialWord: "environm____", answer: "environments" },
+                  { position: 9, partialWord: "essenti__", answer: "essential" },
+                  { position: 10, partialWord: "explor_____", answer: "exploration" },
+                  { position: 11, partialWord: "find___", answer: "finding" },
+                  { position: 12, partialWord: "stratigra___", answer: "stratigraphy" },
+                  { position: 13, partialWord: "techniq____", answer: "techniques" },
+                  { position: 14, partialWord: "understand___", answer: "understanding" }
+            ]
+      },
+      {
+            id: "CW_B17_002",
+            taskType: "complete_words",
+            passage: "Robotics is a multidiscipl_____ field that involves the design, construct___, and operat___ of robots. It combines aspects of mechanic__ engineering, electronics, and computer science to create automat__ systems that can perform tasks general__ done by humans. Modern roboti__ often uses advanced techniq____ like machine learn___ and artific___ intelligen__ to allow robots to interact with their environment and adapt to new situations. Potential applic_____ for robotics are vast, from manufact____ and healthcare to space explor_____ and search-and-resc__ missions. However, the rapid progress of roboti__ also raises concerns about its impact on employ_____, privacy, and the long-term effects of human-rob__ interact___ on society.",
+            blanks: [
+                  { position: 0, partialWord: "multidiscipl_____", answer: "multidisciplinary" },
+                  { position: 1, partialWord: "construct___", answer: "construction" },
+                  { position: 2, partialWord: "operat___", answer: "operation" },
+                  { position: 3, partialWord: "mechanic__", answer: "mechanical" },
+                  { position: 4, partialWord: "automat__", answer: "automated" },
+                  { position: 5, partialWord: "general__", answer: "generally" },
+                  { position: 6, partialWord: "roboti__", answer: "robotics" },
+                  { position: 7, partialWord: "techniq____", answer: "techniques" },
+                  { position: 8, partialWord: "learn___", answer: "learning" },
+                  { position: 9, partialWord: "artific___", answer: "artificial" },
+                  { position: 10, partialWord: "intelligen__", answer: "intelligence" },
+                  { position: 11, partialWord: "applic_____", answer: "applications" },
+                  { position: 12, partialWord: "manufact____", answer: "manufacturing" },
+                  { position: 13, partialWord: "explor_____", answer: "exploration" },
+                  { position: 14, partialWord: "search-and-resc__", answer: "search-and-rescue" },
+                  { position: 15, partialWord: "roboti__", answer: "robotics" },
+                  { position: 16, partialWord: "employ_____", answer: "employment" },
+                  { position: 17, partialWord: "human-rob__", answer: "human-robot" },
+                  { position: 18, partialWord: "interact___", answer: "interaction" }
+            ]
+      },
+      {
+            id: "CW_B17_003",
+            taskType: "complete_words",
+            passage: "Triangular trade was a historic system of trade rout__ that connected Europe, Africa, and the Americas during the 16th to 19th centur___. It facilit____ the exchan__ of various goods, such as manufactured items from Europe to Africa, enslaved people from Africa to the Americas, and raw materi___ like sugar and tobacco from the Americas back to Europe. For cent_____, this trade was a major source of economic power for European empires and led to the rise of global market towns. Triangular trade also played a crucia_ role in shap___ the history of the Americas and fostering a sense of connect_______ between distant civiliz_____, though it also involved signific___ human suffer___ and the destruct___ of African cultures.",
+            blanks: [
+                  { position: 0, partialWord: "rout__", answer: "routes" },
+                  { position: 1, partialWord: "centur___", answer: "centuries" },
+                  { position: 2, partialWord: "facilit____", answer: "facilitated" },
+                  { position: 3, partialWord: "exchan__", answer: "exchange" },
+                  { position: 4, partialWord: "materi___", answer: "materials" },
+                  { position: 5, partialWord: "cent_____", answer: "centuries" },
+                  { position: 6, partialWord: "crucia_", answer: "crucial" },
+                  { position: 7, partialWord: "shap___", answer: "shaping" },
+                  { position: 8, partialWord: "connect_______", answer: "connectedness" },
+                  { position: 9, partialWord: "civiliz_____", answer: "civilizations" },
+                  { position: 10, partialWord: "signific___", answer: "significant" },
+                  { position: 11, partialWord: "suffer___", answer: "suffering" },
+                  { position: 12, partialWord: "destruct___", answer: "destruction" }
+            ]
+      },
+      {
+            id: "CW_B17_004",
+            taskType: "complete_words",
+            passage: "Dermatology is a branch of medicine dealing with disord___ of the skin, hair, and nails. A medical profess_______ who practices dermatology is a dermatologi__. The field includes medical diagnos__ and treatm___ of various condit____ such as acne, eczema, psoriasis, and skin cancer. Dermatologi___ use various diagnost__ tools, such as skin biopsies and dermoscopy, to evaluat_ the health of the skin and monitor the effectiv_____ of treatments. Modern dermatology also involves progress___ in laser therapy and cosmeti_ procedur__ to improve skin appearance and health. By understand___ the complex functions and mechan____ of the skin, healthcare profess_______ can better manage and prevent skin disease.",
+            blanks: [
+                  { position: 0, partialWord: "disord___", answer: "disorders" },
+                  { position: 1, partialWord: "profess_______", answer: "professional" },
+                  { position: 2, partialWord: "dermatologi__", answer: "dermatologist" },
+                  { position: 3, partialWord: "diagnos__", answer: "diagnosis" },
+                  { position: 4, partialWord: "treatm___", answer: "treatment" },
+                  { position: 5, partialWord: "condit____", answer: "conditions" },
+                  { position: 6, partialWord: "Dermatologi___", answer: "Dermatologists" },
+                  { position: 7, partialWord: "diagnost__", answer: "diagnostic" },
+                  { position: 8, partialWord: "evaluat_", answer: "evaluate" },
+                  { position: 9, partialWord: "effectiv_____", answer: "effectiveness" },
+                  { position: 10, partialWord: "progress___", answer: "progressions" },
+                  { position: 11, partialWord: "cosmeti_", answer: "cosmetic" },
+                  { position: 12, partialWord: "procedur__", answer: "procedures" },
+                  { position: 13, partialWord: "understand___", answer: "understanding" },
+                  { position: 14, partialWord: "mechan____", answer: "mechanisms" },
+                  { position: 15, partialWord: "profess_______", answer: "professionals" }
+            ]
+      },
+      {
+            id: "CW_B17_005",
+            taskType: "complete_words",
+            passage: "Complete Streets is an urban plann___ policy that focuses on design___ streets to be safe and accessib__ for all users, includ___ pedestrians, bicycl____, public transport_____, and motorists. This approach aims to reduce urban spraw_ and encourage the use of sustainab__ transport modes. Key principl__ of Complete Streets include walkabil____, mixed-use develop_____, and a focus on public spaces. By creatin__ denser, more vibran_ neighbor_____, Complete Streets aims to reduce traffic congest___, lower carbon emiss____, and foster a stronger sense of social connect______. Many cities are now implement___ Complete Streets strategies to revitaliz_ downtown areas and create more livab__ urban environm____ for their residen__.",
+            blanks: [
+                  { position: 0, partialWord: "plann___", answer: "planning" },
+                  { position: 1, partialWord: "design___", answer: "designing" },
+                  { position: 2, partialWord: "accessib__", answer: "accessible" },
+                  { position: 3, partialWord: "includ___", answer: "including" },
+                  { position: 4, partialWord: "bicycl____", answer: "bicyclists" },
+                  { position: 5, partialWord: "transport_____", answer: "transportation" },
+                  { position: 6, partialWord: "spraw_", answer: "sprawl" },
+                  { position: 7, partialWord: "sustainab__", answer: "sustainable" },
+                  { position: 8, partialWord: "principl__", answer: "principles" },
+                  { position: 9, partialWord: "walkabil____", answer: "walkability" },
+                  { position: 10, partialWord: "develop_____", answer: "development" },
+                  { position: 11, partialWord: "creatin__", answer: "creating" },
+                  { position: 12, partialWord: "vibran_", answer: "vibrant" },
+                  { position: 13, partialWord: "neighbor_____", answer: "neighborhoods" },
+                  { position: 14, partialWord: "congest___", answer: "congestion" },
+                  { position: 15, partialWord: "emiss____", answer: "emissions" },
+                  { position: 16, partialWord: "social", answer: "social" },
+                  { position: 17, partialWord: "connect______", answer: "connectedness" },
+                  { position: 18, partialWord: "implement___", answer: "implementing" },
+                  { position: 19, partialWord: "revitaliz_", answer: "revitalize" },
+                  { position: 20, partialWord: "livab__", answer: "livable" },
+                  { position: 21, partialWord: "environm____", answer: "environment" },
+                  { position: 22, partialWord: "residen__", answer: "residents" }
+            ]
+      },
+      {
+            id: "CW_B17_006",
+            taskType: "complete_words",
+            passage: "Energy economics is a branch of economics concern__ with the efficient product___, distribut___, and consumpt___ of energy and its impact on the economy and the environm____. It focuses on how societi__ can manage and conserv_ non-renewab__ energy sources like fossil fuel_, as well as renewab__ sources like solar, wind, and hydro power. Key topics in energy economi__ include market analysis, energy taxat___, and the role of governm___ regulat___ in addressing energy deplet___ and pollution. Economi___ in this field also study the potential for transition___ to a low-carbon economy to ensure long-term energy securi__. By understand___ the complex interaction_ between energy use and economic growth, they hope to find ways to promote sustainab__ develop_____, reduce carbon emiss____, and protect the planet.",
+            blanks: [
+                  { position: 0, partialWord: "concern__", answer: "concerned" },
+                  { position: 1, partialWord: "product___", answer: "production" },
+                  { position: 2, partialWord: "distribut___", answer: "distribution" },
+                  { position: 3, partialWord: "consumpt___", answer: "consumption" },
+                  { position: 4, partialWord: "environm____", answer: "environment" },
+                  { position: 5, partialWord: "societi__", answer: "societies" },
+                  { position: 6, partialWord: "conserv_", answer: "conserve" },
+                  { position: 7, partialWord: "non-renewab__", answer: "non-renewable" },
+                  { position: 8, partialWord: "fuel_", answer: "fuels" },
+                  { position: 9, partialWord: "renewab__", answer: "renewable" },
+                  { position: 10, partialWord: "economi__", answer: "economics" },
+                  { position: 11, partialWord: "taxat___", answer: "taxation" },
+                  { position: 12, partialWord: "governm___", answer: "government" },
+                  { position: 13, partialWord: "regulat___", answer: "regulation" },
+                  { position: 14, partialWord: "deplet___", answer: "depletion" },
+                  { position: 15, partialWord: "Economi___", answer: "Economists" },
+                  { position: 16, partialWord: "transition___", answer: "transitioning" },
+                  { position: 17, partialWord: "securi__", answer: "security" },
+                  { position: 18, partialWord: "understand___", answer: "understanding" },
+                  { position: 19, partialWord: "sustainab__", answer: "sustainable" },
+                  { position: 20, partialWord: "develop_____", answer: "development" },
+                  { position: 21, partialWord: "emiss____", answer: "emissions" }
+            ]
+      },
+      {
+            id: "CW_B17_007",
+            taskType: "complete_words",
+            passage: "Funk music is a genre of popular music that originat__ in the United States in the mid-1960s. It was a fusion of rhythm and blues, jazz, and soul music, featur___ powerf__ vocals and an emphasis on rhythmic groove and syncopat___. Funk became a signifi____ symbol of African American cultural identi__ and played a crucia_ role in the soul music movem___. Early pioneers like James Brown and Sly Stone transformed funk into a global phenomen____, influenc___ fashion, attit____, and social change around the world. Today, the spirit of funk continues to inspir_ new generat___ of artists and musicians who find unique ways to express their identi__ and beliefs. Funk remains high__ influen___, with its energy and spirit continu___ to captivat_ audiences worldw___.",
+            blanks: [
+                  { position: 0, partialWord: "originat__", answer: "originated" },
+                  { position: 1, partialWord: "featur___", answer: "featuring" },
+                  { position: 2, partialWord: "powerf__", answer: "powerful" },
+                  { position: 3, partialWord: "rhythmic", answer: "rhythmic" },
+                  { position: 4, partialWord: "syncopat___", answer: "syncopation" },
+                  { position: 5, partialWord: "signifi____", answer: "significant" },
+                  { position: 6, partialWord: "identi__", answer: "identity" },
+                  { position: 7, partialWord: "crucia_", answer: "crucial" },
+                  { position: 8, partialWord: "movem___", answer: "movement" },
+                  { position: 9, partialWord: "phenomen____", answer: "phenomenon" },
+                  { position: 10, partialWord: "influenc___", answer: "influencing" },
+                  { position: 11, partialWord: "attit____", answer: "attitudes" },
+                  { position: 12, partialWord: "inspir_", answer: "inspire" },
+                  { position: 13, partialWord: "generat___", answer: "generations" },
+                  { position: 14, partialWord: "identi__", answer: "identity" },
+                  { position: 15, partialWord: "high__", answer: "highly" },
+                  { position: 16, partialWord: "influen___", answer: "influential" },
+                  { position: 17, partialWord: "continu___", answer: "continuing" },
+                  { position: 18, partialWord: "captivat_", answer: "captivate" },
+                  { position: 19, partialWord: "worldw___", answer: "worldwide" }
+            ]
+      },
+      {
+            id: "CW_B17_008",
+            taskType: "complete_words",
+            passage: "Coastal zones are unique environm____ characteri___ by the interaction of land and sea. They are home to a diverse range of plant and animal species specialized to survive in various condit____, from salt marshes and mangroves to coral reefs and beaches. Coastal ecosyst___ play a crucia_ role in the global carbon cycle and provide a protect___ barrier against storm surges and erosion. They also act as important nursery grounds for many fish and wildlife species. However, coastal zones are increas___ threat____ by habitat loss, pollution, and the impacts of sea-level rise due to climate chan__. Protecting these fragile ecosyst___ is essentia_ for maintain___ global biodiver____ and ensurin__ the livelihood of human communi____ that depend on coastal resources.",
+            blanks: [
+                  { position: 0, partialWord: "environm____", answer: "environments" },
+                  { position: 1, partialWord: "characteri___", answer: "characterized" },
+                  { position: 2, partialWord: "condit____", answer: "conditions" },
+                  { position: 3, partialWord: "ecosyst___", answer: "ecosystems" },
+                  { position: 4, partialWord: "crucia_", answer: "crucial" },
+                  { position: 5, partialWord: "protect___", answer: "protective" },
+                  { position: 6, partialWord: "increas___", answer: "increasingly" },
+                  { position: 7, partialWord: "threat____", answer: "threatened" },
+                  { position: 8, partialWord: "chan__", answer: "change" },
+                  { position: 9, partialWord: "ecosyst___", answer: "ecosystems" },
+                  { position: 10, partialWord: "essentia_", answer: "essential" },
+                  { position: 11, partialWord: "maintain___", answer: "maintaining" },
+                  { position: 12, partialWord: "biodiver____", answer: "biodiversity" },
+                  { position: 13, partialWord: "ensurin__", answer: "ensuring" },
+                  { position: 14, partialWord: "communi____", answer: "communities" }
+            ]
+      },
+      {
+            id: "CW_B17_009",
+            taskType: "complete_words",
+            passage: "Intelligence theory is a multidiscipl_____ field that explores the nature, origins, and impact of human intelligence. It involves the study of cognitive processes, individu__ differences in mental abili__, and the social and cultural factors that foster or hinder intellectual develop_____. Researchers in this field use various methods, such as experim____, surveys, and psychometri_ tests, to understand how the brain processes information, solves problems, and adapts to new situations. Modern research in psycholo__ and neuroscie___ has shed light on the cognitive and neural basis of intelligence. By learn___ to recogniz_ and nurture mental potentia_, individu__ and organizations can achieve their goals more effectiv____ and drive innovat___ in various discipl____, from science and technology to art and literat___.",
+            blanks: [
+                  { position: 0, partialWord: "multidiscipl_____", answer: "multidisciplinary" },
+                  { position: 1, partialWord: "individu__", answer: "individual" },
+                  { position: 2, partialWord: "abili__", answer: "ability" },
+                  { position: 3, partialWord: "develop_____", answer: "development" },
+                  { position: 4, partialWord: "experim____", answer: "experiments" },
+                  { position: 5, partialWord: "psychometri_", answer: "psychometric" },
+                  { position: 6, partialWord: "psycholo__", answer: "psychology" },
+                  { position: 7, partialWord: "neuroscie___", answer: "neuroscience" },
+                  { position: 8, partialWord: "learn___", answer: "learning" },
+                  { position: 9, partialWord: "recogniz_", answer: "recognize" },
+                  { position: 10, partialWord: "potentia_", answer: "potential" },
+                  { position: 11, partialWord: "individu__", answer: "individuals" },
+                  { position: 12, partialWord: "effectiv____", answer: "effectively" },
+                  { position: 13, partialWord: "innovat___", answer: "innovation" },
+                  { position: 14, partialWord: "discipl____", answer: "disciplines" },
+                  { position: 15, partialWord: "literat___", answer: "literature" }
+            ]
+      },
+      {
+            id: "CW_B17_010",
+            taskType: "complete_words",
+            passage: "Graffiti art is a genre of contempor___ art that is created in public locations, often without official permiss___. Unlike traditional art forms shown in galleri__, graffiti art is intended to be seen by a wide and diverse audience. It can take many forms, from simple tags and stencils to large murals and interact___ installations. At its core, graffiti art often serves as a form of social and political comment___, challen___ mainstream norms and engag___ with local communi____. Many graffiti artists use their work to express their identi__, beliefs, and personal reflect___ on urban life. Today, graffiti art is general__ recogni___ as a powerf__ and influen___ genre that continues to push the limits of artistic express___ and transform the visual landsca__ of our cities.",
+            blanks: [
+                  { position: 0, partialWord: "contempor___", answer: "contemporary" },
+                  { position: 1, partialWord: "permiss___", answer: "permission" },
+                  { position: 2, partialWord: "galleri__", answer: "galleries" },
+                  { position: 3, partialWord: "interact___", answer: "interactive" },
+                  { position: 4, partialWord: "comment___", answer: "commentary" },
+                  { position: 5, partialWord: "challen___", answer: "challenging" },
+                  { position: 6, partialWord: "engag___", answer: "engaging" },
+                  { position: 7, partialWord: "communi____", answer: "communities" },
+                  { position: 8, partialWord: "identi__", answer: "identity" },
+                  { position: 9, partialWord: "reflect___", answer: "reflections" },
+                  { position: 10, partialWord: "general__", answer: "generally" },
+                  { position: 11, partialWord: "recogni___", answer: "recognized" },
+                  { position: 12, partialWord: "powerf__", answer: "powerful" },
+                  { position: 13, partialWord: "influen___", answer: "influential" },
+                  { position: 14, partialWord: "express___", answer: "expression" },
+                  { position: 15, partialWord: "landsca__", answer: "landscape" }
+            ]
+      }
+];
