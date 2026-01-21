@@ -150,6 +150,11 @@ export function SpeakingPractice() {
     setState("listen_repeat");
     setOverallScores([]);
     setTotalTimeLeft(480); // Reset to 8 minutes
+
+    // Reset internal state to prevents bugs on restart
+    evaluationPromisesRef.current = [];
+    chunksRef.current = [];
+    setCurrentStage("waiting");
   };
 
   // Global Section Timer Logic
@@ -1097,7 +1102,7 @@ export function SpeakingPractice() {
                             <CheckCircle className="w-3 h-3" /> Strengths
                           </p>
                           <ul className="text-xs text-slate-300 space-y-1">
-                            {progress.evaluationResult.feedback.strengths.slice(0, 2).map((s: string, i: number) => (
+                            {progress.evaluationResult.feedback.strengths?.slice(0, 2).map((s: string, i: number) => (
                               <li key={i} className="flex items-start gap-2">
                                 <span className="text-emerald-500 mt-1">•</span>
                                 {s}
@@ -1110,7 +1115,7 @@ export function SpeakingPractice() {
                             <AlertCircle className="w-3 h-3" /> Improvements
                           </p>
                           <ul className="text-xs text-slate-300 space-y-1">
-                            {progress.evaluationResult.feedback.improvements.slice(0, 2).map((s: string, i: number) => (
+                            {progress.evaluationResult.feedback.improvements?.slice(0, 2).map((s: string, i: number) => (
                               <li key={i} className="flex items-start gap-2">
                                 <span className="text-red-500 mt-1">•</span>
                                 {s}
