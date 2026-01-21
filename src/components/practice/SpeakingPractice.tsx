@@ -324,6 +324,9 @@ export function SpeakingPractice() {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+      // CRITICAL: Reset audioFinished to prevent recording trigger from firing again
+      // before goToNext() is called via the onstop handler
+      audioFinishedRef.current = false;
     }
   };
 
