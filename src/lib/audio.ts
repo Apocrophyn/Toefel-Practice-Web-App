@@ -13,7 +13,13 @@ export type VoiceType =
   | "male_academic"    // Authoritative, academic (Professor/Scholar)
   | "professor"       // Expressive, clear
   | "interviewer"     // Neutral, professional
-  | "guide";          // Soft, welcoming - for tour/orientation
+  | "guide"           // Soft, welcoming - for tour/orientation
+  | "alloy"           // OpenAI: Neutral
+  | "echo"            // OpenAI: Confident, soft
+  | "fable"           // OpenAI: British, playful
+  | "onyx"            // OpenAI: Deep, authoritative
+  | "nova"            // OpenAI: High-pitched, energetic
+  | "shimmer";        // OpenAI: Clear, friendly
 
 interface TTSOptions {
   voice?: VoiceType;

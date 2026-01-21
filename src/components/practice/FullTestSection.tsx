@@ -690,7 +690,7 @@ export function FullTestSection() {
     setSpeakingInterviewIndex(index);
 
     try {
-      const url = await generateAudio(q.question, { voice: "alloy" as any });
+      const url = await generateAudio(q.question, { voice: "alloy" });
       const audio = new Audio(url);
       speakingAudioRef.current = audio;
       audio.onended = () => {

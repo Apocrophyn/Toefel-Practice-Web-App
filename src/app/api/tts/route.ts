@@ -18,6 +18,12 @@ const voiceMap: Record<string, "alloy" | "echo" | "fable" | "onyx" | "nova" | "s
   professor: "onyx",
   interviewer: "alloy",
   guide: "shimmer",
+  alloy: "alloy",
+  echo: "echo",
+  fable: "fable",
+  onyx: "onyx",
+  nova: "nova",
+  shimmer: "shimmer",
 };
 
 // In-memory cache as fallback (24 hours)
