@@ -273,7 +273,7 @@ export function FullTestSection() {
     });
   };
 
-  const startTest = () => {
+  const startTest = useCallback(() => {
     readingManagerRef.current.reset();
     const module1Qs = readingManagerRef.current.selectModule1Questions(READING_CONFIG.MODULE1_QUESTIONS);
     const flatSteps = flattenReadingQuestions(module1Qs);
@@ -284,9 +284,9 @@ export function FullTestSection() {
     setReadingCurrentModule("module1");
     setReadingFlaggedSteps(new Set());
     setTestState("reading_module1");
-  };
+  }, [flattenReadingQuestions]);
 
-  const handleReadingAnswer = (val: any) => {
+  const handleReadingAnswer = useCallback((val: any) => {
     const step = readingSteps[readingCurrentIndex];
     // Simple correctness check
     let isCorrect = false;
@@ -307,14 +307,67 @@ export function FullTestSection() {
         timeSpent: (prev[step.id]?.timeSpent || 0) // Simplified time tracking
       }
     }));
-  };
+  }, [readingSteps, readingCurrentIndex]);
 
-  const handleReadingModuleTimeout = useCallback(() => {
-    if (testState === "reading_module1") finishReadingModule1();
-    else finishReadingModule2();
-  }, [testState, finishReadingModule1, finishReadingModule2]);
+  const generateListeningQuestions = useCallback((config: any) => {
+    const selected: any[] = [];
+    const shuffledCR = [...chooseResponseItems].sort(() => Math.random() - 0.5);
+    const shuffledConv = [...conversationScenarios].sort(() => Math.random() - 0.5);
+    const shuffledAnn = [...announcementScenarios].sort(() => Math.random() - 0.5);
+    const shuffledAT = [...academicTalkScenarios].sort(() => Math.random() - 0.5);
 
-  const finishReadingModule1 = () => {
+    for (let i = 0; i < config.chooseResponse && i < shuffledCR.length; i++) selected.push({ type: "choose_response", data: shuffledCR[i] });
+    for (let i = 0; i < config.conversation && i < shuffledConv.length; i++) selected.push({ type: "conversation", data: shuffledConv[i] });
+    for (let i = 0; i < config.announcement && i < shuffledAnn.length; i++) selected.push({ type: "announcement", data: shuffledAnn[i] });
+    for (let i = 0; i < config.academicTalk && i < shuffledAT.length; i++) selected.push({ type: "academic_talk", data: shuffledAT[i] });
+
+    return selected.sort(() => Math.random() - 0.5);
+  }, []);
+
+  const startListeningSection = useCallback(() => {
+    const qs = generateListeningQuestions({ chooseResponse: 5, conversation: 2, announcement: 2, academicTalk: 1 });
+    setListeningQuestions(qs);
+    setListeningCurrentIndex(0);
+    setListeningSubIndex(0);
+    setListeningAnswers([]);
+    setListeningCurrentModule(1);
+    setListeningTimeLeft(18 * 60);
+    setListeningIsPlaying(false);
+    setListeningAudioPlayed(false);
+    setTestState("listening_module1");
+  }, [generateListeningQuestions]);
+
+  const handleListeningModuleTimeout = useCallback(() => {
+    if (listeningCurrentModule === 1) {
+      const correct = listeningAnswers.filter(a => a.isCorrect).length;
+      const accuracy = correct / listeningAnswers.length;
+      const isHard = accuracy >= 0.6;
+
+      const config = isHard
+        ? { chooseResponse: 4, conversation: 2, announcement: 2, academicTalk: 2 }
+        : { chooseResponse: 6, conversation: 2, announcement: 2, academicTalk: 1 };
+
+      const qs = generateListeningQuestions(config);
+      setListeningQuestions(qs);
+      setListeningCurrentIndex(0);
+      setListeningSubIndex(0);
+      setListeningCurrentModule(2);
+      setListeningTimeLeft(isHard ? 18 * 60 : 9 * 60);
+      setListeningAudioPlayed(false);
+      setTestState("listening_module2");
+    } else {
+      setTestState("break");
+      setBreakTimeLeft(300); // 5 mins break
+    }
+  }, [listeningCurrentModule, listeningAnswers, generateListeningQuestions]);
+
+  const finishReadingModule2 = useCallback(async () => {
+    // Evaluation happens at end of test or we can store it now
+    // We'll just transition to Listening
+    startListeningSection();
+  }, [startListeningSection]);
+
+  const finishReadingModule1 = useCallback(() => {
     // Calculate stats
     const stepIds = readingSteps.map(s => s.id);
     const moduleAnswers = stepIds.map(id => readingAnswers[id]).filter(Boolean);
@@ -338,21 +391,17 @@ export function FullTestSection() {
     setReadingTimeLeft(isHard ? READING_CONFIG.MODULE2_TIME_HARD : READING_CONFIG.MODULE2_TIME_EASY);
     setReadingFlaggedSteps(new Set());
 
-    // Use interim state or go straight to mod 2? 
-    // The design has an interim report in Practice mode, but for Full Test usually it flows directly or with a brief "Module 1 Complete" overlay.
-    // We'll show a brief interim state.
     setTestState("reading_interim");
-  };
+  }, [readingSteps, readingAnswers, flattenReadingQuestions]);
 
-  const finishReadingModule2 = async () => {
-    // Evaluation happens at end of test or we can store it now
-    // We'll just transition to Listening
-    startListeningSection();
-  };
+  const handleReadingModuleTimeout = useCallback(() => {
+    if (testState === "reading_module1") finishReadingModule1();
+    else finishReadingModule2();
+  }, [testState, finishReadingModule1, finishReadingModule2]);
 
   // --- Listening Logic Helpers ---
 
-  const parseTranscript = (transcript: string, speakers: { role: string; voice: VoiceType }[]) => {
+  const parseTranscript = useCallback((transcript: string, speakers: { role: string; voice: VoiceType }[]) => {
     const lines = transcript.split("\n").filter(l => l.trim().length > 0);
     return lines.map(line => {
       const match = line.match(/^([^:]+):\s*(.*)$/);
@@ -364,9 +413,9 @@ export function FullTestSection() {
       }
       return { text: line.trim(), voice: speakers[0]?.voice || "narrator" };
     });
-  };
+  }, []);
 
-  const getAudioSegments = (question: any): { text: string; voice: VoiceType }[] => {
+  const getAudioSegments = useCallback((question: any): { text: string; voice: VoiceType }[] => {
     switch (question.type) {
       case "choose_response":
         return [{ text: question.data.audioText, voice: question.data.voice }];
@@ -381,9 +430,9 @@ export function FullTestSection() {
       default:
         return [];
     }
-  };
+  }, [parseTranscript]);
 
-  const playAudioSegments = async (segments: { text: string; voice: VoiceType }[]) => {
+  const playAudioSegments = useCallback(async (segments: { text: string; voice: VoiceType }[]) => {
     setListeningIsPlaying(true);
     setListeningIsPreloading(true);
     setListeningAudioSegments(segments);
@@ -425,37 +474,13 @@ export function FullTestSection() {
       setListeningIsPlaying(false);
       setListeningAudioPlayed(true);
     }
-  };
+  }, []);
 
-  const generateListeningQuestions = (config: any) => {
-    const selected: any[] = [];
-    const shuffledCR = [...chooseResponseItems].sort(() => Math.random() - 0.5);
-    const shuffledConv = [...conversationScenarios].sort(() => Math.random() - 0.5);
-    const shuffledAnn = [...announcementScenarios].sort(() => Math.random() - 0.5);
-    const shuffledAT = [...academicTalkScenarios].sort(() => Math.random() - 0.5);
 
-    for (let i = 0; i < config.chooseResponse && i < shuffledCR.length; i++) selected.push({ type: "choose_response", data: shuffledCR[i] });
-    for (let i = 0; i < config.conversation && i < shuffledConv.length; i++) selected.push({ type: "conversation", data: shuffledConv[i] });
-    for (let i = 0; i < config.announcement && i < shuffledAnn.length; i++) selected.push({ type: "announcement", data: shuffledAnn[i] });
-    for (let i = 0; i < config.academicTalk && i < shuffledAT.length; i++) selected.push({ type: "academic_talk", data: shuffledAT[i] });
 
-    return selected.sort(() => Math.random() - 0.5);
-  };
 
-  const startListeningSection = () => {
-    const qs = generateListeningQuestions({ chooseResponse: 5, conversation: 2, announcement: 2, academicTalk: 1 });
-    setListeningQuestions(qs);
-    setListeningCurrentIndex(0);
-    setListeningSubIndex(0);
-    setListeningAnswers([]);
-    setListeningCurrentModule(1);
-    setListeningTimeLeft(18 * 60);
-    setListeningIsPlaying(false);
-    setListeningAudioPlayed(false);
-    setTestState("listening_module1");
-  };
 
-  const handleListeningAnswer = (option: string) => {
+  const handleListeningAnswer = useCallback((option: string) => {
     const currentQ = listeningQuestions[listeningCurrentIndex];
     const isCorrect = currentQ.type === "choose_response"
       ? option === currentQ.data.correctAnswer
@@ -487,31 +512,95 @@ export function FullTestSection() {
         handleListeningModuleTimeout();
       }
     }, 300);
-  };
+  }, [listeningQuestions, listeningCurrentIndex, listeningSubIndex, handleListeningModuleTimeout]);
 
-  const handleListeningModuleTimeout = useCallback(() => {
-    if (listeningCurrentModule === 1) {
-      const correct = listeningAnswers.filter(a => a.isCorrect).length;
-      const accuracy = correct / listeningAnswers.length;
-      const isHard = accuracy >= 0.6;
 
-      const config = isHard
-        ? { chooseResponse: 4, conversation: 2, announcement: 2, academicTalk: 2 }
-        : { chooseResponse: 6, conversation: 2, announcement: 2, academicTalk: 1 };
 
-      const qs = generateListeningQuestions(config);
-      setListeningQuestions(qs);
-      setListeningCurrentIndex(0);
-      setListeningSubIndex(0);
-      setListeningCurrentModule(2);
-      setListeningTimeLeft(isHard ? 18 * 60 : 9 * 60);
-      setListeningAudioPlayed(false);
-      setTestState("listening_module2");
-    } else {
-      setTestState("break");
-      setBreakTimeLeft(300); // 5 mins break
+  // --- Writing Logic Helpers ---
+
+  const startWritingSection = useCallback(() => {
+    setTestState("writing_intro");
+
+    // Select tasks
+    const t1 = buildSentenceTasks[0]; // Simple pick for now
+    const t2 = emailTasks[0];
+    const t3 = academicDiscussionTasks[0];
+    setWritingTasks([t1, t2, t3]);
+  }, []);
+
+  const startWritingTask = useCallback((index: number) => {
+    const task = writingTasks[index];
+    setWritingCurrentText("");
+    setWritingStartTime(Date.now());
+
+    // Times: Sentence (60s), Email (5m), Academic (10m)
+    const time = index === 0 ? 60 : index === 1 ? 300 : 600;
+    setWritingTimeLeft(time);
+  }, [writingTasks]);
+
+  const startWritingPractice = useCallback(() => {
+    setTestState("writing_practice");
+    setWritingCurrentIndex(0);
+    setWritingAnswers([]);
+    startWritingTask(0);
+  }, [startWritingTask]);
+
+  const finishWritingSection = useCallback(() => {
+    setTestState("results"); // or evaluating
+    // Calculate final
+  }, []);
+
+  const handleWritingSubmit = useCallback(async () => {
+    const tasks = writingTasks;
+    const currentTask = tasks[writingCurrentIndex];
+    const answer: WritingAnswer = {
+      questionId: `writing_${writingCurrentIndex}`,
+      taskType: currentTask.type,
+      text: writingCurrentText,
+      wordCount: writingCurrentText.trim().split(/\s+/).filter(Boolean).length,
+      timeSpent: Math.floor((Date.now() - writingStartTime) / 1000),
+      evaluation: null
+    };
+
+    const newAnswers = [...writingAnswers, answer];
+    setWritingAnswers(newAnswers);
+
+    // AI Evaluation if not empty
+    if (writingCurrentText.trim()) {
+      fetch("/api/evaluate/writing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: writingCurrentText,
+          taskType: currentTask.type,
+          prompt: currentTask.type === "build_sentence" ? currentTask.context : (currentTask.type === "email" ? currentTask.emailPrompt : currentTask.topic),
+          expectedAnswer: currentTask.type === "build_sentence" ? (currentTask as any).correctAnswer : undefined,
+        }),
+      }).then(res => res.json()).then(evaluation => {
+        setWritingAnswers(prev => prev.map(a => a.questionId === answer.questionId ? { ...a, evaluation } : a));
+        setEvaluations(prev => [...prev, {
+          section: `Writing ${currentTask.type}`,
+          bandScore: (evaluation.overall_score / 5) * 30,
+          scaledScore: evaluation.overall_score,
+          feedback: evaluation.feedback?.content_notes || "Evaluation completed",
+          strengths: evaluation.feedback?.strengths || [],
+          improvements: evaluation.feedback?.improvements || [],
+          details: evaluation
+        }]);
+      }).catch(e => console.error("Writing evaluation error", e));
     }
-  }, [listeningCurrentModule, listeningAnswers]);
+
+    if (writingCurrentIndex < tasks.length - 1) {
+      setWritingCurrentIndex(prev => prev + 1);
+      startWritingTask(writingCurrentIndex + 1);
+    } else {
+      finishWritingSection();
+    }
+  }, [writingTasks, writingCurrentIndex, writingCurrentText, writingStartTime, writingAnswers, startWritingTask, finishWritingSection]);
+
+  const handleWritingTaskTimeout = useCallback(() => {
+    handleWritingSubmit(); // Auto submit
+  }, [handleWritingSubmit]);
 
   const startSpeakingSection = useCallback(() => {
     // Pick random content
@@ -529,14 +618,7 @@ export function FullTestSection() {
     setSpeakingTimeLeft(720); // 12 min
   }, []);
 
-  const startSpeakingPractice = () => {
-    setTestState("speaking_listen_repeat");
-    setSpeakingTimeLeft(480);
-    setSpeakingStage("waiting");
-    setTimeout(() => playSpeakingPrompt(0), 1000);
-  };
-
-  const playSpeakingPrompt = async (index: number) => {
+  const playSpeakingPrompt = useCallback(async (index: number) => {
     if (!speakingScenario) return;
     setSpeakingSentenceIndex(index);
     setSpeakingStage("playing");
@@ -558,9 +640,16 @@ export function FullTestSection() {
       setSpeakingStage("recording");
       startSpeakingRecording();
     }
-  };
+  }, [speakingScenario]);
 
-  const startSpeakingRecording = async () => {
+  const startSpeakingPractice = useCallback(() => {
+    setTestState("speaking_listen_repeat");
+    setSpeakingTimeLeft(480);
+    setSpeakingStage("waiting");
+    setTimeout(() => playSpeakingPrompt(0), 1000);
+  }, [playSpeakingPrompt]);
+
+  const startSpeakingRecording = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
@@ -585,7 +674,7 @@ export function FullTestSection() {
       console.error("Mic error", e);
       setSpeakingStage("waiting"); // Fail safe
     }
-  };
+  }, []);
 
   const stopSpeakingRecording = useCallback(() => {
     if (speakingMediaRecorderRef.current && speakingMediaRecorderRef.current.state !== 'inactive') {
@@ -594,7 +683,41 @@ export function FullTestSection() {
     }
   }, []);
 
-  const handleSpeakingRecordingComplete = async (blob: Blob) => {
+  const playInterviewQuestion = useCallback(async (index: number) => {
+    if (!speakingInterview) return;
+    const q = speakingInterview.questions[index];
+    setSpeakingStage("playing");
+    setSpeakingInterviewIndex(index);
+
+    try {
+      const url = await generateAudio(q.question, { voice: "alloy" as any });
+      const audio = new Audio(url);
+      speakingAudioRef.current = audio;
+      audio.onended = () => {
+        setSpeakingStage("recording");
+        setSpeakingRecordingTime(0);
+        setSpeakingMaxRecordingTime(45); // 45s for interview
+        startSpeakingRecording();
+      };
+      audio.play();
+    } catch (e) {
+      console.error("Audio error", e);
+      setSpeakingStage("recording");
+      startSpeakingRecording();
+    }
+  }, [speakingInterview, startSpeakingRecording]);
+
+  const finishSpeakingSection = useCallback(() => {
+    startWritingSection();
+  }, [startWritingSection]);
+
+  const startSpeakingInterview = useCallback(() => {
+    setTestState("speaking_interview");
+    setSpeakingTimeLeft(600);
+    playInterviewQuestion(0);
+  }, [playInterviewQuestion]);
+
+  const handleSpeakingRecordingComplete = useCallback(async (blob: Blob) => {
     if (testState === "speaking_listen_repeat") {
       // Eval Repeats
       if (speakingScenario) {
@@ -643,102 +766,13 @@ export function FullTestSection() {
         }
       }
     }
-  };
-
-  const startSpeakingInterview = () => {
-    setTestState("speaking_interview");
-    setSpeakingTimeLeft(600);
-    playInterviewQuestion(0);
-  };
-
-  const playInterviewQuestion = async (index: number) => {
-    if (!speakingInterview) return;
-    const q = speakingInterview.questions[index];
-    setSpeakingStage("playing");
-    setSpeakingInterviewIndex(index);
-
-    try {
-      const url = await generateAudio(q.question, { voice: "alloy" as any });
-      const audio = new Audio(url);
-      speakingAudioRef.current = audio;
-      audio.onended = () => {
-        setSpeakingStage("recording");
-        setSpeakingRecordingTime(0);
-        setSpeakingMaxRecordingTime(45); // 45s for interview
-        startSpeakingRecording();
-      };
-      audio.play();
-    } catch (e) {
-      console.error("Audio error", e);
-      setSpeakingStage("recording");
-      startSpeakingRecording();
-    }
-  };
-
-  const finishSpeakingSection = () => {
-    startWritingSection();
-  };
+  }, [testState, speakingScenario, speakingSentenceIndex, speakingInterview, speakingInterviewIndex, playSpeakingPrompt, startSpeakingInterview, playInterviewQuestion, finishSpeakingSection]);
 
   // --- Writing Logic Helpers ---
 
-  const startWritingSection = () => {
-    setTestState("writing_intro");
 
-    // Select tasks
-    const t1 = buildSentenceTasks[0]; // Simple pick for now
-    const t2 = emailTasks[0];
-    const t3 = academicDiscussionTasks[0];
-    setWritingTasks([t1, t2, t3]);
-  };
 
-  const startWritingPractice = () => {
-    setTestState("writing_practice");
-    setWritingCurrentIndex(0);
-    setWritingAnswers([]);
-    startWritingTask(0);
-  };
 
-  const startWritingTask = (index: number) => {
-    const task = writingTasks[index];
-    setWritingCurrentText("");
-    setWritingStartTime(Date.now());
-
-    // Times: Sentence (60s), Email (5m), Academic (10m)
-    const time = index === 0 ? 60 : index === 1 ? 300 : 600;
-    setWritingTimeLeft(time);
-  };
-
-  const handleWritingSubmit = async () => {
-    const tasks = writingTasks;
-    const currentTask = tasks[writingCurrentIndex];
-    const answer: WritingAnswer = {
-      questionId: `writing_${writingCurrentIndex}`,
-      taskType: currentTask.type,
-      text: writingCurrentText,
-      wordCount: writingCurrentText.trim().split(/\s+/).filter(Boolean).length,
-      timeSpent: Math.floor((Date.now() - writingStartTime) / 1000),
-      evaluation: null
-    };
-
-    const newAnswers = [...writingAnswers, answer];
-    setWritingAnswers(newAnswers);
-
-    if (writingCurrentIndex < tasks.length - 1) {
-      setWritingCurrentIndex(prev => prev + 1);
-      startWritingTask(writingCurrentIndex + 1);
-    } else {
-      finishWritingSection();
-    }
-  };
-
-  const handleWritingTaskTimeout = useCallback(() => {
-    handleWritingSubmit(); // Auto submit
-  }, [handleWritingSubmit]);
-
-  const finishWritingSection = () => {
-    setTestState("results"); // or evaluating
-    // Calculate final
-  };
 
   // --- Format Time Helper ---
   const formatTime = (seconds: number) => {
@@ -746,72 +780,6 @@ export function FullTestSection() {
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
-
-  // --- Render ---
-
-  if (testState === "intro") {
-    // Re-using the intro design but updated
-    return (
-      <div className="h-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-8 h-full flex flex-col"
-        >
-          <div className="text-center mb-8">
-            <div className="relative inline-block">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
-                <GraduationCap className="w-10 h-10 text-white" />
-              </div>
-              <div className="absolute -top-2 -right-2">
-                <Sparkles className="w-6 h-6 text-emerald-400 animate-pulse" />
-              </div>
-            </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Full TOEFL Practice Test</h1>
-            <p className="text-slate-400">Official 2026 Format • Adaptive Testing • AI Evaluation</p>
-          </div>
-
-          <div className="space-y-3 mb-8">
-            {[
-              { icon: BookOpen, name: "Reading", desc: "2 Modules • Adaptive", gradient: "from-amber-400 to-orange-500" },
-              { icon: Headphones, name: "Listening", desc: "2 Modules • Adaptive", gradient: "from-pink-400 to-rose-500" },
-              { icon: Coffee, name: "Break", desc: "5 minutes", gradient: "from-slate-500 to-slate-600", muted: true },
-              { icon: Mic, name: "Speaking", desc: "Listen & Repeat + Interview", gradient: "from-violet-400 to-purple-500" },
-              { icon: PenTool, name: "Writing", desc: "3 Tasks", gradient: "from-cyan-400 to-teal-500" },
-            ].map((section, i) => (
-              <motion.div
-                key={section.name}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 * i }}
-                className={`flex items-center gap-4 p-4 rounded-xl ${section.muted ? "glass-card opacity-75" : "glass-card"}`}
-              >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-lg`}>
-                  <section.icon className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-white">{section.name}</h3>
-                  <p className="text-sm text-slate-400">{section.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-auto">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={startTest}
-              className="w-full px-6 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
-            >
-              Start Full Test
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
 
   // --- Timers (Effects) ---
   useEffect(() => {
@@ -904,6 +872,74 @@ export function FullTestSection() {
     }
     return () => clearInterval(interval);
   }, [speakingIsRecording, speakingRecordingTime, speakingMaxRecordingTime, stopSpeakingRecording]);
+
+  // --- Render ---
+
+  if (testState === "intro") {
+    // Re-using the intro design but updated
+    return (
+      <div className="h-full">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass-panel rounded-2xl p-8 h-full flex flex-col"
+        >
+          <div className="text-center mb-8">
+            <div className="relative inline-block">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
+                <GraduationCap className="w-10 h-10 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2">
+                <Sparkles className="w-6 h-6 text-emerald-400 animate-pulse" />
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">Full TOEFL Practice Test</h1>
+            <p className="text-slate-400">Official 2026 Format • Adaptive Testing • AI Evaluation</p>
+          </div>
+
+          <div className="space-y-3 mb-8">
+            {[
+              { icon: BookOpen, name: "Reading", desc: "2 Modules • Adaptive", gradient: "from-amber-400 to-orange-500" },
+              { icon: Headphones, name: "Listening", desc: "2 Modules • Adaptive", gradient: "from-pink-400 to-rose-500" },
+              { icon: Coffee, name: "Break", desc: "5 minutes", gradient: "from-slate-500 to-slate-600", muted: true },
+              { icon: Mic, name: "Speaking", desc: "Listen & Repeat + Interview", gradient: "from-violet-400 to-purple-500" },
+              { icon: PenTool, name: "Writing", desc: "3 Tasks", gradient: "from-cyan-400 to-teal-500" },
+            ].map((section, i) => (
+              <motion.div
+                key={section.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 * i }}
+                className={`flex items-center gap-4 p-4 rounded-xl ${section.muted ? "glass-card opacity-75" : "glass-card"}`}
+              >
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-lg`}>
+                  <section.icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-white">{section.name}</h3>
+                  <p className="text-sm text-slate-400">{section.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-auto">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={startTest}
+              className="w-full px-6 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+            >
+              Start Full Test
+              <ChevronRight className="w-5 h-5" />
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+
 
   // Reading Renderer
   if (testState === "reading_module1" || testState === "reading_module2") {
