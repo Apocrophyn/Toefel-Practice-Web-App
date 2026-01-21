@@ -84,6 +84,7 @@ export function SpeakingPractice() {
   const chunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isStartingRecording = useRef(false);
+  const audioFinishedRef = useRef(false);
 
   // Audio stage control
   const [currentStage, setCurrentStage] = useState<"waiting" | "playing" | "preparing" | "recording">("waiting");
@@ -209,6 +210,9 @@ export function SpeakingPractice() {
 
       audioRef.current.onended = () => {
         setIsPlayingAudio(false);
+        // Mark that audio has finished - this is the trigger for recording
+        audioFinishedRef.current = true;
+
         // Mark sentence as played
         if (currentTask === "listen_repeat") {
           setSentenceProgress(prev => {
@@ -390,20 +394,35 @@ export function SpeakingPractice() {
   useEffect(() => {
     if (state === "listen_repeat" && currentScenario) {
       const progress = sentenceProgress[sentenceIndex];
-      // Safety check: ensure progress exists before accessing properties
-      if (progress && !progress.recorded && !isPlayingAudio && !isLoadingAudio && currentStage === "waiting") {
+      // Safety check: ensure progress exists and we're in waiting stage
+      if (progress && !progress.recorded && !isPlayingAudio && !isLoadingAudio && currentStage === "waiting" && !audioFinishedRef.current) {
         playAudio(currentScenario.sentences[sentenceIndex], currentScenario.voice);
       }
     } else if (state === "interview" && currentInterview) {
-      if (!isPlayingAudio && !isLoadingAudio && currentStage === "waiting") {
-        playAudio(currentInterview.questions[interviewIndex].question, "interviewer");
+      // Safety check: ensure question exists
+      const question = currentInterview.questions[interviewIndex];
+      if (question && !isPlayingAudio && !isLoadingAudio && currentStage === "waiting" && !audioFinishedRef.current) {
+        playAudio(question.question, "interviewer");
       }
     }
   }, [state, sentenceIndex, interviewIndex, currentScenario, currentInterview, currentStage, sentenceProgress, isPlayingAudio, isLoadingAudio, playAudio]);
 
-  // Trigger recording when stage changes to 'recording' AND audio has finished playing
+  // Trigger recording ONLY when audio has finished and stage is recording
   useEffect(() => {
-    if (currentStage === "recording" && !isRecording && !isStartingRecording.current && !isPlayingAudio && !isLoadingAudio) {
+    // Only start recording if:
+    // 1. Stage is recording
+    // 2. Audio has actually finished (ref is true)
+    // 3. Not already recording
+    // 4. Not in the process of starting
+    // 5. Audio is not playing or loading
+    if (
+      currentStage === "recording" &&
+      audioFinishedRef.current &&
+      !isRecording &&
+      !isStartingRecording.current &&
+      !isPlayingAudio &&
+      !isLoadingAudio
+    ) {
       isStartingRecording.current = true;
       startRecording().finally(() => {
         isStartingRecording.current = false;
@@ -493,6 +512,7 @@ export function SpeakingPractice() {
     // Reset recording state
     setIsRecording(false);
     isStartingRecording.current = false;
+    audioFinishedRef.current = false;  // Reset so next question waits for audio
     setCurrentStage("waiting");
 
     if (currentTask === "listen_repeat" && currentScenario) {
@@ -1170,7 +1190,7 @@ export function SpeakingPractice() {
                     <div className="p-4 border-t border-white/5 space-y-4">
                       <div>
                         <p className="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">Question</p>
-                        <p className="text-sm text-slate-300 italic">"{currentInterview?.questions[index].question}"</p>
+                        <p className="text-sm text-slate-300 italic">"{currentInterview?.questions?.[index]?.question || "Question unavailable"}"</p>
                       </div>
                       <div>
                         <p className="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1">AI Feedback</p>
