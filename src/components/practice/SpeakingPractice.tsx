@@ -220,8 +220,8 @@ export function SpeakingPractice() {
           });
         }
 
+        // Transition to recording stage - recording will start via useEffect
         setCurrentStage("recording");
-        // startRecording is called automatically after stage change in useEffect
       };
 
       audioRef.current.onerror = (e) => {
@@ -390,7 +390,8 @@ export function SpeakingPractice() {
   useEffect(() => {
     if (state === "listen_repeat" && currentScenario) {
       const progress = sentenceProgress[sentenceIndex];
-      if (!progress.recorded && !isPlayingAudio && !isLoadingAudio && currentStage === "waiting") {
+      // Safety check: ensure progress exists before accessing properties
+      if (progress && !progress.recorded && !isPlayingAudio && !isLoadingAudio && currentStage === "waiting") {
         playAudio(currentScenario.sentences[sentenceIndex], currentScenario.voice);
       }
     } else if (state === "interview" && currentInterview) {
@@ -400,16 +401,16 @@ export function SpeakingPractice() {
     }
   }, [state, sentenceIndex, interviewIndex, currentScenario, currentInterview, currentStage, sentenceProgress, isPlayingAudio, isLoadingAudio, playAudio]);
 
-  // Trigger recording when stage changes to 'recording'
+  // Trigger recording when stage changes to 'recording' AND audio has finished playing
   useEffect(() => {
-    if (currentStage === "recording" && !isRecording && !isStartingRecording.current) {
+    if (currentStage === "recording" && !isRecording && !isStartingRecording.current && !isPlayingAudio && !isLoadingAudio) {
       isStartingRecording.current = true;
       startRecording().finally(() => {
         isStartingRecording.current = false;
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStage, isRecording]);
+  }, [currentStage, isRecording, isPlayingAudio, isLoadingAudio]);
 
   // Handle Interview recording - start background evaluation
   const handleInterviewRecording = async (audioBlob: Blob) => {
