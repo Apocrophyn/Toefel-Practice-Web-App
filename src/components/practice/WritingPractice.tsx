@@ -76,21 +76,7 @@ export function WritingPractice() {
   const wordCount = currentText.trim() ? currentText.trim().split(/\s+/).length : 0;
 
   // Timer logic
-  useEffect(() => {
-    if (state !== "practice" || timeRemaining <= 0) return;
 
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          handleSubmitCurrent();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [state, timeRemaining]);
 
   const startPractice = () => {
     let selected: WritingTask[] = [];
@@ -147,40 +133,7 @@ export function WritingPractice() {
     return { min: 0, max: 999 };
   };
 
-  const handleSubmitCurrent = useCallback(async () => {
-    const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-    const currentQuestion = questions[currentIndex];
-
-    // Save answer with placeholder evaluation
-    const newAnswer: Answer = {
-      questionId: currentQuestion.id,
-      taskType: currentQuestion.type,
-      text: currentText,
-      wordCount,
-      timeSpent,
-      evaluation: null,
-    };
-
-    setAnswers((prev) => {
-      const newAnswers = [...prev];
-      newAnswers[currentIndex] = newAnswer;
-      return newAnswers;
-    });
-
-    // Move to next question or evaluating state
-    if (currentIndex < questions.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-      setCurrentText("");
-      setTimeRemaining(getTimeLimit(questions[currentIndex + 1]));
-      setStartTime(Date.now());
-    } else {
-      // All questions answered, start evaluation
-      setState("evaluating");
-      await evaluateAllAnswers([...answers.slice(0, currentIndex), newAnswer]);
-    }
-  }, [currentText, wordCount, currentIndex, questions, startTime, answers]);
-
-  const evaluateAllAnswers = async (answersToEvaluate: Answer[]) => {
+  const evaluateAllAnswers = useCallback(async (answersToEvaluate: Answer[]) => {
     const evaluatedAnswers = [...answersToEvaluate];
 
     for (let i = 0; i < evaluatedAnswers.length; i++) {
@@ -256,8 +209,57 @@ export function WritingPractice() {
 
     setAnswers(evaluatedAnswers);
     setState("review");
-  };
+  }, [questions]);
 
+
+  const handleSubmitCurrent = useCallback(async () => {
+    const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+    const currentQuestion = questions[currentIndex];
+
+    // Save answer with placeholder evaluation
+    const newAnswer: Answer = {
+      questionId: currentQuestion.id,
+      taskType: currentQuestion.type,
+      text: currentText,
+      wordCount,
+      timeSpent,
+      evaluation: null,
+    };
+
+    setAnswers((prev) => {
+      const newAnswers = [...prev];
+      newAnswers[currentIndex] = newAnswer;
+      return newAnswers;
+    });
+
+    // Move to next question or evaluating state
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+      setCurrentText("");
+      setTimeRemaining(getTimeLimit(questions[currentIndex + 1]));
+      setStartTime(Date.now());
+    } else {
+      // All questions answered, start evaluation
+      setState("evaluating");
+      await evaluateAllAnswers([...answers.slice(0, currentIndex), newAnswer]);
+    }
+  }, [currentText, wordCount, currentIndex, questions, startTime, answers, evaluateAllAnswers]);
+
+  useEffect(() => {
+    if (state !== "practice" || timeRemaining <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
+          handleSubmitCurrent();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [state, timeRemaining, handleSubmitCurrent]);
   const getPromptText = (question: WritingTask): string => {
     if (question.type === "build_sentence") {
       return `Rearrange these words into a grammatically correct sentence: ${question.scrambledWords.join(", ")}`;
@@ -361,11 +363,10 @@ export function WritingPractice() {
                 <button
                   key={option.mode}
                   onClick={() => setPracticeMode(option.mode)}
-                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-300 text-left ${
-                    practiceMode === option.mode
-                      ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-500/50 text-white shadow-lg shadow-cyan-500/10"
-                      : "glass-card border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-600"
-                  }`}
+                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-300 text-left ${practiceMode === option.mode
+                    ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-500/50 text-white shadow-lg shadow-cyan-500/10"
+                    : "glass-card border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-600"
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <option.icon className="w-5 h-5" />
@@ -426,11 +427,10 @@ export function WritingPractice() {
 
           <div className="flex items-center gap-4">
             <div
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 ${
-                timeRemaining < 60
-                  ? "bg-red-500/20 border border-red-500/30 text-red-400"
-                  : "glass-card text-white"
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 ${timeRemaining < 60
+                ? "bg-red-500/20 border border-red-500/30 text-red-400"
+                : "glass-card text-white"
+                }`}
             >
               <Clock className={`w-4 h-4 ${timeRemaining < 60 ? "animate-pulse" : ""}`} />
               <span className="font-mono text-sm font-medium">
@@ -553,13 +553,12 @@ export function WritingPractice() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-sm font-medium px-3 py-1 rounded-lg ${
-                      isWordCountLow
-                        ? "bg-amber-500/20 text-amber-400"
-                        : isWordCountHigh
-                          ? "bg-red-500/20 text-red-400"
-                          : "bg-emerald-500/20 text-emerald-400"
-                    }`}
+                    className={`text-sm font-medium px-3 py-1 rounded-lg ${isWordCountLow
+                      ? "bg-amber-500/20 text-amber-400"
+                      : isWordCountHigh
+                        ? "bg-red-500/20 text-red-400"
+                        : "bg-emerald-500/20 text-emerald-400"
+                      }`}
                   >
                     {wordCount} words
                   </span>
@@ -649,13 +648,12 @@ export function WritingPractice() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-sm font-medium px-3 py-1 rounded-lg ${
-                      isWordCountLow
-                        ? "bg-amber-500/20 text-amber-400"
-                        : isWordCountHigh
-                          ? "bg-red-500/20 text-red-400"
-                          : "bg-emerald-500/20 text-emerald-400"
-                    }`}
+                    className={`text-sm font-medium px-3 py-1 rounded-lg ${isWordCountLow
+                      ? "bg-amber-500/20 text-amber-400"
+                      : isWordCountHigh
+                        ? "bg-red-500/20 text-red-400"
+                        : "bg-emerald-500/20 text-emerald-400"
+                      }`}
                   >
                     {wordCount} words
                   </span>
@@ -819,13 +817,12 @@ export function WritingPractice() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          question.type === "build_sentence"
-                            ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                            : question.type === "email"
-                              ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                              : "bg-violet-500/20 text-violet-400 border border-violet-500/30"
-                        }`}
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${question.type === "build_sentence"
+                          ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                          : question.type === "email"
+                            ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                            : "bg-violet-500/20 text-violet-400 border border-violet-500/30"
+                          }`}
                       >
                         {question.type === "build_sentence" && "Build Sentence"}
                         {question.type === "email" && "Email"}

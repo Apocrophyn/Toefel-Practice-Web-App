@@ -230,98 +230,6 @@ export function FullTestSection() {
   // --- Break State ---
   const [breakTimeLeft, setBreakTimeLeft] = useState(300);
 
-  // --- Timers (Effects) ---
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (testState.startsWith("reading") && testState !== "reading_interim" && readingTimeLeft > 0) {
-      interval = setInterval(() => {
-        setReadingTimeLeft(prev => {
-          if (prev <= 1) {
-            handleReadingModuleTimeout();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [testState, readingTimeLeft]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (testState.startsWith("listening") && listeningTimeLeft > 0 && !listeningIsPlaying) { // Pause timer during audio? detailed implementation might vary, mostly runs
-      interval = setInterval(() => {
-        setListeningTimeLeft(prev => {
-          if (prev <= 1) {
-            handleListeningModuleTimeout();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [testState, listeningTimeLeft, listeningIsPlaying]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (testState.startsWith("speaking") && speakingTimeLeft > 0) {
-      interval = setInterval(() => {
-        setSpeakingTimeLeft(prev => Math.max(0, prev - 1));
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [testState, speakingTimeLeft]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (testState === "writing_practice" && writingTimeLeft > 0) {
-      interval = setInterval(() => {
-        setWritingTimeLeft(prev => {
-          if (prev <= 1) {
-            handleWritingTaskTimeout();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [testState, writingTimeLeft]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (testState === "break" && breakTimeLeft > 0) {
-      interval = setInterval(() => {
-        setBreakTimeLeft(prev => {
-          if (prev <= 1) {
-            startSpeakingSection();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [testState, breakTimeLeft]);
-
-  // Speaking Recording Timer
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (speakingIsRecording && speakingRecordingTime < speakingMaxRecordingTime) {
-      interval = setInterval(() => {
-        setSpeakingRecordingTime(prev => {
-          if (prev >= speakingMaxRecordingTime - 1) {
-            stopSpeakingRecording();
-            return prev + 1;
-          }
-          return prev + 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [speakingIsRecording, speakingRecordingTime, speakingMaxRecordingTime]);
-
   // --- Reading Logic ---
 
   const flattenReadingQuestions = useCallback((items: ReadingQuestionItem[]): ReadingStep[] => {
@@ -401,10 +309,10 @@ export function FullTestSection() {
     }));
   };
 
-  const handleReadingModuleTimeout = () => {
+  const handleReadingModuleTimeout = useCallback(() => {
     if (testState === "reading_module1") finishReadingModule1();
     else finishReadingModule2();
-  };
+  }, [testState, finishReadingModule1, finishReadingModule2]);
 
   const finishReadingModule1 = () => {
     // Calculate stats
@@ -581,7 +489,7 @@ export function FullTestSection() {
     }, 300);
   };
 
-  const handleListeningModuleTimeout = () => {
+  const handleListeningModuleTimeout = useCallback(() => {
     if (listeningCurrentModule === 1) {
       const correct = listeningAnswers.filter(a => a.isCorrect).length;
       const accuracy = correct / listeningAnswers.length;
@@ -603,9 +511,9 @@ export function FullTestSection() {
       setTestState("break");
       setBreakTimeLeft(300); // 5 mins break
     }
-  };
+  }, [listeningCurrentModule, listeningAnswers]);
 
-  const startSpeakingSection = () => {
+  const startSpeakingSection = useCallback(() => {
     // Pick random content
     const scenario = listenRepeatScenarios[Math.floor(Math.random() * listenRepeatScenarios.length)];
     const interview = interviewTopics[Math.floor(Math.random() * interviewTopics.length)];
@@ -618,7 +526,8 @@ export function FullTestSection() {
     setSpeakingInterviewAnswers(interview.questions.map((_: any, i: number) => ({ questionIndex: i, audioBlob: null, audioUrl: null, score: null, evaluationResult: null })));
 
     setTestState("speaking_intro");
-  };
+    setSpeakingTimeLeft(720); // 12 min
+  }, []);
 
   const startSpeakingPractice = () => {
     setTestState("speaking_listen_repeat");
@@ -678,12 +587,12 @@ export function FullTestSection() {
     }
   };
 
-  const stopSpeakingRecording = () => {
+  const stopSpeakingRecording = useCallback(() => {
     if (speakingMediaRecorderRef.current && speakingMediaRecorderRef.current.state !== 'inactive') {
       speakingMediaRecorderRef.current.stop();
       setSpeakingIsRecording(false);
     }
-  };
+  }, []);
 
   const handleSpeakingRecordingComplete = async (blob: Blob) => {
     if (testState === "speaking_listen_repeat") {
@@ -822,9 +731,9 @@ export function FullTestSection() {
     }
   };
 
-  const handleWritingTaskTimeout = () => {
+  const handleWritingTaskTimeout = useCallback(() => {
     handleWritingSubmit(); // Auto submit
-  };
+  }, [handleWritingSubmit]);
 
   const finishWritingSection = () => {
     setTestState("results"); // or evaluating
@@ -903,6 +812,98 @@ export function FullTestSection() {
       </div>
     );
   }
+
+  // --- Timers (Effects) ---
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (testState.startsWith("reading") && testState !== "reading_interim" && readingTimeLeft > 0) {
+      interval = setInterval(() => {
+        setReadingTimeLeft(prev => {
+          if (prev <= 1) {
+            handleReadingModuleTimeout();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [testState, readingTimeLeft, handleReadingModuleTimeout]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (testState.startsWith("listening") && listeningTimeLeft > 0 && !listeningIsPlaying) {
+      interval = setInterval(() => {
+        setListeningTimeLeft(prev => {
+          if (prev <= 1) {
+            handleListeningModuleTimeout();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [testState, listeningTimeLeft, listeningIsPlaying, handleListeningModuleTimeout]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (testState.startsWith("speaking") && speakingTimeLeft > 0) {
+      interval = setInterval(() => {
+        setSpeakingTimeLeft(prev => Math.max(0, prev - 1));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [testState, speakingTimeLeft]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (testState === "writing_practice" && writingTimeLeft > 0) {
+      interval = setInterval(() => {
+        setWritingTimeLeft(prev => {
+          if (prev <= 1) {
+            handleWritingTaskTimeout();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [testState, writingTimeLeft, handleWritingTaskTimeout]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (testState === "break" && breakTimeLeft > 0) {
+      interval = setInterval(() => {
+        setBreakTimeLeft(prev => {
+          if (prev <= 1) {
+            startSpeakingSection();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [testState, breakTimeLeft, startSpeakingSection]);
+
+  // Speaking Recording Timer
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (speakingIsRecording && speakingRecordingTime < speakingMaxRecordingTime) {
+      interval = setInterval(() => {
+        setSpeakingRecordingTime(prev => {
+          if (prev >= speakingMaxRecordingTime - 1) {
+            stopSpeakingRecording();
+            return prev + 1;
+          }
+          return prev + 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [speakingIsRecording, speakingRecordingTime, speakingMaxRecordingTime, stopSpeakingRecording]);
 
   // Reading Renderer
   if (testState === "reading_module1" || testState === "reading_module2") {

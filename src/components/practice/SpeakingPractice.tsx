@@ -182,7 +182,7 @@ export function SpeakingPractice() {
   }, [state, isLoadingAudio]);
 
   // Play audio using OpenAI TTS
-  const playAudio = async (text: string, voice: string = "narrator") => {
+  const playAudio = useCallback(async (text: string, voice: string = "narrator") => {
     setIsLoadingAudio(true);
     setAudioError(null);
 
@@ -208,25 +208,21 @@ export function SpeakingPractice() {
           setSentenceProgress(prev => {
             const updated = [...prev];
             if (updated[sentenceIndex]) {
-              updated[sentenceIndex].audioPlayed = true;
+              updated[sentenceIndex] = { ...updated[sentenceIndex], audioPlayed: true };
             }
             return updated;
           });
-          // TOEFL 2026: Listen & Repeat = 12 seconds max
-          setMaxRecordingTime(12);
-        } else {
-          // TOEFL 2026: Interview = 45 seconds max
-          setMaxRecordingTime(45);
         }
-        // Start recording immediately - 2026 Format (Spontaneous Response)
-        startRecording();
+
+        setCurrentStage("recording");
+        // startRecording is called automatically after stage change in useEffect
       };
 
-      audioRef.current.onerror = () => {
-        setIsPlayingAudio(false);
+      audioRef.current.onerror = (e) => {
+        console.error("Audio playback error:", e);
+        setAudioError("Failed to play audio. Please try again.");
         setIsLoadingAudio(false);
-        setAudioError("Audio error. Proceeding to spontaneous recording...");
-        startRecording();
+        setIsPlayingAudio(false);
       };
 
       await audioRef.current.play();
@@ -235,7 +231,7 @@ export function SpeakingPractice() {
       setAudioError("Failed to generate audio. Please check your connection.");
       console.error("Audio error:", error);
     }
-  };
+  }, [currentTask, sentenceIndex]);
 
   // Preparation Timer
   const startPrepTimer = (duration: number) => {
@@ -396,7 +392,7 @@ export function SpeakingPractice() {
         playAudio(currentInterview.questions[interviewIndex].question, "interviewer");
       }
     }
-  }, [state, sentenceIndex, interviewIndex, currentScenario, currentInterview, currentStage]);
+  }, [state, sentenceIndex, interviewIndex, currentScenario, currentInterview, currentStage, sentenceProgress, isPlayingAudio, isLoadingAudio, playAudio]);
 
   // Handle Interview recording - start background evaluation
   const handleInterviewRecording = async (audioBlob: Blob) => {

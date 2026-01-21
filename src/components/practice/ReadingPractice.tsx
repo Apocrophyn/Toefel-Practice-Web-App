@@ -107,22 +107,7 @@ export function ReadingPractice() {
     return flatSteps;
   }, []);
 
-  // Timer effect
-  useEffect(() => {
-    if (state !== "practice" || timeRemaining <= 0) return;
 
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          handleModuleFinish();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [state, timeRemaining]);
 
   // Start Module 1 with proper configuration
   const startModule1 = useCallback(() => {
@@ -234,6 +219,23 @@ export function ReadingPractice() {
       setState("review");
     }
   }, [currentModule, getModuleStats]);
+
+  // Timer effect
+  useEffect(() => {
+    if (state !== "practice" || timeRemaining <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
+          handleModuleFinish();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [state, timeRemaining, handleModuleFinish]);
 
   // Helper function to render text with simple bold formatting
   const renderTextWithFormatting = (text: string) => {
