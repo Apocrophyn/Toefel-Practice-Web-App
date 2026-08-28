@@ -1,9 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+/**
+ * Constructed on first request, not at module scope. The OpenAI SDK throws when
+ * no key is present, and Next collects page data for every route at build time,
+ * so a module-scope client made the production build fail on any machine
+ * without OPENAI_API_KEY set.
+ */
+let openaiClient: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (!openaiClient) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
+    openaiClient = new OpenAI({ apiKey });
+  }
+  return openaiClient;
+}
 
 // TOEFL Speaking Rubric based on ETS criteria
 const SPEAKING_RUBRIC = `
@@ -87,7 +100,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Step 1: Transcribe audio using Whisper
-    const transcription = await openai.audio.transcriptions.create({
+    const transcription = await getOpenAI().audio.transcriptions.create({
       file: audioFile,
       model: "whisper-1",
       language: "en",
@@ -120,7 +133,7 @@ Speech Rate: ${speechRateWpm} WPM (target: 140-160 WPM)
 Evaluate the response for content relevance, organization, vocabulary, grammar, and delivery.
 `;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         { role: "system", content: SPEAKING_RUBRIC },

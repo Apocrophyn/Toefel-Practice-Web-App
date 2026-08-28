@@ -1,9 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+/**
+ * Constructed on first request, not at module scope. The OpenAI SDK throws when
+ * no key is present, and Next collects page data for every route at build time,
+ * so a module-scope client made the production build fail on any machine
+ * without OPENAI_API_KEY set.
+ */
+let openaiClient: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (!openaiClient) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
+    openaiClient = new OpenAI({ apiKey });
+  }
+  return openaiClient;
+}
 
 // TOEFL Writing Evaluation Rubric
 const WRITING_RUBRIC = `You are an expert TOEFL Writing evaluator following ETS scoring guidelines.
@@ -221,7 +234,7 @@ IMPORTANT: Return your evaluation as a valid JSON object with this EXACT structu
     // Call GPT-4o for evaluation
     console.log(`[Writing Eval] Evaluating ${taskType} task...`);
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {

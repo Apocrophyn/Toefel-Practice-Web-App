@@ -2,9 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { getCachedTTSAudio, cacheTTSAudio, generateTTSCacheKey } from "@/lib/supabase-storage";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+/**
+ * Constructed on first request, not at module scope. The OpenAI SDK throws when
+ * no key is present, and Next collects page data for every route at build time,
+ * so a module-scope client made the production build fail on any machine
+ * without OPENAI_API_KEY set.
+ */
+let openaiClient: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (!openaiClient) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
+    openaiClient = new OpenAI({ apiKey });
+  }
+  return openaiClient;
+}
 
 // Voice mapping for different speaker types
 const voiceMap: Record<string, "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer"> = {
@@ -95,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     // 3. Generate new audio via OpenAI
     console.log(`[TTS] 🔄 Generating new audio via OpenAI...`);
-    const mp3Response = await openai.audio.speech.create({
+    const mp3Response = await getOpenAI().audio.speech.create({
       model: "tts-1-hd",
       voice: selectedVoice,
       input: text,

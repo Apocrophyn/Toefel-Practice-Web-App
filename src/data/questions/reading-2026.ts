@@ -35,6 +35,13 @@ export interface AcademicQuestion {
     taskType: "academic";
     title: string;
     passage: string;
+    /**
+     * Authoring metadata. Never rendered to the test taker — these two fields were
+     * previously embedded in `passage`, which printed the item's own answer strategy
+     * above the passage. Kept for skill tagging and analytics.
+     */
+    rhetoricalStructure?: string;
+    dominantSkill?: string;
     questions: {
         id: string;
         question: string;

@@ -67,14 +67,44 @@ Create a **comprehensive, exam-accurate TOEFL iBT practice platform** that mirro
 
 ## 📖 TOEFL 2026 Exam Breakdown
 
-**Source:** [ETS Official Updates](https://www.ets.org/toefl/test-takers/ibt/upcoming-updates-jan-2026.html)
+**Source of record:** the official ETS blueprint, not this document.
+[TOEFL iBT Test: 2026 Update — Test Blueprint and Specifications](https://www.ets.org/content/dam/ets-india/pdfs/toefl/toefl-ibt-test-specifications-2026.pdf)
+(extracted summary: `docs/toefl-2026/ets-official-blueprint.md`;
+item-level mechanics: `docs/toefl-2026/item-mechanics.md`;
+fidelity audit of this codebase: `docs/toefl-2026/format-fidelity-audit.md`)
+
+**The machine-readable source of truth for the code is `src/data/toefl-2026-blueprint.ts`.**
+If this document and that file disagree, the file wins — it carries the ETS citations
+inline. Earlier revisions of this document described the PRE-2026 test in several
+places and steered the build wrong; those errors are corrected below.
 
 **Effective Date:** January 21, 2026
 
 ### Total Test Duration
-**67-85 minutes** (down from 116 minutes in old format)
+**Approximately 1 hr 23 min – 1 hr 29 min** of test time (ETS blueprint: min 1:23, max 1:29).
+Allow ~2 hours for the appointment including directions. **There are no scheduled breaks.**
+
+### Section order
+**Reading → Listening → Writing → Speaking.** Writing is third and Speaking is last.
+
+### Totals (ETS blueprint)
+120 items (108 machine-scored, 12 AI-scored), 145 raw points.
+
+| Section | Items | Raw points | Base time | Delivery |
+|---|---|---|---|---|
+| Reading | 50 | 35 | ~30 min (router 18–21 + module 9) | two-stage adaptive |
+| Listening | 47 | 35 | ~29 min (router 18 + lower 7 / upper 11) | two-stage adaptive |
+| Writing | 12 | 20 | ~23 min | linear |
+| Speaking | 11 | 55 | ~8 min | linear |
 
 ### Scoring System
+- **Raw points per section:** Reading 35, Listening 35, Writing 20, Speaking 55 (145 total).
+  Note the asymmetry: a Speaking item is worth 5 points and a Reading item 1.
+- **Max points per item:** Reading 1 · Listening 1 · Build a Sentence 1 ·
+  Write an Email 5 · Write for an Academic Discussion 5 · Listen and Repeat 5 · Take an Interview 5.
+- **ETS has not published the raw-to-band conversion** (it is IRT-based and form-specific).
+  Our conversion lives in `BAND_CUTS` in `src/data/toefl-2026-blueprint.ts` and is a
+  documented calibration — it must always be surfaced to the user as an estimate.
 - **New Scale:** 1–6 bands (half-point increments: 1.0, 1.5, 2.0... 6.0)
 - **Transition Period:** January 2026 - January 2028 (dual scores: 1-6 + 0-120)
 - **Post-2028:** Only 1-6 band scores
@@ -84,16 +114,19 @@ Create a **comprehensive, exam-accurate TOEFL iBT practice platform** that mirro
 
 ### 1️⃣ Reading Section
 
-**Duration:** 18-27 minutes (adaptive)
-**Format:** Multistage adaptive (Module 1 → Module 2 based on performance)
+**Items:** 50 (35 raw points) · **Base time:** ~30 min · **Format:** two-stage adaptive
 
 #### Task Types
 
-| Task Type | Description | Example |
-|-----------|-------------|---------|
-| **Complete the Words** | Fill in missing letters in passages | "The st_dent attended the lect_re" |
-| **Read in Daily Life** | Short practical texts (emails, announcements, campus notices) | Email about dorm policy changes |
-| **Read an Academic Text** | Traditional academic passages with comprehension questions | Passage on photosynthesis with 5-7 questions |
+| Task Type | Items | CEFR | Description |
+|-----------|-------|------|-------------|
+| **Complete the Words** | 30 | B1–C1+ | A **C-test**: first sentence intact, then the back half of every second word deleted — exactly 10 gaps in a 70–100 word academic paragraph. Each gap is its own scored item. |
+| **Read in Daily Life** | 5–15 | A1–C1 | Short practical artefacts, 15–150 words, in **2-item and 3-item sets**. The artefact's layout (email, SMS thread, menu, schedule, notice) is part of the construct. |
+| **Read an Academic Passage** | 5–15 | B1–C2 | Short academic text (~200 words, ETS ceiling 200), 3–5 questions. **The 700-word / 10-question passage is gone.** |
+
+**Removed in 2026 — do not implement:** insert-a-sentence, prose-summary/drag-to-bucket,
+multi-select "choose 2 of 5", and pronoun-reference items. Every 2026 reading item is a
+single-select 4-option multiple choice, plus the typed Complete-the-Words gaps.
 
 #### Adaptive Logic
 - **Module 1:** Same difficulty for all test-takers
@@ -102,7 +135,8 @@ Create a **comprehensive, exam-accurate TOEFL iBT practice platform** that mirro
   - **Easy Track:** Daily life content (CEFR B1-B2)
 
 #### Question Count
-- Approximately 20 questions total across both modules
+- **50 items total** across both modules (includes unscored pilot items; 35 raw points).
+- Router module 33 items, second module 17 — see `READING_PLAN` in `src/lib/toefl/form-builder.ts`.
 
 ---
 
@@ -113,12 +147,16 @@ Create a **comprehensive, exam-accurate TOEFL iBT practice platform** that mirro
 
 #### Task Types
 
-| Task Type | Description | Duration |
-|-----------|-------------|----------|
-| **Listen and Choose a Response** | Hear a question, choose appropriate reply | 30-45 sec per item |
-| **Listen to a Conversation** | Campus conversations (student-advisor, roommates) | 2-3 min |
-| **Listen to an Announcement** | Campus announcements, event notices | 1-2 min |
-| **Listen to an Academic Lecture** | Traditional lecture with comprehension questions | 3-5 min |
+| Task Type | Items | CEFR | Audio | Questions per stimulus |
+|-----------|-------|------|-------|------------------------|
+| **Listen and Choose a Response** | 15–19 | A1–B2 | one short utterance, 3–6 s (ETS: no longer than six stressed syllables), audio only, never printed | 1 |
+| **Listen to a Conversation** | 10 | A2–C1 | 2 speakers, 20–30 s (~50–85 words) | 2 |
+| **Listen to an Announcement** | 6–10 | A2–C1 | 1 speaker, 20–30 s (40–85 words) | 2 |
+| **Listen to an Academic Talk** | 8–16 | A2–C2 | 1 speaker, 60–90 s (100–250 words) | 4 |
+
+**These are much shorter than the pre-2026 test.** Conversations are ~25 seconds, not
+2–3 minutes; lectures are ~90 seconds, not 3–5 minutes. Building to the old lengths is
+one of the main ways a practice platform stops resembling the exam.
 
 #### Adaptive Logic
 - **Module 1:** Baseline difficulty
@@ -128,24 +166,33 @@ Create a **comprehensive, exam-accurate TOEFL iBT practice platform** that mirro
 
 #### Audio Specs
 - **Format:** MP3/WAV, 44.1kHz
-- **Playback:** Single listen per item (no replay)
+- **Playback:** plays **exactly once** — no replay, no pause, no scrub bar. The old
+  "listen again" replay sub-question is abolished.
+- **Questions render only AFTER playback completes.** Never show the options during audio.
+- **No back-navigation** to an item whose audio has already played.
+- A static visual of the speaker(s) accompanies each stimulus.
+- Accents are balanced across U.S./Canadian, Australian and British varieties.
 - **Volume Control:** User-adjustable
 
 ---
 
 ### 3️⃣ Speaking Section
 
-**Duration:** ~8 minutes total
-**Format:** 4 tasks (non-adaptive)
+**Items:** 11 (55 raw points, 5 per item) · **Base time:** ~8 min · **Format:** linear (not adaptive)
+**Section position:** LAST.
+
+> ⚠️ **Correction.** Earlier revisions of this document listed four speaking tasks including
+> two integrated tasks (read+listen→summarise, listen→opinion). **Those tasks no longer
+> exist.** The 2026 Speaking section is only Listen and Repeat + Take an Interview.
 
 #### Task Types
 
-| Task | Description | Prep Time | Response Time | Scoring Focus |
-|------|-------------|-----------|---------------|---------------|
-| **Listen and Repeat** | Repeat 7 sentences about campus/daily life | None | Immediate | Pronunciation, fluency |
-| **Take an Interview** | Answer 4 questions about a given topic | None | 45 sec each | Spontaneity, coherence, vocabulary |
-| **Integrated Speaking 1** | Read + Listen → Summarize | 30 sec | 60 sec | Integration, clarity |
-| **Integrated Speaking 2** | Listen → Express opinion | 20 sec | 60 sec | Organization, reasoning |
+| Task | Items | Prep | Response window | Notes |
+|------|-------|------|-----------------|-------|
+| **Listen and Repeat** | 7 | none | **8 s** (items 1–2), **10 s** (3–5), **12 s** (6–7) | Sentence heard **once**, never shown in print. A static contextual image of the location is displayed. A beep auto-starts recording the instant the audio ends; it auto-stops and auto-advances. Sentences grow in length and syntactic complexity across the set. |
+| **Take an Interview** | 4 | **none** | **45 s** each | An interviewer appears on screen. All 4 questions share **one theme** and escalate: personal recall → preference → opinion with support → prediction/analysis. Question is delivered as audio and on-screen text. |
+
+There is **no preparation time** and **no manual record button** in either task.
 
 #### Recording Specs
 - **Format:** WAV/WebM, 16kHz minimum
@@ -161,19 +208,42 @@ Create a **comprehensive, exam-accurate TOEFL iBT practice platform** that mirro
 
 ### 4️⃣ Writing Section
 
-**Duration:** ~23 minutes total
-**Format:** 3 tasks (non-adaptive)
+**Items:** 12 (20 raw points) · **Base time:** ~23 min · **Format:** linear (not adaptive)
+**Section position:** THIRD, before Speaking.
 
 #### Task Types
 
-| Task | Description | Time | Word Count | Scoring Focus |
-|------|-------------|------|------------|---------------|
-| **Build a Sentence** | Grammar/syntax construction (5-7 items) | 5 min | N/A | Grammatical accuracy |
-| **Write an Email** | Practical email (request, complaint, inquiry) | 8 min | 80-120 words | Appropriateness, clarity, organization |
-| **Writing for an Academic Discussion** | Contribute to online discussion forum | 10 min | 100+ words | Critical thinking, support, coherence |
+| Task | Items | Points | Timer | Word count |
+|------|-------|--------|-------|------------|
+| **Build a Sentence** | **10** | 1 each | **one pooled 6:50 clock across all ten**, not per item | n/a |
+| **Write an Email** | 1 | 5 | 7:00, its own clock | ETS publishes **no** word count; show a soft 80–120 target, never a hard gate |
+| **Write for an Academic Discussion** | 1 | 5 | 10:00, its own clock | "at least 100 words" (stated in the directions) |
+
+6:50 + 7:00 + 10:00 ≈ 23:50, which reconciles with the ~23-minute section.
+
+**Build a Sentence mechanics** — this is the most build-critical interaction:
+- Each item opens with a **context line** the assembled sentence must respond to.
+  It is not a bare scramble.
+- The word bank holds **5–7 tiles**, and tiles may be **multi-word chunks**
+  ("showed us around", "would like"), so do not build a single-word tokenizer.
+- Some items ship **more tiles than slots** (distractors), and some have words
+  **prefilled/locked** into the sentence.
+- Both **click-to-place** and **drag** must work.
+- Scoring is **all-or-nothing**: every tile in the right slot, or zero.
+
+**Write an Email prompt structure:** scenario (~90 words) + a named recipient whose
+relationship sets the register + **exactly three bullet points**, all of which must be
+addressed to score well.
+
+**Academic Discussion layout:** professor's post (~70 words) + **exactly two** named
+student posts (~50 words each) presenting opposing views + your response box with a
+live word counter.
+
+> ⚠️ **Correction.** There is no "integrated writing" task in 2026 (read + listen →
+> summarise), and no independent essay. Both were removed.
 
 #### Input Specs
-- **Format:** Plain text (rich text editor with word count)
+- **Format:** Plain text with a live word counter
 - **Spell Check:** Disabled (exam-like conditions)
 - **Copy/Paste:** Disabled
 
@@ -1169,16 +1239,15 @@ def calculate_overall_score(reading, listening, speaking, writing):
 
 | Section | Task Type | Count | Difficulty Distribution |
 |---------|-----------|-------|-------------------------|
-| **Reading** | Complete the Words | 50 | 20 Easy / 20 Med / 10 Hard |
+| **Reading** | Complete the Words (C-test paragraphs) | 50 | 20 Easy / 20 Med / 10 Hard |
 | | Read in Daily Life | 30 | 15 Easy / 10 Med / 5 Hard |
 | | Academic Text (passages) | 40 passages | 10 Easy / 20 Med / 10 Hard |
 | **Listening** | Choose a Response | 40 | 15 Easy / 15 Med / 10 Hard |
 | | Conversation | 25 | 10 Easy / 10 Med / 5 Hard |
 | | Announcement | 20 | 10 Easy / 8 Med / 2 Hard |
-| | Academic Lecture | 30 | 5 Easy / 15 Med / 10 Hard |
+| | Academic Talk | 30 | 5 Easy / 15 Med / 10 Hard |
 | **Speaking** | Listen and Repeat | 50 | 20 Easy / 20 Med / 10 Hard |
 | | Interview Questions | 40 | 15 Easy / 15 Med / 10 Hard |
-| | Integrated Tasks | 30 | 10 Easy / 15 Med / 5 Hard |
 | **Writing** | Build a Sentence | 60 | 25 Easy / 25 Med / 10 Hard |
 | | Email Prompts | 30 | 10 Easy / 15 Med / 5 Hard |
 | | Academic Discussion | 30 | 10 Easy / 15 Med / 5 Hard |
@@ -1260,9 +1329,9 @@ def calculate_overall_score(reading, listening, speaking, writing):
 - Hypothetical: "If you could visit any country, which would you choose and why?"
 - Experience: "Tell me about a time you overcame a challenge."
 
-**Integrated Tasks:**
-- Task 1: Read short passage (75 words) + Listen to conversation → Summarize the problem and solutions
-- Task 2: Listen to short lecture (90 seconds) → Explain the main concept using the example from the lecture
+> **Removed.** The integrated speaking tasks (read + listen -> summarise; listen ->
+> opinion) were part of the pre-2026 test and no longer exist. Do not author content
+> for them. The 2026 Speaking section is Listen and Repeat + Take an Interview only.
 
 ---
 
@@ -1450,7 +1519,7 @@ Font Sizes:
 
 ---
 
-#### 2. Audio Player (Listening & Integrated Tasks)
+#### 2. Audio Player (Listening)
 
 ```
 ┌────────────────────────────────────────┐

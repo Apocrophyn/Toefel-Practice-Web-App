@@ -6,10 +6,9 @@ export const batch15Passages: AcademicQuestion[] = [
         id: "batch15_topic1_photoelectric_effect",
         taskType: "academic",
         title: "Einstein's Nobel: The Photoelectric Effect",
+        rhetoricalStructure: "Problem-Solution/Paradigm Shift",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Problem-Solution/Paradigm Shift
-**Dominant TOEFL Skill:** Inference
-
 Albert Einstein is famous for Relativity ($E=mc^2$), but he won his Nobel Prize for the *Photoelectric Effect* (1905). This discovery proved Quantum Mechanics.
 
 The setup: Shine a light on a metal plate. Electrons pop off. This creates a current.
@@ -18,18 +17,13 @@ Classic Wave Theory Prediction:
 *   The *color* (frequency) shouldn't matter.
 
 The Reality:
-*   Red light (low frequency): No electrons popped off. Even if the light was blindingly bright. Nothing. [A]
-*   Blue light (high frequency): Electrons popped off instantly. Even if the light was dim.
+*   Red light (low frequency): No electrons popped off. Even if the light was blindingly bright. Nothing. *   Blue light (high frequency): Electrons popped off instantly. Even if the light was dim.
 
 This broke physics.
 Einstein's Solution: Light is not a continuous wave. It is a stream of particles (*Photons*).
-Each photon carries a specific packet of energy determined by its frequency ($E=hf$). [B]
-
-*   Red photons are "weak" bullets. They bounce off the electron. Even a million weak bullets won't dislodge it.
-*   Blue photons are "strong" bullets. One single hit knocks the electron loose. [C]
-
-This proved that energy is *quantized*. It comes in chunks.
-This discovery is the basis for solar panels (photovoltaics). [D] Sunlight hits the silicon, knocks electrons loose, and they flow into your house as electricity.
+Each photon carries a specific packet of energy determined by its frequency ($E=hf$). *   Red photons are "weak" bullets. They bounce off the electron. Even a million weak bullets won't dislodge it.
+*   Blue photons are "strong" bullets. One single hit knocks the electron loose. This proved that energy is *quantized*. It comes in chunks.
+This discovery is the basis for solar panels (photovoltaics). Sunlight hits the silicon, knocks electrons loose, and they flow into your house as electricity.
     `.trim(),
         questions: [
             {
@@ -50,26 +44,23 @@ This discovery is the basis for solar panels (photovoltaics). [D] Sunlight hits 
         id: "batch15_topic2_cuban_missile_crisis",
         taskType: "academic",
         title: "The Cuban Missile Crisis: Thirteen Days in October",
+        rhetoricalStructure: "Chronology/Diplomacy",
+        dominantSkill: "Factual Information",
         passage: `
-**Rhetorical Structure:** Chronology/Diplomacy
-**Dominant TOEFL Skill:** Factual Information
-
 In October 1962, the world stood closer to nuclear war than at any other moment in history. U-2 spy planes discovered Soviet nuclear missiles being built in Cuba, 90 miles from Florida. They could hit Washington DC in 20 minutes.
 
 President Kennedy (JFK) had two bad options.
-1.  Airstrike/Invasion: The military (Generals LeMay) wanted to bomb the sites. We now know this would have triggered WWIII; the Soviets already had tactical nukes on the beach ready to fire. [A]
-2.  Do Nothing: Show weakness.
+1.  Airstrike/Invasion: The military (Generals LeMay) wanted to bomb the sites. We now know this would have triggered WWIII; the Soviets already had tactical nukes on the beach ready to fire. 2.  Do Nothing: Show weakness.
 
 JFK chose a middle path: A *Blockade* (he called it a "Quarantine" because a blockade is an act of war). The US Navy ringed the island to stop Soviet ships.
 
-The crisis peaked on Oct 27 ("Black Saturday"). A U-2 was shot down. A Soviet submarine (B-59) was depth-charged by the US Navy. The captain ordered a nuclear torpedo launch. [B] He was vetoed by his second-in-command, Vasili Arkhipov. One man saved the world.
+The crisis peaked on Oct 27 ("Black Saturday"). A U-2 was shot down. A Soviet submarine (B-59) was depth-charged by the US Navy. The captain ordered a nuclear torpedo launch. He was vetoed by his second-in-command, Vasili Arkhipov. One man saved the world.
 
 The resolution was a secret deal.
-Publicly: Khrushchev agreed to remove missiles from Cuba if the US promised not to invade Cuba. [C]
-Privately: JFK agreed to remove US Jupiter missiles from Turkey (on the Soviet border) 6 months later.
+Publicly: Khrushchev agreed to remove missiles from Cuba if the US promised not to invade Cuba. Privately: JFK agreed to remove US Jupiter missiles from Turkey (on the Soviet border) 6 months later.
 
 Both sides claimed victory.
-The crisis led to the "Red Phone" hotline between DC and Moscow and the first Nuclear Test Ban Treaty (1963). [D] It taught leaders that in the nuclear age, you must give your enemy a face-saving way out.
+The crisis led to the "Red Phone" hotline between DC and Moscow and the first Nuclear Test Ban Treaty (1963). It taught leaders that in the nuclear age, you must give your enemy a face-saving way out.
     `.trim(),
         questions: [
             {
@@ -90,19 +81,16 @@ The crisis led to the "Red Phone" hotline between DC and Moscow and the first Nu
         id: "batch15_topic3_pheromones",
         taskType: "academic",
         title: "Chemical Communication: Pheromones in Social Insects",
+        rhetoricalStructure: "Classification/Mechanism",
+        dominantSkill: "Sentence Insertion",
         passage: `
-**Rhetorical Structure:** Classification/Mechanism
-**Dominant TOEFL Skill:** Sentence Insertion
-
 Ants and bees don't talk, but they are never silent. They speak in smells. *Pheromones* are chemicals released by an animal that change the behavior of other members of the same species.
 
 There are different "words" in this chemical language:
-1.  **Trail Pheromones:** An ant finds sugar. On the way home, it presses its abdomen to the ground, leaving a scent trail. Other ants follow it. [A] As more ants use the path, they add more scent, making the highway stronger. If the food runs out, they stop marking, and the trail evaporates.
-2.  **Alarm Pheromones:** If you crush a bee, it releases a smell like bananas (Isoamyl acetate). This triggers a "rage response" in other bees. They swarm the area to attack. [B]
-3.  **Primer Pheromones:** These cause long-term physiological changes. The Queen Bee releases "Queen Substance." If the workers lick it, it suppresses their ovaries so they can't lay eggs. [C] It forces them to remain sterile workers. If the Queen dies, the substance disappears, and the workers start laying eggs or raising a new queen.
+1.  **Trail Pheromones:** An ant finds sugar. On the way home, it presses its abdomen to the ground, leaving a scent trail. Other ants follow it. As more ants use the path, they add more scent, making the highway stronger. If the food runs out, they stop marking, and the trail evaporates.
+2.  **Alarm Pheromones:** If you crush a bee, it releases a smell like bananas (Isoamyl acetate). This triggers a "rage response" in other bees. They swarm the area to attack. 3.  **Primer Pheromones:** These cause long-term physiological changes. The Queen Bee releases "Queen Substance." If the workers lick it, it suppresses their ovaries so they can't lay eggs. It forces them to remain sterile workers. If the Queen dies, the substance disappears, and the workers start laying eggs or raising a new queen.
 
-Humans? We have lost most of our smell brain (olfactory bulb). While some studies suggest we can smell fear or ovulation, our chemical communication is vestigial compared to the symphony of odors that rules the insect world. [D]
-    `.trim(),
+Humans? We have lost most of our smell brain (olfactory bulb). While some studies suggest we can smell fear or ovulation, our chemical communication is vestigial compared to the symphony of odors that rules the insect world. `.trim(),
         questions: [
             {
                 id: "batch15_topic3_pheromones_Q1",
@@ -122,28 +110,23 @@ Humans? We have lost most of our smell brain (olfactory bulb). While some studie
         id: "batch15_topic4_dystopian",
         taskType: "academic",
         title: "Dystopian Literature: Orwell vs. Huxley",
+        rhetoricalStructure: "Comparison/Contrast",
+        dominantSkill: "Prose Summary",
         passage: `
-**Rhetorical Structure:** Comparison/Contrast
-**Dominant TOEFL Skill:** Prose Summary
-
 The 20th century produced two definitive visions of the nightmare future: George Orwell’s *1984* and Aldous Huxley’s *Brave New World*. Both fear the loss of freedom, but they fear different methods of control.
 
 **Orwell (1949)** feared pain.
 In *1984*, the state (Big Brother) controls people through fear, torture, and surveillance (Telescreens).
 Information is banned. Books are burned.
-The boot stamping on a human face forever. [A]
-It is a prison.
+The boot stamping on a human face forever. It is a prison.
 
 **Huxley (1932)** feared pleasure.
 In *Brave New World*, the state controls people through distraction and drug-induced happiness (*Soma*).
 Information is not banned; it is swamped by a flood of irrelevance (trivia, porn, gossip).
-People don't read books because they are too busy watching "Feelies" (sensory movies). [B]
-It is a pleasure cruise where no one wants to escape.
+People don't read books because they are too busy watching "Feelies" (sensory movies). It is a pleasure cruise where no one wants to escape.
 
 Postman (in *Amusing Ourselves to Death*) argued Huxley was right.
-The Soviet Union was Orwellian. But the modern West is Huxleyan. [C]
-We were not conquered by a dictator; we were sedated by our entertainment. We learned to love our oppression because it came in HD with surround sound. [D]
-    `.trim(),
+The Soviet Union was Orwellian. But the modern West is Huxleyan. We were not conquered by a dictator; we were sedated by our entertainment. We learned to love our oppression because it came in HD with surround sound. `.trim(),
         questions: [
             {
                 id: "batch15_topic4_dystopian_Q1",
@@ -163,26 +146,21 @@ We were not conquered by a dictator; we were sedated by our entertainment. We le
         id: "batch15_topic5_outsourcing",
         taskType: "academic",
         title: "Economics: Outsourcing and Comparative Advantage",
+        rhetoricalStructure: "Theory/Application",
+        dominantSkill: "Negative Factual Information",
         passage: `
-**Rhetorical Structure:** Theory/Application
-**Dominant TOEFL Skill:** Negative Factual Information
-
 In the 1990s, "Outsourcing" became a buzzword. Companies moved factories from the US to China or call centers to India. This is driven by David Ricardo's theory of *Comparative Advantage* (1817).
 
 Ricardo argued that even if Country A is better at making *everything* than Country B, they should still trade.
 Example: The US is better at writing Software and sewing T-shirts than Vietnam.
 But the US is *way* better at Software (value \$100/hr) than T-shirts (value \$5/hr).
-Therefore, the US should stop making shirts and focus entirely on software. It should let Vietnam make the shirts. [A]
-The US "sacrifices" the shirt industry to maximize its software profits.
+Therefore, the US should stop making shirts and focus entirely on software. It should let Vietnam make the shirts. The US "sacrifices" the shirt industry to maximize its software profits.
 
 Benefits:
-Global efficiency involves cheaper goods. A T-shirt costs \$5 at Walmart instead of \$20. This raises the standard of living for poor shoppers. [B]
-It brings jobs to developing nations, lifting millions out of poverty (e.g., China's rise).
+Global efficiency involves cheaper goods. A T-shirt costs \$5 at Walmart instead of \$20. This raises the standard of living for poor shoppers. It brings jobs to developing nations, lifting millions out of poverty (e.g., China's rise).
 
 Costs:
-It creates "Rust Belts." The US factory workers lose their jobs. Theory says they should "retrain" to be software engineers, but in reality, a 50-year-old mill worker cannot easily switch. [C]
-It creates dependency and supply chain fragility. If a pandemic hits and borders close, you realize you can't make your own masks or chips. [D]
-    `.trim(),
+It creates "Rust Belts." The US factory workers lose their jobs. Theory says they should "retrain" to be software engineers, but in reality, a 50-year-old mill worker cannot easily switch. It creates dependency and supply chain fragility. If a pandemic hits and borders close, you realize you can't make your own masks or chips. `.trim(),
         questions: [
             {
                 id: "batch15_topic5_outsourcing_Q1",
@@ -202,25 +180,22 @@ It creates dependency and supply chain fragility. If a pandemic hits and borders
         id: "batch15_topic6_burgess_shale",
         taskType: "academic",
         title: "The Burgess Shale and the Cambrian Explosion",
+        rhetoricalStructure: "Discovery/Evolution",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Discovery/Evolution
-**Dominant TOEFL Skill:** Inference
-
 For 3 billion years, life on Earth was microscopic (bacteria/algae). Then, 540 million years ago, in a flash, all major animal body plans appeared. This is the *Cambrian Explosion*. The evidence comes from a fossil site in Canada: the *Burgess Shale*.
 
-Discovered by Charles Walcott in 1909, the shale is unique because it captured *soft-bodied* animals. [A]
-Usually, only bones and shells fossilize. But here, mudslides buried marine creatures instantly in oxygen-free mud, preserving eyes, guts, and tentacles.
+Discovered by Charles Walcott in 1909, the shale is unique because it captured *soft-bodied* animals. Usually, only bones and shells fossilize. But here, mudslides buried marine creatures instantly in oxygen-free mud, preserving eyes, guts, and tentacles.
 
 The creatures are alien nightmares.
 *   *Opabinia:* Had 5 eyes and a vacuum-cleaner nozzle.
 *   *Hallucigenia:* Walked on spikes (though later we realized we held it upside down).
 *   *Anomalocaris:* A giant shrimp-predator.
 
-Stephen Jay Gould (in *Wonderful Life*) argued this shows the role of "Contingency" (Luck). [B]
-The Burgess Shale shows dozens of body plans. Only a few survived to become modern Phylums (e.g., *Pikaia*, a tiny worm, is the ancestor of all Vertebrates/Chordates).
-If you rewound the tape of life and played it again, *Pikaia* might die, and humans would never exist. [C] We might be intelligent descendents of the 5-eyed Opabinia.
+Stephen Jay Gould (in *Wonderful Life*) argued this shows the role of "Contingency" (Luck). The Burgess Shale shows dozens of body plans. Only a few survived to become modern Phylums (e.g., *Pikaia*, a tiny worm, is the ancestor of all Vertebrates/Chordates).
+If you rewound the tape of life and played it again, *Pikaia* might die, and humans would never exist. We might be intelligent descendents of the 5-eyed Opabinia.
 
-Other scientists disagree, arguing that "Convergent Evolution" means intelligence would evolve regardless of the body shape. [D] But the Shale proves that nature's initial experiment was far wilder than the stable world we see today.
+Other scientists disagree, arguing that "Convergent Evolution" means intelligence would evolve regardless of the body shape. But the Shale proves that nature's initial experiment was far wilder than the stable world we see today.
     `.trim(),
         questions: [
             {
@@ -241,29 +216,25 @@ Other scientists disagree, arguing that "Convergent Evolution" means intelligenc
         id: "batch15_topic7_radioactivity_halflife",
         taskType: "academic",
         title: "Radioactivity and Radiometric Dating",
+        rhetoricalStructure: "Mechanism/Application",
+        dominantSkill: "Factual Information",
         passage: `
-**Rhetorical Structure:** Mechanism/Application
-**Dominant TOEFL Skill:** Factual Information
-
 Some atoms are unstable. Their nuclei are too crowded with protons and neutrons. To get comfortable, they vomit out particles. This is *Radioactivity*. The rate at which they do this is constant and predicts time famously.
 
 We measure this using *Half-Life*.
-Half-life is the time it takes for 50% of the sample to decay. [A]
-It is a statistical probability. We don't know *which* atom will pop, but we know clearly that in 1 hour, half will be gone.
+Half-life is the time it takes for 50% of the sample to decay. It is a statistical probability. We don't know *which* atom will pop, but we know clearly that in 1 hour, half will be gone.
 
 Example: Carbon-14 (Half-life: 5,730 years).
 Living things take in C-14 from the air (plants) or food.
 When you die, you stop eating. Your C-14 supply is locked.
 It starts to decay into Nitrogen.
 *   in 5,730 years: You have 50% left.
-*   in 11,460 years: You have 25% left. [B]
-*   in 17,000 years: You have 12.5% left.
+*   in 11,460 years: You have 25% left. *   in 17,000 years: You have 12.5% left.
 
 By measuring the ratio of C-14 to C-12 in a bone, we know when the animal died.
 
 Limit: After 50,000 years, there isn't enough C-14 left to measure.
-For older things (Dinosaurs or Earth rocks), we use Uranium-Lead dating (Half-life: 4.5 billion years). [C]
-This is how we know the Earth is 4.5 billion years old. We found uranium rocks where exactly 50% had turned to lead. [D] It is the clock that never stops ticking.
+For older things (Dinosaurs or Earth rocks), we use Uranium-Lead dating (Half-life: 4.5 billion years). This is how we know the Earth is 4.5 billion years old. We found uranium rocks where exactly 50% had turned to lead. It is the clock that never stops ticking.
     `.trim(),
         questions: [
             {
@@ -284,10 +255,9 @@ This is how we know the Earth is 4.5 billion years old. We found uranium rocks w
         id: "batch15_topic8_laser",
         taskType: "academic",
         title: "The Invention of the Laser: Light Amplification",
+        rhetoricalStructure: "Mechanism/Acronym",
+        dominantSkill: "Vocabulary in Context",
         passage: `
-**Rhetorical Structure:** Mechanism/Acronym
-**Dominant TOEFL Skill:** Vocabulary in Context
-
 LASER stands for "Light Amplification by Stimulated Emission of Radiation." Invented in 1960 (by T.H. Maiman), it produces light unlike anything in nature.
 
 Normal light (Lightbulb) is:
@@ -297,18 +267,14 @@ Normal light (Lightbulb) is:
 
 Laser light is:
 1.  **Coherent:** All waves march in perfect step (soldiers).
-2.  **Monochromatic:** One specific color (frequency). [A]
-3.  **Collimated:** A tight beam that doesn't spread.
+2.  **Monochromatic:** One specific color (frequency). 3.  **Collimated:** A tight beam that doesn't spread.
 
 How?
 You trap atoms in a mirror tube (gain medium).
 You pump energy in (flash lamp). The electrons jump to a high energy orbit (Excited State).
-When one electron drops back down, it emits a photon. [B]
-This photon hits a neighbor atom, stimulating it to drop and emit a *clone* photon—same direction, same color.
+When one electron drops back down, it emits a photon. This photon hits a neighbor atom, stimulating it to drop and emit a *clone* photon—same direction, same color.
 This chain reaction (avalanche) bounces back and forth between the mirrors, getting stronger and stronger.
-One mirror is "half-silvered," allowing a tiny bit of the light to escape as the beam. [C]
-
-Lasers are used for eye surgery (LASIK), bar code scanners, and fiber optics. [D] It was famously called "a solution looking for a problem" when invented; now it is the infrastructure of the digital world.
+One mirror is "half-silvered," allowing a tiny bit of the light to escape as the beam. Lasers are used for eye surgery (LASIK), bar code scanners, and fiber optics. It was famously called "a solution looking for a problem" when invented; now it is the infrastructure of the digital world.
     `.trim(),
         questions: [
             {
@@ -329,29 +295,23 @@ Lasers are used for eye surgery (LASIK), bar code scanners, and fiber optics. [D
         id: "batch15_topic9_groupthink",
         taskType: "academic",
         title: "The Bay of Pigs and the Psychology of Groupthink",
+        rhetoricalStructure: "Case Study/Theory",
+        dominantSkill: "Prose Summary",
         passage: `
-**Rhetorical Structure:** Case Study/Theory
-**Dominant TOEFL Skill:** Prose Summary
-
 In 1961, the US tried to invade Cuba (Bay of Pigs) to overthrow Castro using CIA-trained exiles. It was a fiasco. The plan was flawed, the maps were wrong, and the air support failed. President JFK asked, "How could we have been so stupid?"
 
 Psychologist Irving Janis analyzed this and coined the term *Groupthink*.
 It occurs when a group of smart people makes dumb decisions because they value *Harmony* over *Accuracy*.
 
 Symptoms of Groupthink:
-1.  **Illusion of Invulnerability:** "We are the best government, we can't fail." [A]
-2.  **Self-Censorship:** Dissenters keep quiet. If you think the plan is bad, you don't speak up because you don't want to look like a traitor or a downer.
+1.  **Illusion of Invulnerability:** "We are the best government, we can't fail." 2.  **Self-Censorship:** Dissenters keep quiet. If you think the plan is bad, you don't speak up because you don't want to look like a traitor or a downer.
 3.  **Mindguards:** People who suppress negative information to protect the leader.
 
-In the Bay of Pigs meetings, no one wanted to tell JFK "This is crazy." They reinforced each other's bad assumptions. [B]
-
-JFK learned. During the Cuban Missile Crisis (1962), he changed the rules. [C]
-*   He absented himself from meetings so people wouldn't just agree with the Boss.
+In the Bay of Pigs meetings, no one wanted to tell JFK "This is crazy." They reinforced each other's bad assumptions. JFK learned. During the Cuban Missile Crisis (1962), he changed the rules. *   He absented himself from meetings so people wouldn't just agree with the Boss.
 *   He appointed a "Devil's Advocate" (his brother Bobby) whose specific job was to attack every plan.
 *   He brought in outside experts.
 
-This "Conflict" saved the world. It proved that good decision-making requires friction, not polite agreement. [D]
-    `.trim(),
+This "Conflict" saved the world. It proved that good decision-making requires friction, not polite agreement. `.trim(),
         questions: [
             {
                 id: "batch15_topic9_groupthink_Q1",
@@ -371,25 +331,21 @@ This "Conflict" saved the world. It proved that good decision-making requires fr
         id: "batch15_topic10_solar_wind",
         taskType: "academic",
         title: "The Solar Wind and the Heliosphere",
+        rhetoricalStructure: "Phenomenon/Protection",
+        dominantSkill: "Sentence Insertion",
         passage: `
-**Rhetorical Structure:** Phenomenon/Protection
-**Dominant TOEFL Skill:** Sentence Insertion
-
 Space is not empty. It is filled with the *Solar Wind*.
 The Sun is so hot that it boils off its own atmosphere. A stream of charged particles (protons/electrons) blasts out in all directions at 400 km/s.
 
 This wind hits everything.
-On Earth, our magnetic field (Magnetosphere) deflects it. [A] The particles are funneled to the poles, creating the Auroras.
+On Earth, our magnetic field (Magnetosphere) deflects it. The particles are funneled to the poles, creating the Auroras.
 On Mars, which lost its magnetic field, the solar wind stripped away the atmosphere, turning a wet planet into a dry desert.
 
-The Solar Wind creates a giant bubble around the solar system called the *Heliosphere*. [B]
-This bubble pushes back against the "Interstellar Medium" (the gas between stars).
+The Solar Wind creates a giant bubble around the solar system called the *Heliosphere*. This bubble pushes back against the "Interstellar Medium" (the gas between stars).
 It acts as a shield. It blocks 70% of high-energy Cosmic Rays (from exploding stars/supernovas) from entering the solar system. Without the Heliosphere, radiation levels on Earth would be dangerous.
 
-In 2012, Voyager 1 crossed the "Heliopause"—the edge of the bubble. [C]
-It measured a sudden jump in plasma density. It had left the Sun's protection and entered interstellar space.
-The Sun, therefore, doesn't just give us light; it gives us a magnetic umbrella that shelters us from the radioactive rain of the galaxy. [D]
-    `.trim(),
+In 2012, Voyager 1 crossed the "Heliopause"—the edge of the bubble. It measured a sudden jump in plasma density. It had left the Sun's protection and entered interstellar space.
+The Sun, therefore, doesn't just give us light; it gives us a magnetic umbrella that shelters us from the radioactive rain of the galaxy. `.trim(),
         questions: [
             {
                 id: "batch15_topic10_solar_wind_Q1",
@@ -409,28 +365,24 @@ The Sun, therefore, doesn't just give us light; it gives us a magnetic umbrella 
         id: "batch15_topic11_ghost_dance",
         taskType: "academic",
         title: "The Ghost Dance Movement: 1890",
+        rhetoricalStructure: "Narrative/Tragedy",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Narrative/Tragedy
-**Dominant TOEFL Skill:** Inference
-
 By 1890, the Native American tribes of the Great Plains (Sioux/Lakota) were desperate. They were confined to reservations, starving (ration cuts), and the Buffalo were gone. In this moment of despair, a new religion swept the plains: The *Ghost Dance*.
 
-It was started by a Paiute prophet named Wovoka. [A] He preached a syncretic messianic message (mixing Jesus with native tradition).
+It was started by a Paiute prophet named Wovoka. He preached a syncretic messianic message (mixing Jesus with native tradition).
 He claimed that if the Indians lived peacefully and performed the Ghost Dance (a circle dance), the world would be renewed.
 *   The white men would disappear (or be buried under new earth).
 *   The ancestors (ghosts) would return to life.
 *   The Buffalo would return.
 
-It was a peaceful revitalization movement. [B]
-However, the US government and settlers panicked. They misinterpreted the dance as a war preparation. They saw hundreds of Indians dancing for days until they fainted.
+It was a peaceful revitalization movement. However, the US government and settlers panicked. They misinterpreted the dance as a war preparation. They saw hundreds of Indians dancing for days until they fainted.
 
-The Lakota also believed in "Ghost Shirts"—garments painted with symbols they thought were bulletproof. [C]
-
-The hysteria led the Army to try to arrest Sitting Bull (he was killed).
+The Lakota also believed in "Ghost Shirts"—garments painted with symbols they thought were bulletproof. The hysteria led the Army to try to arrest Sitting Bull (he was killed).
 Then, the 7th Cavalry intercepted a band of dancers at **Wounded Knee Creek**.
 A gun went off accidentally. The soldiers opened fire with Hotchkiss cannons. 300 men, women, and children were massacred.
 
-Wounded Knee marked the end of the Indian Wars. [D] The Ghost Dance died with the dancers, proving that the US government feared Native spiritual independence as much as their military resistance.
+Wounded Knee marked the end of the Indian Wars. The Ghost Dance died with the dancers, proving that the US government feared Native spiritual independence as much as their military resistance.
     `.trim(),
         questions: [
             {
@@ -451,10 +403,9 @@ Wounded Knee marked the end of the Indian Wars. [D] The Ghost Dance died with th
         id: "batch15_topic12_neoclassicism",
         taskType: "academic",
         title: "Neoclassicism: The Architecture of Democracy",
+        rhetoricalStructure: "Context/Symbolism",
+        dominantSkill: "Rhetorical Purpose",
         passage: `
-**Rhetorical Structure:** Context/Symbolism
-**Dominant TOEFL Skill:** Rhetorical Purpose
-
 Why does Washington DC look like Rome? Why do banks have Greek columns? This style is *Neoclassicism*.
 Rising in the mid-18th century (concurrent with the Enlightenment), it was a rejection of the frilly, decorative Rococo style of the Kings (Versailles).
 
@@ -464,12 +415,12 @@ Neoclassicism emphasized:
 *   Grandeur.
 *   Columns (Doric, Ionic, Corinthian).
 
-It was political. [A] Use of Roman/Greek forms linked the new nations (US and Revolutionary France) to the ancient democracies of Athens and the Roman Republic.
-Thomas Jefferson, who designed the Virginia Capitol and Monticello, loved this style. [B] He believed buildings should educate. A courthouse looking like a Roman Temple tells the citizen: "Here lies Law and Reason, not the whim of a King."
+It was political. Use of Roman/Greek forms linked the new nations (US and Revolutionary France) to the ancient democracies of Athens and the Roman Republic.
+Thomas Jefferson, who designed the Virginia Capitol and Monticello, loved this style. He believed buildings should educate. A courthouse looking like a Roman Temple tells the citizen: "Here lies Law and Reason, not the whim of a King."
 
-It also implied permanence. [C] A bank built like the Parthenon says, "Your money is safe; we are as solid as history."
+It also implied permanence. A bank built like the Parthenon says, "Your money is safe; we are as solid as history."
 
-However, it can be oppressive. Hitler and Stalin also loved Neoclassicism (Totalitarian Architecture). [D] They liked the "Grandeur" part—making the individual feel tiny and the State feel huge. The style that was born to celebrate freedom was easily twisted to celebrate power.
+However, it can be oppressive. Hitler and Stalin also loved Neoclassicism (Totalitarian Architecture). They liked the "Grandeur" part—making the individual feel tiny and the State feel huge. The style that was born to celebrate freedom was easily twisted to celebrate power.
     `.trim(),
         questions: [
             {
@@ -490,26 +441,20 @@ However, it can be oppressive. Hitler and Stalin also loved Neoclassicism (Total
         id: "batch15_topic13_thirty_years_war",
         taskType: "academic",
         title: "The Thirty Years' War and the Treaty of Westphalia",
+        rhetoricalStructure: "Cause-Effect/Change",
+        dominantSkill: "Negative Factual Information",
         passage: `
-**Rhetorical Structure:** Cause-Effect/Change
-**Dominant TOEFL Skill:** Negative Factual Information
-
 The Thirty Years' War (1618–1648) was the deadliest religious war in European history. It started as a fight between Catholics and Protestants in the Holy Roman Empire (Germany). It killed 8 million people (20% of Germany's population).
 
-It began with the "Defenestration of Prague" (Protestants threw Catholic officials out a window). [A]
-It escalated because foreign powers intervened.
+It began with the "Defenestration of Prague" (Protestants threw Catholic officials out a window). It escalated because foreign powers intervened.
 *   Spain/Austria backed the Catholics.
 *   Sweden/France backed the Protestants.
-(Ideally, Catholic France should have backed Catholics, but Cardinal Richelieu hated the Austrian Habsburgs more than he hated Protestants. Politics trumped Religion.) [B]
-
-The war was brutal. Armies were mercenary swarms that looted and burned villages to pay themselves.
+(Ideally, Catholic France should have backed Catholics, but Cardinal Richelieu hated the Austrian Habsburgs more than he hated Protestants. Politics trumped Religion.) The war was brutal. Armies were mercenary swarms that looted and burned villages to pay themselves.
 
 It ended with the **Peace of Westphalia** (1648). This treaty changed the world.
 It established the principle of *National Sovereignty*.
 Before: The Pope or Emperor could tell a King what to do.
-After: *Cuius regio, eius religio* (Whose realm, his religion). The King decides the religion of his own state. No outside power can interfere in the internal affairs of a sovereign state. [C]
-
-This created the "Westphalian System" of nation-states that we live in today. [D] It ended the dream of a unified Christian Europe and created the modern map of independent countries.
+After: *Cuius regio, eius religio* (Whose realm, his religion). The King decides the religion of his own state. No outside power can interfere in the internal affairs of a sovereign state. This created the "Westphalian System" of nation-states that we live in today. It ended the dream of a unified Christian Europe and created the modern map of independent countries.
     `.trim(),
         questions: [
             {
@@ -530,19 +475,16 @@ This created the "Westphalian System" of nation-states that we live in today. [D
         id: "batch15_topic14_fluid_dynamics",
         taskType: "academic",
         title: "Fluid Dynamics: Laminar vs. Turbulent Flow",
+        rhetoricalStructure: "Comparison/Transition",
+        dominantSkill: "Vocabulary in Context",
         passage: `
-**Rhetorical Structure:** Comparison/Transition
-**Dominant TOEFL Skill:** Vocabulary in Context
-
 Fluids (liquids and gases) move in two distinct ways. The switch between them is the most difficult problem in physics.
 
-**Laminar Flow:** [A]
-Smooth, orderly, layered.
+**Laminar Flow:** Smooth, orderly, layered.
 Imagine honey pouring or a slow river. The fluid moves in parallel sheets (laminae). The particles follow smooth paths (streamlines). Friction is low.
 It is predictable.
 
-**Turbulent Flow:** [B]
-Chaotic, mixing, swirling.
+**Turbulent Flow:** Chaotic, mixing, swirling.
 Imagine white-water rapids or smoke rising from a cigarette (it starts straight/laminar, then twists).
 The fluid creates vortices (eddies). Friction/Drag is high.
 It is unpredictable.
@@ -550,11 +492,9 @@ It is unpredictable.
 The number that predicts the switch is the *Reynolds Number* ($Re$).
 $Re = \frac{\text{Inertial Forces}}{\text{Viscous Forces}}$ (Speed vs Stickiness).
 *   Low $Re$ (Slow, sticky): Laminar. (Bacteria swimming in water feel like humans swimming in syrup).
-*   High $Re$ (Fast, watery): Turbulent. [C]
-
-Engineers fight this.
+*   High $Re$ (Fast, watery): Turbulent. Engineers fight this.
 *   Airplanes want Laminar flow over wings to reduce drag (fuel save).
-*   Golf balls want Turbulent flow! [D] The dimples create a tiny layer of turbulence that helps the air stick to the ball longer, reducing the wake, allowing it to fly farther. Sometimes chaos is useful.
+*   Golf balls want Turbulent flow! The dimples create a tiny layer of turbulence that helps the air stick to the ball longer, reducing the wake, allowing it to fly farther. Sometimes chaos is useful.
     `.trim(),
         questions: [
             {
@@ -575,28 +515,23 @@ Engineers fight this.
         id: "batch15_topic15_immune_t_b_cells",
         taskType: "academic",
         title: "Adaptive Immunity: B-Cells and T-Cells",
+        rhetoricalStructure: "Process/Distinction",
+        dominantSkill: "Prose Summary",
         passage: `
-**Rhetorical Structure:** Process/Distinction
-**Dominant TOEFL Skill:** Prose Summary
-
 Your immune system has two defensive lines: Innate (Skin/Fever) and Adaptive. The Adaptive system is the sniper team. It learns and remembers specific enemies. The key players are White Blood Cells called Lymphocytes: B-Cells and T-Cells.
 
 **B-Cells (Bone Marrow):** The Archers.
 They do *Humoral Immunity* (fighting in the fluids).
 Wandering B-cells find a virus. They check if it matches their specific receptor.
-If yes, they turn into Plasma Cells and fire millions of *Antibodies*. [A]
-Antibodies are like sticky tags. They cover the virus, neutralizing it or marking it for macrophages (eaters) to destroy. They don't kill; they tag.
+If yes, they turn into Plasma Cells and fire millions of *Antibodies*. Antibodies are like sticky tags. They cover the virus, neutralizing it or marking it for macrophages (eaters) to destroy. They don't kill; they tag.
 
 **T-Cells (Thymus):** The Infantry.
 They do *Cell-Mediated Immunity* (fighting inside cells).
 If a virus is *hiding inside* your own cell, antibodies can't reach it.
-*Killer T-Cells* (CD8) inspect your cells. If a cell shows a "virus flag" on its window (MHC), the T-Cell knows it's infected. [B]
-It docks and injects poison, killing the *entire cell* to stop the virus factory.
+*Killer T-Cells* (CD8) inspect your cells. If a cell shows a "virus flag" on its window (MHC), the T-Cell knows it's infected. It docks and injects poison, killing the *entire cell* to stop the virus factory.
 
-**Helper T-Cells (CD4):** The Generals. [C]
-They don't kill. They coordinate the war. They tell B-Cells to shoot and Killer T-Cells to attack.
-HIV is deadly because it specifically kills the Helper T-Cells. Without the General, the Archers and Infantry stand around doing nothing, and the patient dies of a minor cold. [D]
-    `.trim(),
+**Helper T-Cells (CD4):** The Generals. They don't kill. They coordinate the war. They tell B-Cells to shoot and Killer T-Cells to attack.
+HIV is deadly because it specifically kills the Helper T-Cells. Without the General, the Archers and Infantry stand around doing nothing, and the patient dies of a minor cold. `.trim(),
         questions: [
             {
                 id: "batch15_topic15_immune_t_b_cells_Q1",
@@ -616,24 +551,16 @@ HIV is deadly because it specifically kills the Helper T-Cells. Without the Gene
         id: "batch15_topic16_rococo",
         taskType: "academic",
         title: "Rococo: The Art of Pleasure",
+        rhetoricalStructure: "Description/Reaction",
+        dominantSkill: "Reference",
         passage: `
-**Rhetorical Structure:** Description/Reaction
-**Dominant TOEFL Skill:** Reference
-
 After the death of Louis XIV (the stern Sun King) in 1715, the French aristocracy relaxed. They wanted fun, intimacy, and romance. The style they invented is *Rococo* (from *rocaille*, shell-work).
 
 Baroque (the previous style) was dark, heavy, dramatic, and religious.
-Rococo was light, pastel, asymmetrical, and secular. [A]
-
-The painting *The Swing* by Fragonard is the epitome.
+Rococo was light, pastel, asymmetrical, and secular. The painting *The Swing* by Fragonard is the epitome.
 It shows a girl on a swing in a lush garden, kicking off her shoe. A young lover hides in the bushes looking up her dress. An old bishop pushes the swing, clueless.
-It is pink, fluffy, and erotic. The subject is not God or War; it is Flirtation. [B]
-
-Interior design was key. Rooms became smaller (salons) for private conversation. Walls were covered in mirrors, gold curves, and floral patterns to dissolve the corners. [C]
-
-Philosophers (Enlightenment) hated it. Diderot called it frivolous.
-The Revolutionaries (1789) saw it as proof of the moral rot of the Aristocracy. "They are playing on swings while the peasants starve." [D]
-Rococo is beautiful, but it is the art of a class that was about to be guillotined.
+It is pink, fluffy, and erotic. The subject is not God or War; it is Flirtation. Interior design was key. Rooms became smaller (salons) for private conversation. Walls were covered in mirrors, gold curves, and floral patterns to dissolve the corners. Philosophers (Enlightenment) hated it. Diderot called it frivolous.
+The Revolutionaries (1789) saw it as proof of the moral rot of the Aristocracy. "They are playing on swings while the peasants starve." Rococo is beautiful, but it is the art of a class that was about to be guillotined.
     `.trim(),
         questions: [
             {
@@ -654,16 +581,14 @@ Rococo is beautiful, but it is the art of a class that was about to be guillotin
         id: "batch15_topic17_dust_bowl",
         taskType: "academic",
         title: "The Dust Bowl: An Ecological Catastrophe",
+        rhetoricalStructure: "Cause-Effect/Human Error",
+        dominantSkill: "Sentence Insertion",
         passage: `
-**Rhetorical Structure:** Cause-Effect/Human Error
-**Dominant TOEFL Skill:** Sentence Insertion
-
 The Dust Bowl (1930s) was the worst man-made ecological disaster in US history. It turned the Southern Plains (Oklahoma, Texas) into a wasteland. It wasn't just bad weather; it was bad farming.
 
 **Cause 1: The Great Plow-Up.**
 During WWI, wheat prices spiked. The government said "Wheat will win the war."
-Farmers bought tractors and plowed up millions of acres of native Buffalo Grass. [A]
-The grass had deep roots that held the soil together and retained moisture. The wheat had shallow roots.
+Farmers bought tractors and plowed up millions of acres of native Buffalo Grass. The grass had deep roots that held the soil together and retained moisture. The wheat had shallow roots.
 
 **Cause 2: Drought.**
 In 1931, the rain stopped.
@@ -673,16 +598,11 @@ When the wind blew, there was nothing to anchor the dirt.
 **The Black Blizzards:**
 Massive dust storms rolled across the plains, blocking the sun.
 Static electricity in the storms was so high it shorted out cars.
-People died of "Dust Pneumonia" (mud in the lungs). [B]
-
-**The Effect:**
-3.5 million people fled. The "Okies" migrated to California (as seen in *The Grapes of Wrath*), where they were treated as refugees. [C]
-
-**The Solution:**
+People died of "Dust Pneumonia" (mud in the lungs). **The Effect:**
+3.5 million people fled. The "Okies" migrated to California (as seen in *The Grapes of Wrath*), where they were treated as refugees. **The Solution:**
 FDR created the Soil Conservation Service.
 They taught contour plowing (to stop runoff).
-They planted "Shelterbelts" (200 million trees) to break the wind. [D]
-It proved that you cannot fight the biome. If you treat semi-arid grassland like wet farmland, the land will blow away.
+They planted "Shelterbelts" (200 million trees) to break the wind. It proved that you cannot fight the biome. If you treat semi-arid grassland like wet farmland, the land will blow away.
     `.trim(),
         questions: [
             {
@@ -703,29 +623,25 @@ It proved that you cannot fight the biome. If you treat semi-arid grassland like
         id: "batch15_topic18_stratification_marx_weber",
         taskType: "academic",
         title: "Social Stratification: Marx vs. Weber",
+        rhetoricalStructure: "Comparison/Theory",
+        dominantSkill: "Factual Information",
         passage: `
-**Rhetorical Structure:** Comparison/Theory
-**Dominant TOEFL Skill:** Factual Information
-
 Sociologists agree society is stratified (layered). But what determines your layer? The two giants of sociology, Karl Marx and Max Weber, disagreed.
 
 **Marx (One Dimension):**
 For Marx, it was all about **Economics** (Class).
 You are defined by your relationship to the "Means of Production" (Factories/Land).
 1.  **Bourgeoisie:** The Owners. They have capital.
-2.  **Proletariat:** The Workers. They have only labor to sell. [A]
-History is a binary struggle between these two. Money is the only power.
+2.  **Proletariat:** The Workers. They have only labor to sell. History is a binary struggle between these two. Money is the only power.
 
 **Weber (Three Dimensions):**
 Weber argued Marx was too simple. "Man does not live by bread alone."
 He proposed the "Three P's":
 1.  **Property (Class):** Wealth (Marx was right here).
 2.  **Prestige (Status):** Social honor/respect.
-    A priest or a poet might be poor (low Class) but highly respected (high Status). A drug dealer might be rich (high Class) but despised (low Status). [B]
-3.  **Power (Party):** Political influence. The ability to get your way. A bureaucrat might have average pay but huge power over laws.
+    A priest or a poet might be poor (low Class) but highly respected (high Status). A drug dealer might be rich (high Class) but despised (low Status). 3.  **Power (Party):** Political influence. The ability to get your way. A bureaucrat might have average pay but huge power over laws.
 
-Weber's model explains complexity. [C] It explains why a rich lottery winner is not accepted into high society (New Money vs Old Money). It explains why a professor is middle-class but has high status. Stratification is a multidimensional puzzle. [D]
-    `.trim(),
+Weber's model explains complexity. It explains why a rich lottery winner is not accepted into high society (New Money vs Old Money). It explains why a professor is middle-class but has high status. Stratification is a multidimensional puzzle. `.trim(),
         questions: [
             {
                 id: "batch15_topic18_stratification_marx_weber_Q1",
@@ -745,24 +661,20 @@ Weber's model explains complexity. [C] It explains why a rich lottery winner is 
         id: "batch15_topic19_pantheon_dome",
         taskType: "academic",
         title: "Engineering the Pantheon: The Unreinforced Dome",
+        rhetoricalStructure: "Problem-Solution/Legacy",
+        dominantSkill: "Negative Factual Information",
         passage: `
-**Rhetorical Structure:** Problem-Solution/Legacy
-**Dominant TOEFL Skill:** Negative Factual Information
-
 The Pantheon in Rome (built 126 AD) is nearly 2,000 years old, yet it possesses the world's largest *unreinforced* concrete dome. "Unreinforced" means no steel bars inside (rebar). Concrete is strong when you squeeze it (Compression) but weak when you stretch it (Tension). A dome naturally stretches at the bottom edge (Hoop Stress). It should crack and collapse. How does it stand?
 
 The Romans used three tricks of physics.
 
-1.  **Stepped Rings:** The outside of the dome is covered in heavy step-rings. These act as weights, pushing downwards to counteract the outward thrust. [A]
-2.  **Lightweight Aggregate:** The concrete mix changes as you go up.
+1.  **Stepped Rings:** The outside of the dome is covered in heavy step-rings. These act as weights, pushing downwards to counteract the outward thrust. 2.  **Lightweight Aggregate:** The concrete mix changes as you go up.
     *   Base: Heavy basalt rock.
     *   Middle: Brick.
-    *   Top: Pumice (volcanic air-stone). The top is incredibly light. [B]
-3.  **Coffering:** The inside ceiling has square cutouts (coffers). This reduces the thickness and weight of the dome without sacrificing structural stiffness.
-4.  **The Oculus:** The hole in the center. [C]
-    It is not just for light. By leaving the center open, they removed the heaviest part of the dome (the keystone). There is zero weight at the weakest point.
+    *   Top: Pumice (volcanic air-stone). The top is incredibly light. 3.  **Coffering:** The inside ceiling has square cutouts (coffers). This reduces the thickness and weight of the dome without sacrificing structural stiffness.
+4.  **The Oculus:** The hole in the center. It is not just for light. By leaving the center open, they removed the heaviest part of the dome (the keystone). There is zero weight at the weakest point.
 
-The result is a perfect sphere (the height equals the width). [D] Michelangelo studied it to build the St. Peter's dome, admitting his design was the "sister" of the Pantheon, but not its equal.
+The result is a perfect sphere (the height equals the width). Michelangelo studied it to build the St. Peter's dome, admitting his design was the "sister" of the Pantheon, but not its equal.
     `.trim(),
         questions: [
             {
@@ -783,10 +695,9 @@ The result is a perfect sphere (the height equals the width). [D] Michelangelo s
         id: "batch15_topic20_altruism_kin",
         taskType: "academic",
         title: "The Evolution of Altruism: Kin Selection",
+        rhetoricalStructure: "Theory/Paradox",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Theory/Paradox
-**Dominant TOEFL Skill:** Inference
-
 Darwin's theory of "Survival of the Fittest" implies selfishness. If I have food, I should eat it to survive. If I give it to you, I am less likely to survive. Yet, nature is full of *Altruism*. Bees die for the hive. Birds scream to warn the flock, attracting the hawk to themselves. Why?
 
 In the 1960s, W.D. Hamilton proposed *Kin Selection* (Hamilton's Rule).
@@ -797,16 +708,12 @@ I share 12.5% with my cousin.
 Hamilton's equation: $rB > C$.
 (Relatedness x Benefit to Recipient > Cost to Actor).
 
-If I sacrifice my life (Cost = 1) to save 3 brothers (Benefit = 3 x 0.5 = 1.5), my genes win! [A]
-1.5 > 1.
+If I sacrifice my life (Cost = 1) to save 3 brothers (Benefit = 3 x 0.5 = 1.5), my genes win! 1.5 > 1.
 The "Altruistic Gene" survives in the brothers, even if the individual body dies.
 
-Biologist J.B.S. Haldane famously joked, "I would lay down my life for two brothers or eight cousins." [B]
-
-This explains Eusociality (Ants/Bees).
-In hives, sisters are super-related (75%). [C] It is mathematically better for a worker ant to help the Queen make more sisters than to have her own babies.
-Altruism is practically selfishness at the genetic level. [D]
-    `.trim(),
+Biologist J.B.S. Haldane famously joked, "I would lay down my life for two brothers or eight cousins." This explains Eusociality (Ants/Bees).
+In hives, sisters are super-related (75%). It is mathematically better for a worker ant to help the Queen make more sisters than to have her own babies.
+Altruism is practically selfishness at the genetic level. `.trim(),
         questions: [
             {
                 id: "batch15_topic20_altruism_kin_Q1",

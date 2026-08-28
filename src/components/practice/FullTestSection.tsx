@@ -17,7 +17,6 @@ import {
   AlertCircle,
   Trophy,
   Sparkles,
-  Coffee,
   Loader2,
   CheckCircle,
   CheckCircle2,
@@ -44,7 +43,6 @@ import {
 
 // Reading Data & Types
 import {
-  ReadingSessionManager,
   READING_CONFIG,
   type ReadingQuestionItem,
   type CompleteWordsQuestion,
@@ -54,15 +52,15 @@ import {
 
 // Listening Data & Types
 import {
-  chooseResponseItems,
-  conversationScenarios,
-  announcementScenarios,
-  academicTalkScenarios,
+  chooseResponseBank as chooseResponseItems,
+  conversationBank as conversationScenarios,
+  announcementBank as announcementScenarios,
+  academicTalkBank as academicTalkScenarios,
   type ChooseResponseItem,
   type ConversationScenario,
   type AnnouncementScenario,
   type AcademicTalkScenario,
-} from "@/data/questions/listening-massive";
+} from "@/data/questions/2026/listening-bank";
 
 // Speaking Data & Types
 import {
@@ -84,6 +82,11 @@ import {
 
 // Shared Utils
 import { generateAudio, evaluateSpeaking, type VoiceType, type SpeakingEvaluationResult } from "@/lib/audio";
+import { WRITING_PLAN, LISTENING_PLAN } from "@/lib/toefl/form-builder";
+import { buildReadingRouter, buildReadingSecondModule, type ReadingForm } from "@/lib/toefl/reading-form";
+import { ITEMS_PER_STIMULUS } from "@/data/questions/2026/listening-bank";
+import { moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
+import { BUILD_A_SENTENCE, LISTEN_AND_REPEAT, TAKE_AN_INTERVIEW, SECTIONS } from "@/data/toefl-2026-blueprint";
 
 // --- Types ---
 
@@ -94,7 +97,6 @@ type TestState =
   | "reading_module2"
   | "listening_module1"
   | "listening_module2"
-  | "break"
   | "speaking_intro"
   | "speaking_listen_repeat"
   | "speaking_interview"
@@ -128,6 +130,14 @@ interface ReadingAnswer {
   stepId: string;
   value: any;
   isCorrect: boolean;
+  /**
+   * Raw points earned and available for this step. A multiple-choice step is
+   * worth 1; a Complete the Words paragraph is worth one point PER BLANK, which
+   * is why the two are tracked in points rather than as a single boolean — ten
+   * blanks are ten scored items on the real test, not one.
+   */
+  pointsEarned: number;
+  pointsPossible: number;
   timeSpent: number;
 }
 
@@ -174,7 +184,7 @@ export function FullTestSection() {
   const [evaluationProgress, setEvaluationProgress] = useState("");
 
   // --- Reading State ---
-  const readingManagerRef = useRef(new ReadingSessionManager());
+  const readingFormRef = useRef<ReadingForm | null>(null);
   const [readingSteps, setReadingSteps] = useState<ReadingStep[]>([]);
   const [readingCurrentIndex, setReadingCurrentIndex] = useState(0);
   const [readingAnswers, setReadingAnswers] = useState<Record<string, ReadingAnswer>>({});
@@ -227,8 +237,10 @@ export function FullTestSection() {
   const [writingTimeLeft, setWritingTimeLeft] = useState(0);
   const [writingStartTime, setWritingStartTime] = useState(0);
 
-  // --- Break State ---
-  const [breakTimeLeft, setBreakTimeLeft] = useState(300);
+  // Listening finishes before startWritingSection is declared, so the entry
+  // point is reached through a ref rather than reordering the whole component.
+  const startWritingSectionRef = useRef<(() => void) | null>(null);
+  const startSpeakingSectionRef = useRef<(() => void) | null>(null);
 
   // --- Reading Logic ---
 
@@ -274,13 +286,18 @@ export function FullTestSection() {
   };
 
   const startTest = useCallback(() => {
-    readingManagerRef.current.reset();
-    const module1Qs = readingManagerRef.current.selectModule1Questions(READING_CONFIG.MODULE1_QUESTIONS);
-    const flatSteps = flattenReadingQuestions(module1Qs);
-    setReadingSteps(flatSteps);
+    // Router module: 33 items (20 Complete the Words gaps, 8 daily-life items,
+    // 5 academic items), assembled to the blueprint's ITEM counts.
+    const form = buildReadingRouter();
+    readingFormRef.current = form;
+    if (form.router.shortfall.length) {
+      console.warn("[Reading form] bank shortfall:", form.router.shortfall);
+    }
+
+    setReadingSteps(flattenReadingQuestions(form.router.items));
     setReadingCurrentIndex(0);
     setReadingAnswers({});
-    setReadingTimeLeft(READING_CONFIG.MODULE1_TIME);
+    setReadingTimeLeft(SECTIONS.reading.timing.routerSeconds ?? READING_CONFIG.MODULE1_TIME);
     setReadingCurrentModule("module1");
     setReadingFlaggedSteps(new Set());
     setTestState("reading_module1");
@@ -288,14 +305,23 @@ export function FullTestSection() {
 
   const handleReadingAnswer = useCallback((val: any) => {
     const step = readingSteps[readingCurrentIndex];
-    // Simple correctness check
-    let isCorrect = false;
+
+    let pointsEarned = 0;
+    let pointsPossible = 1;
+
     if (step.stepType === "multiple_choice") {
-      isCorrect = val === step.data.correctAnswer;
+      pointsEarned = val === step.data.correctAnswer ? 1 : 0;
     } else if (step.stepType === "complete_words") {
       const blanks = (step.data as CompleteWordsQuestion).blanks;
-      const userBlanks = val as Record<number, string>;
-      isCorrect = blanks.every(b => (userBlanks[b.position] || "").toLowerCase().trim() === b.answer.toLowerCase().trim());
+      const userBlanks = (val ?? {}) as Record<number, string>;
+      pointsPossible = blanks.length;
+      pointsEarned = blanks.reduce((total, b) => {
+        const typed = (userBlanks[b.position] || "").toLowerCase().trim();
+        const answer = b.answer.toLowerCase().trim();
+        const stem = b.partialWord.replace(/_+/g, "").toLowerCase();
+        // Accept the whole word or just the letters the test taker had to supply.
+        return total + (typed === answer || typed === answer.slice(stem.length) ? 1 : 0);
+      }, 0);
     }
 
     setReadingAnswers(prev => ({
@@ -303,8 +329,10 @@ export function FullTestSection() {
       [step.id]: {
         stepId: step.id,
         value: val,
-        isCorrect,
-        timeSpent: (prev[step.id]?.timeSpent || 0) // Simplified time tracking
+        isCorrect: pointsEarned === pointsPossible,
+        pointsEarned,
+        pointsPossible,
+        timeSpent: (prev[step.id]?.timeSpent || 0)
       }
     }));
   }, [readingSteps, readingCurrentIndex]);
@@ -325,13 +353,23 @@ export function FullTestSection() {
   }, []);
 
   const startListeningSection = useCallback(() => {
-    const qs = generateListeningQuestions({ chooseResponse: 5, conversation: 2, announcement: 2, academicTalk: 1 });
+    // Router module: 29 items (9 single-response + 3 conversations + 3
+    // announcements + 2 academic talks). Stimulus counts are derived from the
+    // blueprint's ITEM counts, because a conversation is two items and a talk
+    // is four — selecting "2 conversations" and calling it 2 questions is how
+    // the section drifted to roughly a third of its real length.
+    const qs = generateListeningQuestions({
+      chooseResponse: LISTENING_PLAN.router.listen_and_choose_a_response,
+      conversation: LISTENING_PLAN.router.listen_to_a_conversation / ITEMS_PER_STIMULUS.conversation,
+      announcement: LISTENING_PLAN.router.listen_to_an_announcement / ITEMS_PER_STIMULUS.announcement,
+      academicTalk: LISTENING_PLAN.router.listen_to_an_academic_talk / ITEMS_PER_STIMULUS.academic_talk,
+    });
     setListeningQuestions(qs);
     setListeningCurrentIndex(0);
     setListeningSubIndex(0);
     setListeningAnswers([]);
     setListeningCurrentModule(1);
-    setListeningTimeLeft(18 * 60);
+    setListeningTimeLeft(SECTIONS.listening.timing.routerSeconds ?? 18 * 60);
     setListeningIsPlaying(false);
     setListeningAudioPlayed(false);
     setTestState("listening_module1");
@@ -340,24 +378,30 @@ export function FullTestSection() {
   const handleListeningModuleTimeout = useCallback(() => {
     if (listeningCurrentModule === 1) {
       const correct = listeningAnswers.filter(a => a.isCorrect).length;
-      const accuracy = correct / listeningAnswers.length;
-      const isHard = accuracy >= 0.6;
+      const track = routeToModule(correct, listeningAnswers.length);
+      const isHard = track === "upper";
 
-      const config = isHard
-        ? { chooseResponse: 4, conversation: 2, announcement: 2, academicTalk: 2 }
-        : { chooseResponse: 6, conversation: 2, announcement: 2, academicTalk: 1 };
-
-      const qs = generateListeningQuestions(config);
+      // Both routes deliver 18 further items for 47 in total. The upper module
+      // carries two extra academic talks, which is what its longer clock buys;
+      // the lower module is weighted to short single-response items instead.
+      const plan = LISTENING_PLAN[track];
+      const qs = generateListeningQuestions({
+        chooseResponse: plan.listen_and_choose_a_response,
+        conversation: plan.listen_to_a_conversation / ITEMS_PER_STIMULUS.conversation,
+        announcement: plan.listen_to_an_announcement / ITEMS_PER_STIMULUS.announcement,
+        academicTalk: plan.listen_to_an_academic_talk / ITEMS_PER_STIMULUS.academic_talk,
+      });
       setListeningQuestions(qs);
       setListeningCurrentIndex(0);
       setListeningSubIndex(0);
       setListeningCurrentModule(2);
-      setListeningTimeLeft(isHard ? 18 * 60 : 9 * 60);
+      setListeningTimeLeft(moduleSeconds("listening", track));
       setListeningAudioPlayed(false);
       setTestState("listening_module2");
     } else {
-      setTestState("break");
-      setBreakTimeLeft(300); // 5 mins break
+      // Writing follows Listening. The 2026 test has no scheduled break — the
+      // 10-minute break the old format placed here was removed.
+      startWritingSectionRef.current?.();
     }
   }, [listeningCurrentModule, listeningAnswers, generateListeningQuestions]);
 
@@ -368,27 +412,33 @@ export function FullTestSection() {
   }, [startListeningSection]);
 
   const finishReadingModule1 = useCallback(() => {
-    // Calculate stats
+    // Route on POINTS, not on steps answered. A Complete the Words paragraph is
+    // ten scored items; counting it as one step would let a single paragraph
+    // swing the routing decision as much as ten multiple-choice items.
     const stepIds = readingSteps.map(s => s.id);
     const moduleAnswers = stepIds.map(id => readingAnswers[id]).filter(Boolean);
-    const correctCount = moduleAnswers.filter(a => a.isCorrect).length;
+    const earned = moduleAnswers.reduce((t, a) => t + a.pointsEarned, 0);
+    const possible = readingSteps.reduce(
+      (t, step) => t + (step.stepType === "complete_words" ? (step.data as CompleteWordsQuestion).blanks.length : 1),
+      0
+    );
 
-    setReadingModule1Stats({ correct: correctCount, total: moduleAnswers.length });
+    setReadingModule1Stats({ correct: earned, total: possible });
 
-    // Determine track
-    const accuracy = moduleAnswers.length > 0 ? correctCount / moduleAnswers.length : 0;
-    const isHard = accuracy >= READING_CONFIG.HARD_TRACK_THRESHOLD;
-    const track = isHard ? "hard" : "easy";
+    const track = routeToModule(earned, possible);
+    const isHard = track === "upper";
 
-    // Generate Module 2
-    readingManagerRef.current.recordModule1Performance(correctCount, moduleAnswers.length);
-    const module2Qs = readingManagerRef.current.selectModule2Questions(track, READING_CONFIG.MODULE2_QUESTIONS);
-    const flatSteps = flattenReadingQuestions(module2Qs);
+    // Second module: 17 further items, drawn from stimuli the router did not use.
+    const form = readingFormRef.current ?? buildReadingRouter();
+    const module2 = buildReadingSecondModule(form, track);
+    if (module2.shortfall.length) {
+      console.warn("[Reading form] bank shortfall:", module2.shortfall);
+    }
 
-    setReadingSteps(flatSteps);
+    setReadingSteps(flattenReadingQuestions(module2.items));
     setReadingCurrentIndex(0);
     setReadingCurrentModule(isHard ? "module2_hard" : "module2_easy");
-    setReadingTimeLeft(isHard ? READING_CONFIG.MODULE2_TIME_HARD : READING_CONFIG.MODULE2_TIME_EASY);
+    setReadingTimeLeft(moduleSeconds("reading", track));
     setReadingFlaggedSteps(new Set());
 
     setTestState("reading_interim");
@@ -521,22 +571,41 @@ export function FullTestSection() {
   const startWritingSection = useCallback(() => {
     setTestState("writing_intro");
 
-    // Select tasks
-    const t1 = buildSentenceTasks[0]; // Simple pick for now
-    const t2 = emailTasks[0];
-    const t3 = academicDiscussionTasks[0];
-    setWritingTasks([t1, t2, t3]);
+    // The Writing section is 12 items: ten Build a Sentence items, one email and
+    // one academic discussion (ETS blueprint). The previous build delivered a
+    // single Build a Sentence item, which is a tenth of the real task.
+    const pick = <T,>(pool: readonly T[], n: number): T[] =>
+      [...pool].sort(() => Math.random() - 0.5).slice(0, n);
+
+    setWritingTasks([
+      ...pick(buildSentenceTasks, WRITING_PLAN.build_a_sentence.items),
+      ...pick(emailTasks, 1),
+      ...pick(academicDiscussionTasks, 1),
+    ]);
   }, []);
 
+  /**
+   * Build a Sentence runs on ONE pooled 6:50 clock across all ten items rather
+   * than a per-item timer; the email and the discussion each get their own.
+   * Starting an item mid-block must therefore leave the clock running.
+   */
   const startWritingTask = useCallback((index: number) => {
-    const task = writingTasks[index];
     setWritingCurrentText("");
     setWritingStartTime(Date.now());
 
-    // Times: Sentence (60s), Email (5m), Academic (10m)
-    const time = index === 0 ? 60 : index === 1 ? 300 : 600;
-    setWritingTimeLeft(time);
-  }, [writingTasks]);
+    const buildSentenceCount = WRITING_PLAN.build_a_sentence.items;
+    if (index === 0) {
+      setWritingTimeLeft(WRITING_PLAN.build_a_sentence.seconds);
+    } else if (index < buildSentenceCount) {
+      // Pooled block already running — do not reset.
+    } else if (index === buildSentenceCount) {
+      setWritingTimeLeft(WRITING_PLAN.write_an_email.seconds);
+    } else {
+      setWritingTimeLeft(WRITING_PLAN.write_for_an_academic_discussion.seconds);
+    }
+  }, []);
+
+  startWritingSectionRef.current = startWritingSection;
 
   const startWritingPractice = useCallback(() => {
     setTestState("writing_practice");
@@ -546,8 +615,8 @@ export function FullTestSection() {
   }, [startWritingTask]);
 
   const finishWritingSection = useCallback(() => {
-    setTestState("results"); // or evaluating
-    // Calculate final
+    // Speaking is the final section of the 2026 test.
+    startSpeakingSectionRef.current?.();
   }, []);
 
   const handleWritingSubmit = useCallback(async () => {
@@ -598,9 +667,20 @@ export function FullTestSection() {
     }
   }, [writingTasks, writingCurrentIndex, writingCurrentText, writingStartTime, writingAnswers, startWritingTask, finishWritingSection]);
 
+  /**
+   * The ten Build a Sentence items share one clock, so when it expires the whole
+   * block ends and the remaining items are forfeited — advancing to the next
+   * item would hand back time the test taker no longer has.
+   */
   const handleWritingTaskTimeout = useCallback(() => {
-    handleWritingSubmit(); // Auto submit
-  }, [handleWritingSubmit]);
+    const buildSentenceCount = WRITING_PLAN.build_a_sentence.items;
+    if (writingCurrentIndex < buildSentenceCount - 1) {
+      setWritingCurrentIndex(buildSentenceCount);
+      startWritingTask(buildSentenceCount);
+      return;
+    }
+    handleWritingSubmit();
+  }, [writingCurrentIndex, startWritingTask, handleWritingSubmit]);
 
   const startSpeakingSection = useCallback(() => {
     // Pick random content
@@ -615,8 +695,10 @@ export function FullTestSection() {
     setSpeakingInterviewAnswers(interview.questions.map((_: any, i: number) => ({ questionIndex: i, audioBlob: null, audioUrl: null, score: null, evaluationResult: null })));
 
     setTestState("speaking_intro");
-    setSpeakingTimeLeft(720); // 12 min
+    setSpeakingTimeLeft(SECTIONS.speaking.timing.totalSeconds ?? 480);
   }, []);
+
+  startSpeakingSectionRef.current = startSpeakingSection;
 
   const playSpeakingPrompt = useCallback(async (index: number) => {
     if (!speakingScenario) return;
@@ -631,7 +713,9 @@ export function FullTestSection() {
       audio.onended = () => {
         setSpeakingStage("recording");
         setSpeakingRecordingTime(0);
-        setSpeakingMaxRecordingTime(10);
+        // The response window widens as the sentences get longer:
+        // 8s for items 1-2, 10s for 3-5, 12s for 6-7.
+        setSpeakingMaxRecordingTime(LISTEN_AND_REPEAT.responseWindowSeconds[index] ?? 10);
         startSpeakingRecording();
       };
       audio.play();
@@ -696,7 +780,7 @@ export function FullTestSection() {
       audio.onended = () => {
         setSpeakingStage("recording");
         setSpeakingRecordingTime(0);
-        setSpeakingMaxRecordingTime(45); // 45s for interview
+        setSpeakingMaxRecordingTime(TAKE_AN_INTERVIEW.responseSeconds);
         startSpeakingRecording();
       };
       audio.play();
@@ -708,12 +792,13 @@ export function FullTestSection() {
   }, [speakingInterview, startSpeakingRecording]);
 
   const finishSpeakingSection = useCallback(() => {
-    startWritingSection();
-  }, [startWritingSection]);
+    // Speaking is last, so finishing it ends the test.
+    setTestState("evaluating");
+  }, []);
 
   const startSpeakingInterview = useCallback(() => {
     setTestState("speaking_interview");
-    setSpeakingTimeLeft(600);
+    setSpeakingTimeLeft(TAKE_AN_INTERVIEW.items * TAKE_AN_INTERVIEW.responseSeconds);
     playInterviewQuestion(0);
   }, [playInterviewQuestion]);
 
@@ -840,22 +925,6 @@ export function FullTestSection() {
     return () => clearInterval(interval);
   }, [testState, writingTimeLeft, handleWritingTaskTimeout]);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (testState === "break" && breakTimeLeft > 0) {
-      interval = setInterval(() => {
-        setBreakTimeLeft(prev => {
-          if (prev <= 1) {
-            startSpeakingSection();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [testState, breakTimeLeft, startSpeakingSection]);
-
   // Speaking Recording Timer
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -895,22 +964,24 @@ export function FullTestSection() {
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Full TOEFL Practice Test</h1>
             <p className="text-slate-400">Official 2026 Format • Adaptive Testing • AI Evaluation</p>
+            <p className="text-xs text-slate-500 mt-2">120 items • about 1 hr 25 min • no scheduled breaks</p>
           </div>
 
           <div className="space-y-3 mb-8">
             {[
-              { icon: BookOpen, name: "Reading", desc: "2 Modules • Adaptive", gradient: "from-amber-400 to-orange-500" },
-              { icon: Headphones, name: "Listening", desc: "2 Modules • Adaptive", gradient: "from-pink-400 to-rose-500" },
-              { icon: Coffee, name: "Break", desc: "5 minutes", gradient: "from-slate-500 to-slate-600", muted: true },
-              { icon: Mic, name: "Speaking", desc: "Listen & Repeat + Interview", gradient: "from-violet-400 to-purple-500" },
-              { icon: PenTool, name: "Writing", desc: "3 Tasks", gradient: "from-cyan-400 to-teal-500" },
+              // Reading -> Listening -> Writing -> Speaking, with no break. This is
+              // the delivery order of the 2026 test; Speaking is last.
+              { icon: BookOpen, name: "Reading", desc: "50 items • ~30 min • adaptive", gradient: "from-amber-400 to-orange-500" },
+              { icon: Headphones, name: "Listening", desc: "47 items • ~29 min • adaptive", gradient: "from-pink-400 to-rose-500" },
+              { icon: PenTool, name: "Writing", desc: "12 items • ~23 min", gradient: "from-cyan-400 to-teal-500" },
+              { icon: Mic, name: "Speaking", desc: "11 items • ~8 min", gradient: "from-violet-400 to-purple-500" },
             ].map((section, i) => (
               <motion.div
                 key={section.name}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 * i }}
-                className={`flex items-center gap-4 p-4 rounded-xl ${section.muted ? "glass-card opacity-75" : "glass-card"}`}
+                className="flex items-center gap-4 p-4 rounded-xl glass-card"
               >
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-lg`}>
                   <section.icon className="w-6 h-6 text-white" />
@@ -981,7 +1052,16 @@ export function FullTestSection() {
           <div className="glass-panel rounded-2xl p-6 overflow-y-auto">
             {currentStep.stepType === "complete_words" ? (
               <div className="leading-loose text-lg text-slate-300">
-                {/* Simplified Render wrapper since we can't paste huge function here yet, logic below */}
+                {/*
+                  Complete the Words is a C-test: the visible stem is followed by a
+                  fixed-width blank and a free-text field.
+
+                  The blank is deliberately fixed-width. The previous renderer drew
+                  one character box per missing letter, which told the test taker
+                  exactly how long the answer was — a hint the real test is not
+                  confirmed to give, and one that made this task materially easier
+                  here than on test day.
+                */}
                 {(() => {
                   const question = currentStep.data as CompleteWordsQuestion;
                   const userBlanks = (currentAnswer as Record<number, string>) || {};
@@ -991,40 +1071,33 @@ export function FullTestSection() {
                   question.blanks.forEach((blank, idx) => {
                     const partial = blank.partialWord;
                     const start = question.passage.indexOf(partial, lastIndex);
-                    if (start !== -1) {
-                      elements.push(<span key={`txt-${idx}`}>{renderTextWithFormatting(question.passage.substring(lastIndex, start))}</span>);
-                      const prefix = partial.replace(/_+/g, '');
-                      const neededLetters = blank.answer.length - prefix.length;
-                      const underscoreCount = neededLetters > 0 ? neededLetters : (partial.match(/_/g) || []).length;
-                      const userAnswer = userBlanks[blank.position] || "";
+                    if (start === -1) return;
 
-                      const visualBoxes: JSX.Element[] = [];
-                      for (let i = 0; i < underscoreCount; i++) {
-                        const charValue = userAnswer[prefix.length + i] || '';
-                        visualBoxes.push(
-                          <span key={`box-${idx}-${i}`} className={`inline-block w-7 h-9 border-b-2 ${charValue ? 'border-cyan-400 bg-cyan-500/10' : 'border-slate-600 bg-slate-800/30'} text-center leading-9 text-white font-medium`}>{charValue}</span>
-                        );
-                      }
+                    elements.push(<span key={`txt-${idx}`}>{renderTextWithFormatting(question.passage.substring(lastIndex, start))}</span>);
 
-                      elements.push(
-                        <span key={`input-${idx}`} className="inline-flex items-baseline mx-1 relative group">
-                          <span className="text-cyan-400 font-semibold">{prefix}</span>
-                          <span className="inline-flex gap-0.5 mx-1">{visualBoxes}</span>
-                          <input
-                            type="text"
-                            maxLength={underscoreCount}
-                            className="absolute left-0 top-0 w-full h-full opacity-0 cursor-text z-10"
-                            value={userAnswer.slice(prefix.length) || ''}
-                            onChange={(e) => {
-                              const fullWord = prefix + e.target.value.toLowerCase();
-                              const newBlanks = { ...userBlanks, [blank.position]: fullWord };
-                              handleReadingAnswer(newBlanks);
-                            }}
-                          />
-                        </span>
-                      );
-                      lastIndex = start + partial.length;
-                    }
+                    const prefix = partial.replace(/_+/g, '');
+                    const typed = (userBlanks[blank.position] || "").slice(prefix.length);
+
+                    elements.push(
+                      <span key={`input-${idx}`} className="inline-flex items-baseline mx-0.5">
+                        <span className="text-cyan-400 font-semibold">{prefix}</span>
+                        <input
+                          type="text"
+                          aria-label={`Complete the word beginning ${prefix}`}
+                          autoComplete="off"
+                          autoCorrect="off"
+                          autoCapitalize="off"
+                          spellCheck={false}
+                          className="w-20 mx-0.5 px-1 bg-slate-800/40 border-b-2 border-slate-600 focus:border-cyan-400 focus:bg-cyan-500/10 outline-none text-white font-medium text-center transition-colors"
+                          value={typed}
+                          onChange={(e) => {
+                            const letters = e.target.value.replace(/[^A-Za-z'-]/g, '').toLowerCase();
+                            handleReadingAnswer({ ...userBlanks, [blank.position]: prefix + letters });
+                          }}
+                        />
+                      </span>
+                    );
+                    lastIndex = start + partial.length;
                   });
                   elements.push(<span key="txt-end">{renderTextWithFormatting(question.passage.substring(lastIndex))}</span>);
                   return elements;
@@ -1242,23 +1315,6 @@ export function FullTestSection() {
               </div>
             </motion.div>
           )}
-        </div>
-      </div>
-    );
-  }
-
-  // Break Screen
-  if (testState === "break") {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <div className="glass-panel p-12 rounded-2xl text-center max-w-lg w-full">
-          <Coffee className="w-16 h-16 text-amber-400 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold text-white mb-2">Take a Break</h2>
-          <p className="text-slate-400 mb-8">Relax for a moment before the Speaking section.</p>
-          <div className="text-6xl font-mono font-bold text-white mb-8">{formatTime(breakTimeLeft)}</div>
-          <button onClick={startSpeakingSection} className="px-6 py-3 glass-button hover:bg-white/10 rounded-xl text-white">
-            Skip Break
-          </button>
         </div>
       </div>
     );

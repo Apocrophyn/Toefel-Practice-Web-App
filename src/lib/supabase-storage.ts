@@ -1,13 +1,33 @@
 // Supabase Storage Integration for Audio Files
 // Handles uploading and retrieving audio files for speaking and listening sections
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+/**
+ * Created on first use rather than at module scope.
+ * `createClient` throws when the URL is missing, and Next collects page data for
+ * every route at build time, so building without Supabase env vars set failed
+ * the whole production build. TTS caching is an optimisation, not a
+ * requirement, so callers degrade gracefully when Supabase is not configured.
+ */
+let supabaseClient: SupabaseClient | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export function getSupabase(): SupabaseClient {
+    if (!supabaseClient) {
+        const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        if (!url || !anonKey) {
+            throw new Error("Supabase is not configured (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY)");
+        }
+        supabaseClient = createClient(url, anonKey);
+    }
+    return supabaseClient;
+}
+
+/** True when Supabase env vars are present, so optional features can skip cleanly. */
+export function isSupabaseConfigured(): boolean {
+    return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+}
 
 // Storage bucket names
 const AUDIO_BUCKET = "audio";
@@ -40,7 +60,7 @@ export async function uploadSpeakingResponse(
     try {
         const fileName = `speaking/${userId}/${attemptId}/${taskId}_${Date.now()}.webm`;
 
-        const { data, error } = await supabase.storage
+        const { data, error } = await getSupabase().storage
             .from(AUDIO_BUCKET)
             .upload(fileName, audioBlob, {
                 contentType: "audio/webm",
@@ -53,7 +73,7 @@ export async function uploadSpeakingResponse(
         }
 
         // Get public URL
-        const { data: urlData } = supabase.storage
+        const { data: urlData } = getSupabase().storage
             .from(AUDIO_BUCKET)
             .getPublicUrl(fileName);
 
@@ -81,7 +101,7 @@ export async function getSpeakingResponseUrl(
     expiresIn: number = 3600
 ): Promise<string | null> {
     try {
-        const { data, error } = await supabase.storage
+        const { data, error } = await getSupabase().storage
             .from(AUDIO_BUCKET)
             .createSignedUrl(path, expiresIn);
 
@@ -103,7 +123,7 @@ export async function getSpeakingResponseUrl(
  */
 export async function deleteSpeakingResponse(path: string): Promise<boolean> {
     try {
-        const { error } = await supabase.storage
+        const { error } = await getSupabase().storage
             .from(AUDIO_BUCKET)
             .remove([path]);
 
@@ -144,7 +164,7 @@ export function generateTTSCacheKey(text: string, voice: string): string {
  */
 export async function getCachedTTSAudio(cacheKey: string): Promise<string | null> {
     try {
-        const { data } = supabase.storage
+        const { data } = getSupabase().storage
             .from(TTS_CACHE_BUCKET)
             .getPublicUrl(`${cacheKey}.mp3`);
 
@@ -171,7 +191,7 @@ export async function cacheTTSAudio(
     try {
         const fileName = `${cacheKey}.mp3`;
 
-        const { data, error } = await supabase.storage
+        const { data, error } = await getSupabase().storage
             .from(TTS_CACHE_BUCKET)
             .upload(fileName, audioBlob, {
                 contentType: "audio/mpeg",
@@ -183,7 +203,7 @@ export async function cacheTTSAudio(
             return { success: false, error: error.message };
         }
 
-        const { data: urlData } = supabase.storage
+        const { data: urlData } = getSupabase().storage
             .from(TTS_CACHE_BUCKET)
             .getPublicUrl(fileName);
 
@@ -233,7 +253,7 @@ export async function setupStorageBuckets(): Promise<void> {
     ];
 
     for (const bucket of buckets) {
-        const { error } = await supabase.storage.createBucket(bucket.name, bucket.options);
+        const { error } = await getSupabase().storage.createBucket(bucket.name, bucket.options);
         if (error && !error.message.includes("already exists")) {
             console.error(`Failed to create bucket ${bucket.name}:`, error);
         } else {
@@ -252,7 +272,7 @@ export async function setupStorageBuckets(): Promise<void> {
  */
 export async function getUserSpeakingResponses(userId: string): Promise<string[]> {
     try {
-        const { data, error } = await supabase.storage
+        const { data, error } = await getSupabase().storage
             .from(AUDIO_BUCKET)
             .list(`speaking/${userId}`, {
                 limit: 100,
@@ -280,7 +300,7 @@ export async function getUserStorageUsage(userId: string): Promise<{
     totalBytes: number;
 }> {
     try {
-        const { data, error } = await supabase.storage
+        const { data, error } = await getSupabase().storage
             .from(AUDIO_BUCKET)
             .list(`speaking/${userId}`, {
                 limit: 1000,
@@ -321,7 +341,7 @@ export async function saveSpeakingResponseMetadata(
     aiFeedback?: object
 ): Promise<boolean> {
     try {
-        const { error } = await supabase
+        const { error } = await getSupabase()
             .from("user_answers")
             .insert({
                 attempt_id: attemptId,
@@ -357,7 +377,7 @@ export async function getSpeakingResponsesForAttempt(
     aiFeedback: object | null;
 }>> {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await getSupabase()
             .from("user_answers")
             .select("question_id, audio_url, ai_score, ai_feedback")
             .eq("attempt_id", attemptId)
@@ -368,7 +388,14 @@ export async function getSpeakingResponsesForAttempt(
             return [];
         }
 
-        return data.map((row) => ({
+        type AnswerRow = {
+            question_id: string;
+            audio_url: string;
+            ai_score: number | null;
+            ai_feedback: object | null;
+        };
+
+        return (data as AnswerRow[]).map((row) => ({
             questionId: row.question_id,
             audioUrl: row.audio_url,
             aiScore: row.ai_score,

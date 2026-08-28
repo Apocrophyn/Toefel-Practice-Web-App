@@ -503,52 +503,30 @@ export function ReadingPractice() {
           // Add text before
           elements.push(<span key={`txt-${idx}`}>{renderTextWithFormatting(question.passage.substring(lastIndex, start))}</span>);
 
-          // Calculate correct number of underscores based on answer length
+          // A fixed-width blank and a free-text field. This deliberately does NOT
+          // reveal how many letters are missing: the previous renderer drew one
+          // box per missing letter and even labelled it "N letters", which gave
+          // away information the real test is not confirmed to give.
           const prefix = partial.replace(/_+/g, '');
-          const neededLetters = blank.answer.length - prefix.length;
-          const underscoreCount = neededLetters > 0 ? neededLetters : (partial.match(/_/g) || []).length;
           const userAnswer = userBlanks[blank.position] || "";
 
-          // Create visual spacing boxes for each missing letter
-          const visualBoxes: JSX.Element[] = [];
-          for (let i = 0; i < underscoreCount; i++) {
-            const charValue = userAnswer[prefix.length + i] || '';
-            visualBoxes.push(
-              <span
-                key={`box-${idx}-${i}`}
-                className={`inline-block w-7 h-9 border-b-2 ${charValue
-                  ? 'border-cyan-400 bg-cyan-500/10'
-                  : 'border-slate-600 bg-slate-800/30'
-                  } text-center leading-9 text-white font-medium transition-all duration-200`}
-                title={`Letter ${i + 1} of ${underscoreCount}`}
-              >
-                {charValue}
-              </span>
-            );
-          }
-
           elements.push(
-            <span key={`input-${idx}`} className="inline-flex items-baseline mx-1 relative group">
+            <span key={`input-${idx}`} className="inline-flex items-baseline mx-0.5">
               <span className="text-cyan-400 font-semibold">{prefix}</span>
-              <span className="inline-flex gap-0.5 mx-1 cursor-text">
-                {visualBoxes}
-              </span>
               <input
                 type="text"
-                maxLength={underscoreCount}
-                className="absolute left-0 top-0 w-full h-full opacity-0 cursor-text z-10"
+                className="w-20 mx-0.5 px-1 bg-slate-800/40 border-b-2 border-slate-600 focus:border-cyan-400 focus:bg-cyan-500/10 outline-none text-white font-medium text-center transition-colors"
                 value={userAnswer.slice(prefix.length) || ''}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
                 onChange={(e) => {
-                  const fullWord = prefix + e.target.value.toLowerCase();
-                  const newBlanks = { ...userBlanks, [blank.position]: fullWord };
-                  handleAnswer(newBlanks);
+                  const letters = e.target.value.replace(/[^A-Za-z'-]/g, '').toLowerCase();
+                  handleAnswer({ ...userBlanks, [blank.position]: prefix + letters });
                 }}
-                placeholder=""
-                aria-label={`Complete the word: ${prefix} (${underscoreCount} letters)`}
+                aria-label={`Complete the word beginning ${prefix}`}
               />
-              <span className="absolute -top-7 left-0 text-xs text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none bg-slate-900 px-2 py-1 rounded">
-                Click to type • {underscoreCount} {underscoreCount === 1 ? 'letter' : 'letters'}
-              </span>
             </span>
           );
           lastIndex = start + partial.length;

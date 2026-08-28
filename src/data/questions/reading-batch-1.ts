@@ -6,10 +6,9 @@ export const batch1Passages: AcademicQuestion[] = [
         id: "batch1_topic1_bioluminescence",
         taskType: "academic",
         title: "The Role of Bioluminescence in Deep-Sea Predation Strategies",
+        rhetoricalStructure: "Classification/Categorization",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Classification/Categorization
-**Dominant TOEFL Skill:** Inference
-
 In the eternal darkness of the deep ocean, specifically the bathypelagic zone ranging from 1,000 to 4,000 meters below the surface, sunlight is entirely absent. In this abyssal realm, bioluminescence—the biochemical emission of light by living organisms—has evolved not merely as a byproduct of metabolic processes but as a sophisticated survival tool. While organisms utilize this "living light" for mating signaling or camouflage (counter-illumination), one of its most predatory applications is the active lure. This strategy, aggressive mimicry, relies on the deception of prey through the simulation of food sources or potential mates.
 
 The most iconic example of this strategy is found in the anglerfish (order Lophiiformes). The female anglerfish possesses a modified dorsal fin spine, known as the illicium, which protrudes from her head like a fishing rod. Tipped with a fleshy bulb called the esca, this apparatus glows due to a symbiotic relationship with bioluminescent bacteria. In the pitch-black water, the glowing esca is the only thing visible to other organisms. Smaller fish and crustaceans, drawn to the light in the mistaken belief that it represents smaller prey or floating detritus, approach the anglerfish's jaws. The predation is instantaneous; the anglerfish uses the suction created by rapidly opening its massive mouth to engulf the prey before it detects the deception.
@@ -41,10 +40,9 @@ These varied strategies—the passive lure of the anglerfish, the private red sp
         id: "batch1_topic2_roman_aqueducts",
         taskType: "academic",
         title: "Architectural Innovations of the Roman Aqueduct System in Arid Provinces",
+        rhetoricalStructure: "Problem-Solution",
+        dominantSkill: "Factual Information / Detail",
         passage: `
-**Rhetorical Structure:** Problem-Solution
-**Dominant TOEFL Skill:** Factual Information / Detail
-
 The expansion of the Roman Empire into the arid regions of North Africa and the Iberian Peninsula presented hydraulic engineers with challenges far exceeding those found in the temperate Italian peninsula. In Rome, water was abundant, and the primary difficulty lay in transport. However, in provinces like Mauretania (modern-day Algeria) or Hispania Tarraconensis (modern-day Spain), the issue was scarcity and the extreme volatility of water sources. The Roman response to these environmental constraints was not merely to replicate the famous stone arches seen in the European countryside but to innovate new techniques in catchment, pressure management, and conservation.
 
 One of the most significant adaptations in arid provinces was the development of the *subterranean diversion dam*. Unlike the massive above-ground reservoirs common in Italy, which would suffer from high evaporation rates in the desert sun, engineers in North Africa focused on tapping into the water table itself. They constructed wadi barriers—dams built not across flowing rivers, but across dry riverbeds. These structures were designed to capture the infrequent but intense flash floods typical of the region. The water was forced to percolate down into the sediment, recharging the aquifer, where it could be collected by underground galleries (qanats) and channeled to the city protected from evaporation. This method turned the geological liability of the porous desert soil into a storage asset.
@@ -76,10 +74,9 @@ Through these innovations—underground storage, high-pressure siphons, evaporat
         id: "batch1_topic3_printing_press",
         taskType: "academic",
         title: "The Impact of the Printing Press on the Standardization of Early Modern English",
+        rhetoricalStructure: "Cause-Effect",
+        dominantSkill: "Rhetorical Purpose",
         passage: `
-**Rhetorical Structure:** Cause-Effect
-**Dominant TOEFL Skill:** Rhetorical Purpose
-
 Prior to the introduction of the printing press to England by William Caxton in 1476, the English language was a fragmented patchwork of regional dialects. A merchant from London might struggle to understand a farmer from Northumbria, and spelling was almost entirely phonetic and idiosyncratic. A scribe might spell the word "church" as *chirche*, *kirk*, or *chyrche* within the same manuscript. The arrival of the printing press acted as a powerful catalyst, forcing a standardization that would eventually crystallize into Early Modern English. This shift was not merely an aesthetic preference but an economic necessity driven by the mechanics of the new technology.
 
 The primary driver of this standardization was the printer's need for a broader market. A book printed in the distinct dialect of Kent would be unintelligible, and therefore unsellable, to readers in Yorkshire. To maximize profit, Caxton and his successors had to select a variety of English that would be understood by the largest possible number of people. They naturally gravitated toward the East Midland dialect, specifically the variety spoken in London, Oxford, and Cambridge. This was the language of the court, the universities, and the commercial center. By producing thousands of identical texts in this specific dialect, the press elevated the London standard to a position of national prestige, marginalizing other regional variations.
@@ -109,19 +106,18 @@ However, it is important to note that this was a gradual process, not an overnig
         id: "batch1_topic4_glacial_surging",
         taskType: "academic",
         title: "Mechanisms of Glacial Surging in Sub-Polar Climates",
+        rhetoricalStructure: "Process/Chronology",
+        dominantSkill: "Sentence Insertion",
         passage: `
-**Rhetorical Structure:** Process/Chronology
-**Dominant TOEFL Skill:** Sentence Insertion
-
 Glaciers are typically perceived as slow-moving rivers of ice, inching forward at a predictable, glacial pace—often just a few centimeters to a meter per day. However, a small percentage of glaciers, known as "surge-type" glaciers, exhibit a dramatic and chaotic deviation from this norm. These glaciers oscillate between long periods of stagnation, known as the quiescent phase, and brief, violent bursts of acceleration called the active surge phase. During a surge, a glacier can move up to 100 times faster than normal, advancing kilometers in a matter of months and often fracturing into a chaotic landscape of crevasses. Understanding the mechanisms behind this cycle requires analyzing the complex hydrology at the base of the glacier.
 
-The cycle begins with the quiescent phase, which can last anywhere from 10 to 100 years. During this time, the glacier is accumulating mass in its upper region (accumulation zone) due to snowfall, while the lower region (ablation zone) is melting and thinning. [A] Crucially, the ice is moving too slowly to transport the collected snow from top to bottom. This creates a steep imbalance; the glacier becomes top-heavy, thickening significantly at high elevations while the terminus remains stagnant. The immense weight of the accumulating ice begins to exert increasing pressure on the glacier bed.
+The cycle begins with the quiescent phase, which can last anywhere from 10 to 100 years. During this time, the glacier is accumulating mass in its upper region (accumulation zone) due to snowfall, while the lower region (ablation zone) is melting and thinning. Crucially, the ice is moving too slowly to transport the collected snow from top to bottom. This creates a steep imbalance; the glacier becomes top-heavy, thickening significantly at high elevations while the terminus remains stagnant. The immense weight of the accumulating ice begins to exert increasing pressure on the glacier bed.
 
-As the ice thickens, it insulates the base of the glacier from the cold air above, trapping geothermal heat rising from the Earth. [B] Eventually, this pressure melting point is reached. Water begins to melt at the base of the deep ice, but unlike a normal glacier where this water drains away through subglacial tunnels, in a surge-type glacier, the drainage system is inefficient or blocked. The water becomes trapped in cavities between the ice and the bedrock. This trapped water becomes the trigger for the surge.
+As the ice thickens, it insulates the base of the glacier from the cold air above, trapping geothermal heat rising from the Earth. Eventually, this pressure melting point is reached. Water begins to melt at the base of the deep ice, but unlike a normal glacier where this water drains away through subglacial tunnels, in a surge-type glacier, the drainage system is inefficient or blocked. The water becomes trapped in cavities between the ice and the bedrock. This trapped water becomes the trigger for the surge.
 
-The hydraulic pressure of this trapped water lifts the glacier slightly off its bed, a process known as hydraulic jacking. [C] Friction, which normally anchors the ice to the rock, is drastically reduced. The glacier is essentially floating on a wrapper of high-pressure water. Once this critical threshold is crossed, the surge phase begins. Gravity takes over, and the top-heavy mass of ice collapses downhill, sliding rapidly on its lubricated base. This is the active surge. The ice transports the accumulated mass from the reservoir area to the terminus in a chaotic rush, often overriding stagnant ice in front of it and causing the glacier's snout to advance rapidly.
+The hydraulic pressure of this trapped water lifts the glacier slightly off its bed, a process known as hydraulic jacking. Friction, which normally anchors the ice to the rock, is drastically reduced. The glacier is essentially floating on a wrapper of high-pressure water. Once this critical threshold is crossed, the surge phase begins. Gravity takes over, and the top-heavy mass of ice collapses downhill, sliding rapidly on its lubricated base. This is the active surge. The ice transports the accumulated mass from the reservoir area to the terminus in a chaotic rush, often overriding stagnant ice in front of it and causing the glacier's snout to advance rapidly.
 
-The surge terminates just as abruptly as it began. As the rapid movement cracks the ice and the glacier thins, the subglacial water eventually finds an escape route. [D] Massive floods of turbid water often pour from the snout of the glacier. With the water pressure released, the glacier drops back onto its bed. Friction is restored, and the movement grinds to a halt. The glacier enters a new quiescent phase, thin and extended, waiting for the snows to accumulate and the cycle to repeat. This distinctive flow instability highlights the sensitivity of glacier dynamics to subglacial water pressure, a factor critical in modeling future glacial responses to climate change.
+The surge terminates just as abruptly as it began. As the rapid movement cracks the ice and the glacier thins, the subglacial water eventually finds an escape route. Massive floods of turbid water often pour from the snout of the glacier. With the water pressure released, the glacier drops back onto its bed. Friction is restored, and the movement grinds to a halt. The glacier enters a new quiescent phase, thin and extended, waiting for the snows to accumulate and the cycle to repeat. This distinctive flow instability highlights the sensitivity of glacier dynamics to subglacial water pressure, a factor critical in modeling future glacial responses to climate change.
     `.trim(),
         questions: [
             {
@@ -142,10 +138,9 @@ The surge terminates just as abruptly as it began. As the rapid movement cracks 
         id: "batch1_topic5_lydian_coinage",
         taskType: "academic",
         title: "The Economic Shift from Barter to Coinage in Ancient Lydia",
+        rhetoricalStructure: "Historical Progression/Contrast",
+        dominantSkill: "Prose Summary",
         passage: `
-**Rhetorical Structure:** Historical Progression/Contrast
-**Dominant TOEFL Skill:** Prose Summary
-
 In the 7th century BCE, the Kingdom of Lydia, located in what is now western Turkey, orchestrated one of the most transformative economic revolutions in human history: the invention of the state-minted coin. Prior to this innovation, trade in the ancient Near East was conducted primarily through the barter system or the use of weighted bullion. While functional for local transactions, these methods had inherent limitations that strangled long-distance commerce and complex economic planning. The transition to a standardized coinage system under Lydian kings, particularly Alyattes and his son Croesus, dismantled these barriers and accelerated economic velocity across the Mediterranean.
 
 The pre-existing barter system relied on the "double coincidence of wants." If a potter wanted to buy wheat, he had to find a farmer who not only had wheat but specifically wanted a pot. If the farmer wanted shoes instead, the trade failed. Weighted bullion (lumps of silver or gold) solved this partially but required a scale and a touchstone for every transaction to test weight and purity. This process was slow and relied on a high degree of technical trust between strangers. A merchant could never be certain if a ring of silver was pure or merely plated lead without cutting into it.
@@ -175,10 +170,9 @@ Furthermore, the state benefited immensely. Coinage allowed for the efficient co
         id: "batch1_topic6_cubism_futurism",
         taskType: "academic",
         title: "Comparison of Cubist and Futurist Approaches to Motion in Art",
+        rhetoricalStructure: "Comparison/Contrast",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Comparison/Contrast
-**Dominant TOEFL Skill:** Inference
-
 The early 20th century witnessed a radical deconstruction of traditional perspective in Western art, spearheaded by the avant-garde movements of Cubism in France and Futurism in Italy. While both movements emerged almost simultaneously and shared a visual language of fragmented geometric planes, their philosophical motivations and treatment of the concept of *motion* were fundamentally distinct. Cubism, pioneered by Pablo Picasso and Georges Braque, was primarily an analytical investigation into the nature of seeing. In contrast, Futurism, led by Umberto Boccioni and Giacomo Balla, was an ideological celebration of speed, technology, and violence.
 
 Analytic Cubism (c. 1907–1912) sought to depict a three-dimensional object on a two-dimensional canvas by representing it from multiple viewpoints simultaneously. When Braque painted a violin, he fractured the image not to show the violin moving, but to show the *viewer's* cognitive experience of moving around the stationary object. The subject matter was static—still lifes, portraits, landscapes. The motion in Cubism is intellectual; it forces the eye to reassemble the shattered planes into a coherent whole. The palette was often monochromatic—ochres, greys, and browns—to strip away emotional distraction and focus purely on form. Time, in Cubism, is frozen; the multiple perspectives coexist in a single, static moment of analysis.
@@ -208,10 +202,9 @@ Technically, while Futurism borrowed the fragmented planes of Cubism (a debt Boc
         id: "batch1_topic7_thermophiles",
         taskType: "academic",
         title: "The Physiological Adaptations of Thermophilic Bacteria in Hydrothermal Vents",
+        rhetoricalStructure: "Description/Mechanism",
+        dominantSkill: "Factual Information",
         passage: `
-**Rhetorical Structure:** Description/Mechanism
-**Dominant TOEFL Skill:** Factual Information
-
 Deep within the oceans, along the mid-ocean ridges where tectonic plates separate, lie hydrothermal vents—fissures in the planet's surface that spew geothermally heated water. In these environments, temperatures can exceed 100°C (212°F), and pressures are crushing. Yet, life thrives here. The primary residents are thermophiles ("heat lovers") and hyperthermophiles, microorganisms that have evolved extraordinary biochemical strategies to survive conditions that would instantly denature the proteins of surface-dwelling organisms (mesophiles). Understanding these adaptations offers critical insights into the limits of life and the potential for biology on other planets.
 
 The most critical challenge for a thermophile is maintaining the structural integrity of its proteins. Proteins are long chains of amino acids folded into specific 3D shapes that dictate their function. High heat causes these chains to unravel (denature), rendering the protein useless. Thermophiles prevent this through a modified amino acid sequence. Their proteins possess a highly compact hydrophobic core, which repels water and packs the molecule tight. Additionally, they utilize abundant "ionic bonds" and "disulfide bridges" on the protein surface. These chemical cross-links act like staples, clamping the folded structure together against the chaotic thermal energy of the environment.
@@ -241,13 +234,12 @@ These adaptations—rigidified proteins, fused membranes, and supercoiled DNA—
         id: "batch1_topic8_jazz_lit",
         taskType: "academic",
         title: "The Influence of Jazz Syncopation on 1920s American Literature",
+        rhetoricalStructure: "Cause-Effect/Illustration",
+        dominantSkill: "Example/Illustration",
         passage: `
-**Rhetorical Structure:** Cause-Effect/Illustration
-**Dominant TOEFL Skill:** Example/Illustration
-
 The 1920s in America, often termed the "Jazz Age," appeared as a decade of profound cultural upheaval. While the rhythmic innovations of jazz music—centered on improvisation, polyrhythm, and syncopation—revolutionized the sonic landscape, their impact extended deep into the literary canon. Writers of the Harlem Renaissance and the "Lost Generation" began to treat language not as a fixed structure but as a fluid, musical medium. They adopted the aesthetics of jazz to break the rigid grammatical conventions of the Victorian era, mirroring the spontaneity and fragmented energy of the modern urban experience.
 
-Syncopation, the musical technique of placing stress on the weak beats (the off-beats) to create a sense of surprise and forward momentum, became a literary device. Langston Hughes, a central figure of the Harlem Renaissance, explicitly sought to capture the cadence of the blues and jazz in his poetry. In his collection *The Weary Blues* (1926), Hughes abandoned the steady iambic meter of traditional English verse. Instead, he utilized truncated lines, irregular rhythms, and vernacular diction to replicate the stop-start improvisation of a saxophone solo. The poem does not merely describe the music; it *performs* it. [A] The reader is forced to pause, accelerate, and stumble, mimicking the listener's reaction to a syncopated rhythm.
+Syncopation, the musical technique of placing stress on the weak beats (the off-beats) to create a sense of surprise and forward momentum, became a literary device. Langston Hughes, a central figure of the Harlem Renaissance, explicitly sought to capture the cadence of the blues and jazz in his poetry. In his collection *The Weary Blues* (1926), Hughes abandoned the steady iambic meter of traditional English verse. Instead, he utilized truncated lines, irregular rhythms, and vernacular diction to replicate the stop-start improvisation of a saxophone solo. The poem does not merely describe the music; it *performs* it. The reader is forced to pause, accelerate, and stumble, mimicking the listener's reaction to a syncopated rhythm.
 
 Similarly, F. Scott Fitzgerald utilized a "jazz syntax" in his prose. In *The Great Gatsby*, sentences often extend into breathless, run-on descriptions of parties and cityscapes, mimicking the frenetic tempo of the age. Fitzgerald layers sensory details—lights, colors, sounds—in a polyphonic manner, similar to how a jazz ensemble layers instruments. The narrative voice shifts rapidly between observant detachment and emotional immersion, echoing the call-and-response pattern of a jazz performance. This stylistic choice emphasizes the ephemeral, rushing nature of the protagonist’s ambition.
 
@@ -274,19 +266,18 @@ However, this appropriation was controversial. Conservative critics viewed jazz 
         id: "batch1_topic9_maya_collapse",
         taskType: "academic",
         title: "The Collapse of the Classic Maya Civilization: Drought vs. Political Instability",
+        rhetoricalStructure: "Problem-Solution/Debate",
+        dominantSkill: "Sentence Insertion",
         passage: `
-**Rhetorical Structure:** Problem-Solution/Debate
-**Dominant TOEFL Skill:** Sentence Insertion
-
 The collapse of the Classic Maya civilization in the southern lowlands of the Yucatán Peninsula during the 9th century CE remains one of the most debated topics in ancient archaeology. For centuries, the abandonment of great cities like Tikal and Calakmul was attributed to catastrophic single events—earthquakes, plagues, or foreign invasions. However, modern scientific analysis has shifted the debate toward two primary, often interconnecting, theories: severe climatological drought and systemic political instability.
 
-The drought hypothesis gained massive support with the advent of paleoclimatology. Scientists analyzing sediment cores from Lake Chichancanab discovered layers of gypsum precipitation, a mineral that forms only when water levels drop significantly. These cores revealed that the Mayan lowlands experienced a series of severe, multi-decadal droughts between 800 and 1000 CE. This period coincides precisely with the cessation of monumental building and the abandonment of cities. [A] Proponents argue that the Maya, heavily dependent on rain-fed reservoirs for their drinking water and agriculture, simply reached the hydrological carrying capacity of their environment. When the rains failed for decades, the meticulously engineered water systems dried up, leading to crop failure, famine, and inevitable dispersal.
+The drought hypothesis gained massive support with the advent of paleoclimatology. Scientists analyzing sediment cores from Lake Chichancanab discovered layers of gypsum precipitation, a mineral that forms only when water levels drop significantly. These cores revealed that the Mayan lowlands experienced a series of severe, multi-decadal droughts between 800 and 1000 CE. This period coincides precisely with the cessation of monumental building and the abandonment of cities. Proponents argue that the Maya, heavily dependent on rain-fed reservoirs for their drinking water and agriculture, simply reached the hydrological carrying capacity of their environment. When the rains failed for decades, the meticulously engineered water systems dried up, leading to crop failure, famine, and inevitable dispersal.
 
-However, the political instability theory argues that drought alone cannot explain the collapse, as Northern Maya cities (like Chichén Itzá) actually thrived during this same period. This school of thought emphasizes the "prestige economy" of the Mayan elite. [B] Mayan kingship relied on the ability of the ruler to guarantee prosperity through ritual and warfare. As resources became scarce (perhaps triggered initially by mild drought), competition between city-states for arable land and tribute intensified. The archaeological record shows a sharp increase in fortifications and war-themed iconography in the Late Classic period.
+However, the political instability theory argues that drought alone cannot explain the collapse, as Northern Maya cities (like Chichén Itzá) actually thrived during this same period. This school of thought emphasizes the "prestige economy" of the Mayan elite. Mayan kingship relied on the ability of the ruler to guarantee prosperity through ritual and warfare. As resources became scarce (perhaps triggered initially by mild drought), competition between city-states for arable land and tribute intensified. The archaeological record shows a sharp increase in fortifications and war-themed iconography in the Late Classic period.
 
-The "systems collapse" model suggests a feedback loop. A moderate drought might have weakened the agricultural base, diminishing the king’s power. To regain legitimacy, the king would launch expensive wars or demand more tribute, further stressing the already starving peasant population. [C] This social contract broke. The peasantry, losing faith in the divine power of the ruler to bring rain, abandoned the urban centers for the hinterlands, voting with their feet. The collapse was not a sudden death but a slow disentangling of the complex socio-political web.
+The "systems collapse" model suggests a feedback loop. A moderate drought might have weakened the agricultural base, diminishing the king’s power. To regain legitimacy, the king would launch expensive wars or demand more tribute, further stressing the already starving peasant population. This social contract broke. The peasantry, losing faith in the divine power of the ruler to bring rain, abandoned the urban centers for the hinterlands, voting with their feet. The collapse was not a sudden death but a slow disentangling of the complex socio-political web.
 
-Thus, the "collapse" was likely a combination of an ecological trigger and a brittle political response. The Maya had survived droughts before. [D] It was the specific intersection of a mega-drought with a hyper-competitive, warring political landscape that made this specific crisis insurmountable.
+Thus, the "collapse" was likely a combination of an ecological trigger and a brittle political response. The Maya had survived droughts before. It was the specific intersection of a mega-drought with a hyper-competitive, warring political landscape that made this specific crisis insurmountable.
     `.trim(),
         questions: [
             {
@@ -307,10 +298,9 @@ Thus, the "collapse" was likely a combination of an ecological trigger and a bri
         id: "batch1_topic10_corvid_intelligence",
         taskType: "academic",
         title: "Behavioral Conditioning and Problem Solving in Corvid Intelligence",
+        rhetoricalStructure: "Argument/Evidence",
+        dominantSkill: "Factual Information",
         passage: `
-**Rhetorical Structure:** Argument/Evidence
-**Dominant TOEFL Skill:** Factual Information
-
 For decades, the study of animal intelligence was dominated by the primacy of primates—chimpanzees and dolphins were considered the gold standard of non-human cognition. Birds, with their small brains lacking a cerebral cortex, were dismissed as instinct-driven automatons. However, recent research into the family *Corvidae* (crows, ravens, jays, and magpies) has dismantled this "vertebrate prejudice." Corvids have demonstrated cognitive abilities that rival, and in some cases exceed, those of great apes, utilizing a different neural architecture to achieve complex problem-solving. This suggests that high-level intelligence has evolved independently at least twice in the history of life on Earth (convergent evolution).
 
 The most striking evidence comes from tool use and manufacture. The New Caledonian crow is a primary subject of study. Unlike chimpanzees, which mostly use found objects, these crows actively manufacture hooks from twigs to extract larvae from tree trunks. In controlled laboratory settings, a crow named Betty famously bent a straight piece of wire into a hook to retrieve a food bucket—a task she had never encountered in nature. This indicates "causal reasoning," the ability to understand the physical relationship between the tool and the goal, rather than simple trial-and-error conditioning. She created a mental model of the solution before executing it.
@@ -338,10 +328,9 @@ The neurological basis for this is fascinating. Birds lack the neocortex, the la
         id: "batch1_topic11_archean_photosynthesis",
         taskType: "academic",
         title: "The Evolution of Early Photosynthesis in the Archean Eon",
+        rhetoricalStructure: "Chronology/Process",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Chronology/Process
-**Dominant TOEFL Skill:** Inference
-
 The Earth's atmosphere today, rich in oxygen (approx. 21%), is a direct result of biological activity. However, for the first half of the planet's history, the Archean Eon (4.0 to 2.5 billion years ago), the atmosphere was anoxic, dominated by nitrogen, carbon dioxide, and methane. The transition to an oxygenated world, an event known as the Great Oxidation Event (GOE), was driven by the evolution of photosynthesis. However, photosynthesis did not originally produce oxygen. The evolution of this metabolic pathway was a stepwise process, beginning with anoxygenic forms before culminating in the cyanobacterial revolution.
 
 The earliest photosynthesizers were likely *anoxygenic* bacteria, such as green sulfur bacteria and purple bacteria. These organisms harvested energy from sunlight but did not use water ($H_2O$) as an electron donor. Instead, they utilized dissolved hydrogen sulfide ($H_2S$) or hydrogen gas ($H_2$), abundant in the volcanic environment of the early Earth. As a result, their distinct metabolic waste product was not oxygen, but elemental sulfur. This form of photosynthesis was chemically simpler and energetically less demanding, but it was strictly limited by the availability of sulfur sources, confining life to hydrothermal vents or sulfur springs.
@@ -371,10 +360,9 @@ Only when these chemical sinks were saturated—when the oceans effectively rust
         id: "batch1_topic12_victorian_sanitation",
         taskType: "academic",
         title: "Urban Planning and Sanitation Reforms in Victorian London",
+        rhetoricalStructure: "Problem-Solution",
+        dominantSkill: "Prose Summary",
         passage: `
-**Rhetorical Structure:** Problem-Solution
-**Dominant TOEFL Skill:** Prose Summary
-
 By the mid-19th century, London had become the largest metropolis in the world, with a population exceeding 2.5 million. However, its infrastructure had failed to keep pace with this explosive industrial growth. The city relied on medieval waste disposal methods—cesspools and open sewers—that were hopelessly inadequate for a modern capital. The result was an environmental and public health crisis of catastrophic proportions, famously culminating in the "Great Stink" of 1858 and repeated cholera epidemics. The transformation of London from a cesspit to a model of modern sanitation was driven by the convergence of bold engineering and the germ theory of disease.
 
 The prevailing medical theory of the time was *miasma*, the belief that disease was spread by "bad air" or foul odors. While scientifically incorrect, it inadvertently pointed reformers in the right direction: get rid of the smell. In the hot summer of 1858, the stench from the fermenting sewage in the River Thames became so overpowering that Parliament was forced to suspend its sessions. This political disruption provided the immediate impetus for change. The engineer Joseph Bazalgette was given carte blanche to execute a massive infrastructure project.
@@ -404,19 +392,14 @@ The impact was immediate. Cholera, which had killed tens of thousands in previou
         id: "batch1_topic13_doppler_effect",
         taskType: "academic",
         title: "The Application of the Doppler Effect in Measuring Stellar Radial Velocity",
+        rhetoricalStructure: "Theory/Application",
+        dominantSkill: "Vocabulary in Context",
         passage: `
-**Rhetorical Structure:** Theory/Application
-**Dominant TOEFL Skill:** Vocabulary in Context
-
 The Doppler Effect is a phenomenon commonly experienced in acoustics: as an ambulance approaches, its siren sounds higher in pitch, and as it recedes, the pitch drops. This occurs because the sound waves are compressed (shortened wavelength) in front of the moving source and stretched (lengthened wavelength) behind it. In the mid-19th century, Austrian physicist Christian Doppler proposed that this principle applies to all waves, including light. This insight revolutionized astronomy, providing the primary tool for measuring the motion of stars and galaxies: radial velocity.
 
-In the context of light, pitch corresponds to color. [A] Visible light exists on a spectrum from blue (short wavelength, high frequency) to red (long wavelength, low frequency). If a star is moving toward Earth, the light waves it emits are compressed, shifting the observed light toward the blue end of the spectrum (blueshift). Conversely, if a star is moving away, the light is stretched, shifting it toward the red end (redshift). [B]
+In the context of light, pitch corresponds to color. Visible light exists on a spectrum from blue (short wavelength, high frequency) to red (long wavelength, low frequency). If a star is moving toward Earth, the light waves it emits are compressed, shifting the observed light toward the blue end of the spectrum (blueshift). Conversely, if a star is moving away, the light is stretched, shifting it toward the red end (redshift). To measure this shift, astronomers do not look at the star's overall color, which can be affected by temperature, but at its *absorption lines*. When starlight passes through the cool gases of the star's outer atmosphere, specific elements absorb specific wavelengths of light, creating dark lines in the spectrum. These lines act as fixed markers or fingerprints. Laboratory experiments on Earth determine exactly where hydrogen or calcium lines ordinarily appear. By comparing the position of these lines in the star's spectrum to the laboratory standard, astronomers can calculate the precise shift. A shift of these lines toward the red indicates the star is receding. The magnitude of the shift ($\Delta\lambda$) is directly proportional to the speed of the star along the line of sight (radial velocity). It is important to note that this method only measures motion *directly toward or away* from the observer (radial velocity), not motion across the sky (tangential velocity).
 
-To measure this shift, astronomers do not look at the star's overall color, which can be affected by temperature, but at its *absorption lines*. When starlight passes through the cool gases of the star's outer atmosphere, specific elements absorb specific wavelengths of light, creating dark lines in the spectrum. These lines act as fixed markers or fingerprints. Laboratory experiments on Earth determine exactly where hydrogen or calcium lines ordinarily appear. By comparing the position of these lines in the star's spectrum to the laboratory standard, astronomers can calculate the precise shift. [C]
-
-A shift of these lines toward the red indicates the star is receding. The magnitude of the shift ($\Delta\lambda$) is directly proportional to the speed of the star along the line of sight (radial velocity). It is important to note that this method only measures motion *directly toward or away* from the observer (radial velocity), not motion across the sky (tangential velocity).
-
-This technique has profound applications. It provided the first evidence for the expansion of the universe (Hubble's Law), as distant galaxies were found to be red-shifted. More recently, it is the primary method for detecting exoplanets (the "wobble method"). [D] As a planet orbits a star, its gravity tugs on the star, causing the star to wobble slightly back and forth. This wobble manifests as a periodic blueshift and redshift in the star's light. By measuring these minute fluctuations—often shifting the light by mere meters per second—astronomers can infer the mass and orbit of unseen planets orbiting distant suns. The Doppler Effect thus transforms light into a speedometer for the cosmos.
+This technique has profound applications. It provided the first evidence for the expansion of the universe (Hubble's Law), as distant galaxies were found to be red-shifted. More recently, it is the primary method for detecting exoplanets (the "wobble method"). As a planet orbits a star, its gravity tugs on the star, causing the star to wobble slightly back and forth. This wobble manifests as a periodic blueshift and redshift in the star's light. By measuring these minute fluctuations—often shifting the light by mere meters per second—astronomers can infer the mass and orbit of unseen planets orbiting distant suns. The Doppler Effect thus transforms light into a speedometer for the cosmos.
     `.trim(),
         questions: [
             {
@@ -437,10 +420,9 @@ This technique has profound applications. It provided the first evidence for the
         id: "batch1_topic14_vedic_caste",
         taskType: "academic",
         title: "Social Stratification and Mobility in the Caste System of Vedic India",
+        rhetoricalStructure: "Definition/Classification with nuance",
+        dominantSkill: "Negative Factual Information",
         passage: `
-**Rhetorical Structure:** Definition/Classification with nuance
-**Dominant TOEFL Skill:** Negative Factual Information
-
 The caste system of Ancient India, often viewed by modern observers as a monolithic and rigid hierarchy, actually evolved through a complex process during the Vedic Period (c. 1500–500 BCE). The foundational text, the *Rig Veda*, describes a society divided into four broad categories, or *varnas*: the Brahmins (priests and scholars), the Kshatriyas (warriors and rulers), the Vaishyas (merchants and agriculturists), and the Shudras (laborers and service providers). While this *varna* system provided a theoretical framework for social stratification, historical evidence suggests that early Vedic society was far more fluid than the rigid structure that solidified in later centuries.
 
 Initially, these divisions were likely based on occupation and aptitude rather than strictly on birth. The *Purusha Sukta* hymn of the *Rig Veda* metaphorically describes the creation of society from the body of a primordial being: the mouth became the Brahmin, the arms the Kshatriya, the thighs the Vaishya, and the feet the Shudra. This organic metaphor emphasized the interdependence of the classes—society functioned like a body, where legs are as essential as the head—rather than purely a system of oppression.
@@ -470,19 +452,18 @@ Thus, while the theological texts presented an eternal, unchanging pyramid, the 
         id: "batch1_topic15_sea_otters",
         taskType: "academic",
         title: "The Role of Sea Otters as Keystone Species in Kelp Forest Ecosystems",
+        rhetoricalStructure: "Cause-Effect (Trophic Cascade)",
+        dominantSkill: "Sentence Insertion",
         passage: `
-**Rhetorical Structure:** Cause-Effect (Trophic Cascade)
-**Dominant TOEFL Skill:** Sentence Insertion
-
 In ecology, a "keystone species" is an organism that has a disproportionately large effect on its environment relative to its abundance. Remove the keystone, and the ecosystem collapses. One of the most classic examples of this concept is the sea otter (*Enhydra lutris*) and its critical role in maintaining the health of Nearshore kelp forests in the North Pacific. The relationship demonstrates a phenomenon known as a "trophic cascade," where the behavior of a top predator dictates the structure of the entire food web.
 
-The primary food source for sea otters includes benthic invertebrates, particularly sea urchins. Sea urchins are grazers that feed voraciously on the holdfasts of kelp—the root-like structures that anchor the massive algae forests to the rocky seafloor. [A] In a healthy ecosystem, sea otters keep the urchin population in check. By consuming vast quantities of urchins (an otter can eat 25% of its body weight daily), they prevent the grazers from over-exploiting the kelp. This predation pressure allows the kelp forests to thrive.
+The primary food source for sea otters includes benthic invertebrates, particularly sea urchins. Sea urchins are grazers that feed voraciously on the holdfasts of kelp—the root-like structures that anchor the massive algae forests to the rocky seafloor. In a healthy ecosystem, sea otters keep the urchin population in check. By consuming vast quantities of urchins (an otter can eat 25% of its body weight daily), they prevent the grazers from over-exploiting the kelp. This predation pressure allows the kelp forests to thrive.
 
-Kelp forests are structurally complex environments, often termed the "rainforests of the sea." [B] They provide habitat, nursery grounds, and protection for hundreds of species of fish and invertebrates. They also attenuate wave energy, protecting coastlines from erosion, and sequester massive amounts of carbon dioxide. Therefore, the presence of the otter indirectly safeguards all these services.
+Kelp forests are structurally complex environments, often termed the "rainforests of the sea." They provide habitat, nursery grounds, and protection for hundreds of species of fish and invertebrates. They also attenuate wave energy, protecting coastlines from erosion, and sequester massive amounts of carbon dioxide. Therefore, the presence of the otter indirectly safeguards all these services.
 
-The devastating consequence of removing the otter was historically observed during the fur trade of the 18th and 19th centuries, which hunted sea otters to near extinction. [C] With their primary predator gone, sea urchin populations exploded—a phenomenon called an "urchin barren." The armies of urchins devoured the kelp holdfasts, detaching the fronds which then drifted away and died. The lush three-dimensional forest was replaced by a barren seafloor carpeted in urchins. Biodiversity plummeted as the fish that relied on the kelp for shelter disappeared.
+The devastating consequence of removing the otter was historically observed during the fur trade of the 18th and 19th centuries, which hunted sea otters to near extinction. With their primary predator gone, sea urchin populations exploded—a phenomenon called an "urchin barren." The armies of urchins devoured the kelp holdfasts, detaching the fronds which then drifted away and died. The lush three-dimensional forest was replaced by a barren seafloor carpeted in urchins. Biodiversity plummeted as the fish that relied on the kelp for shelter disappeared.
 
-Conversely, the reintroduction of sea otters in the 20th century provided a natural experiment confirming this dynamic. Where otters returned, urchin populations retreated into crevices to avoid predation, allowing the kelp to regenerate. [D] However, modern systems face a new top-down threat: predation by orcas. In some areas, orcas have begun hunting otters due to a decline in their usual prey (seals), creating a new localized trophic cascade that once again threatens the stability of the kelp forests. This underscores the fragility of these vertical food chain linkages.
+Conversely, the reintroduction of sea otters in the 20th century provided a natural experiment confirming this dynamic. Where otters returned, urchin populations retreated into crevices to avoid predation, allowing the kelp to regenerate. However, modern systems face a new top-down threat: predation by orcas. In some areas, orcas have begun hunting otters due to a decline in their usual prey (seals), creating a new localized trophic cascade that once again threatens the stability of the kelp forests. This underscores the fragility of these vertical food chain linkages.
     `.trim(),
         questions: [
             {
@@ -503,10 +484,9 @@ Conversely, the reintroduction of sea otters in the 20th century provided a natu
         id: "batch1_topic16_polynesian_navigation",
         taskType: "academic",
         title: "Technological Advancements in Polynesian Non-Instrumental Navigation",
+        rhetoricalStructure: "Description/Analysis",
+        dominantSkill: "Factual Information",
         passage: `
-**Rhetorical Structure:** Description/Analysis
-**Dominant TOEFL Skill:** Factual Information
-
 Long before European explorers ventured into the open Atlantic, the Polynesian peoples had successfully navigated and colonized the vast "Polynesian Triangle" of the Pacific Ocean, an area covering 10 million square miles, from Hawaii in the north to New Zealand in the south and Easter Island in the east. This feat is remarkably impressive considering they possessed no magnetic compasses, sextants, or chronometers. Instead, they developed a sophisticated system of "wayfinding"—a cognitive technology that relied on the acute observation of natural signs and the mental integration of complex data sets.
 
 The cornerstone of this system was the "star compass." Navigators memorized the rising and setting points of hundreds of specific stars on the horizon. Since stars rise in the east and set in the west at specific latitudes, they provided a reliable directional grid. A navigator didn't essentially "steer by a star" in a straight line, as the star moves; rather, they used the star's position relative to the horizon to maintain a heading known as a *kaveinga*. During the day, or when clouds obscured the sky, the primary directional cue shifted to the ocean swells.
@@ -536,10 +516,9 @@ This knowledge was oral and guarded, passed down through rigorous apprenticeship
         id: "batch1_topic17_flashbulb_memories",
         taskType: "academic",
         title: "The Psychological Accuracy and Reliability of Flashbulb Memories",
+        rhetoricalStructure: "Theory/Counter-Evidence",
+        dominantSkill: "Rhetorical Purpose",
         passage: `
-**Rhetorical Structure:** Theory/Counter-Evidence
-**Dominant TOEFL Skill:** Rhetorical Purpose
-
 In 1977, psychologists Roger Brown and James Kulik coined the term "flashbulb memory" to describe the phenomenon where people recall highly emotional or consequential events with vivid, photographic detail. The classic example used was the assassination of President John F. Kennedy; almost everyone alive at the time could recall exactly where they were, who they were with, and what they were doing when they heard the news. Brown and Kulik proposed that a special "Now Print!" neural mechanism is triggered by high-arousal events, permanently capturing the moment in the brain like a photograph. For decades, this theory supported the idea that emotional intensity equates to memory accuracy.
 
 However, subsequent research has dramatically complicated this picture. While individuals consistently report high *confidence* in these memories, objective verification suggests that the *accuracy* of flashbulb memories is not significantly higher than that of ordinary memories. This dissociation between confidence and accuracy is the central paradox of the phenomenon.
@@ -569,19 +548,18 @@ The "flashbulb" metaphor is therefore misleading. The memory is not a static pho
         id: "batch1_topic18_sound_cinema",
         taskType: "academic",
         title: "The Artistic and Technical Challenges of the Transition to Sound Cinema (1927–1930)",
+        rhetoricalStructure: "Problem/Effect",
+        dominantSkill: "Negative Factual Information",
         passage: `
-**Rhetorical Structure:** Problem/Effect
-**Dominant TOEFL Skill:** Negative Factual Information
-
 The transition from silent film to "talkies," precipitated by the release of *The Jazz Singer* in 1927, was the most cataclysmic disruption in the history of the motion picture industry. While audiences flocked to the novelty of synchronized sound, the transition posed an existential crisis for the art of filmmaking itself. The technology required to record audio imposed severe limitations on the visual fluidity that silent cinema had perfected over three decades.
 
-The primary constraint was the microphone. Early microphones were omnidirectional and had low sensitivity, requiring actors to stay within a few feet of the device to be heard. They were often hidden in flowerpots or telephones on set. [A] This "microphone tether" destroyed the mobility of the actor and the camera. In late silent films, the camera was a dynamic participant—tracking, panning, and swooping to create visual energy. In early sound films, the camera had to be locked inside a soundproof "icebox" booth to prevent the microphone from picking up the whirring of the camera motor. [B] The result was "canned theater": static shots of actors standing still and delivering lines. The visual dynamism of cinema regressed significantly.
+The primary constraint was the microphone. Early microphones were omnidirectional and had low sensitivity, requiring actors to stay within a few feet of the device to be heard. They were often hidden in flowerpots or telephones on set. This "microphone tether" destroyed the mobility of the actor and the camera. In late silent films, the camera was a dynamic participant—tracking, panning, and swooping to create visual energy. In early sound films, the camera had to be locked inside a soundproof "icebox" booth to prevent the microphone from picking up the whirring of the camera motor. The result was "canned theater": static shots of actors standing still and delivering lines. The visual dynamism of cinema regressed significantly.
 
-Furthermore, sound destroyed the internationalism of silent film. A silent movie made in Berlin or Moscow could be exported to New York simply by translating the intertitles. "The language of images" was universal. [C] Spoken dialogue erected a language barrier. Studios initially attempted to solve this by shooting "multilanguage versions" (MLVs)—filming the same scene back-to-back with different casts speaking German, French, or Spanish. This was incredibly expensive and logistically nightmarish. It was not until the refinement of dubbing and subtitling technology in the early 1930s that global distribution restabilized.
+Furthermore, sound destroyed the internationalism of silent film. A silent movie made in Berlin or Moscow could be exported to New York simply by translating the intertitles. "The language of images" was universal. Spoken dialogue erected a language barrier. Studios initially attempted to solve this by shooting "multilanguage versions" (MLVs)—filming the same scene back-to-back with different casts speaking German, French, or Spanish. This was incredibly expensive and logistically nightmarish. It was not until the refinement of dubbing and subtitling technology in the early 1930s that global distribution restabilized.
 
 Artistically, many directors and theorists, including Charlie Chaplin and Sergei Eisenstein, opposed sound. They feared it would reduce film to a mere recording of dialogue, losing the dreamlike, associative power of the montage. Eisenstein published a manifesto arguing for "asynchronous sound"—using audio not to match the image (e.g., a door slam matching a door closing) but to counterpoint it, creating a metaphorical conflict. However, the commercial demand for synchronous realism—hearing the actor speak the words—overwhelmed these aesthetic experiments.
 
-The transition also ended the careers of many stars. Actors with heavy accents or unpleasant voices found themselves unemployable. The acting style, which in silent film relied on large, pantomimic gestures to convey emotion without words, suddenly looked ridiculous when accompanied by naturalistic speech. [D] It required a new generation of actors, often trained in the theater, to master the more subtle, naturalistic performance style demanded by the microphone. The industry eventually adapted, liberating the camera with the "blimp" (a soundproof camera housing) and the boom mic, but the initial arrival of sound was a creative constriction, forcing cinema to relearn how to move.
+The transition also ended the careers of many stars. Actors with heavy accents or unpleasant voices found themselves unemployable. The acting style, which in silent film relied on large, pantomimic gestures to convey emotion without words, suddenly looked ridiculous when accompanied by naturalistic speech. It required a new generation of actors, often trained in the theater, to master the more subtle, naturalistic performance style demanded by the microphone. The industry eventually adapted, liberating the camera with the "blimp" (a soundproof camera housing) and the boom mic, but the initial arrival of sound was a creative constriction, forcing cinema to relearn how to move.
     `.trim(),
         questions: [
             {
@@ -602,20 +580,18 @@ The transition also ended the careers of many stars. Actors with heavy accents o
         id: "batch1_topic19_karst",
         taskType: "academic",
         title: "Formation Processes of Karst Topography and Sinkholes",
+        rhetoricalStructure: "Process/Classification",
+        dominantSkill: "Vocabulary in Context",
         passage: `
-**Rhetorical Structure:** Process/Classification
-**Dominant TOEFL Skill:** Vocabulary in Context
-
 Karst topography describes a distinct and often dramatic landscape formed by the dissolution of soluble rocks, primarily limestone (calcium carbonate), dolomite, and gypsum. Characterized by sinkholes, caves, and underground drainage systems, karst regions cover approximately 20% of the Earth's dry land surface. The creation of this topography is a slow, chemical process driven by the hydrologic cycle.
 
 The engine of karst formation is carbonic acid. When rainwater falls through the atmosphere, it picks up carbon dioxide ($CO_2$), becoming slightly acidic. As this water percolates through the soil, it absorbs even more $CO_2$ from decaying organic matter. This weak carbonic acid reacts with the calcium carbonate in the limestone bedrock, chemically dissolving the rock and carrying it away in solution. Over tens of thousands of years, this seepage widens naturally occurring cracks and joints in the rock, eventually forming complex networks of enlarged fissures, shafts, and subterranean caverns.
 
-A signature feature of karst is the *sinkhole* (or doline). Sinkholes form via two primary mechanisms. The first is "solution subsidence," where the limestone reaches the surface and is slowly dissolved downwards, creating a gentle, bowl-shaped depression. The second, and more dangerous, type is the "collapse sinkhole." In this scenario, a cavern forms deep underground while the surface soil remains intact, bridged by a rock ceiling. As the cavern expands, the support for the ceiling weakens. [A] Eventually, under the weight of the overburden or triggered by a heavy rain event, the ceiling fails, and the ground surface catastrophically collapses into the void below.
+A signature feature of karst is the *sinkhole* (or doline). Sinkholes form via two primary mechanisms. The first is "solution subsidence," where the limestone reaches the surface and is slowly dissolved downwards, creating a gentle, bowl-shaped depression. The second, and more dangerous, type is the "collapse sinkhole." In this scenario, a cavern forms deep underground while the surface soil remains intact, bridged by a rock ceiling. As the cavern expands, the support for the ceiling weakens. Eventually, under the weight of the overburden or triggered by a heavy rain event, the ceiling fails, and the ground surface catastrophically collapses into the void below.
 
-Karst landscapes are also hydrologically distinct because they lack surface drainage. [B] You will rarely see rivers flowing across a mature karst plain. Instead, streams disappear into "swallow holes" (ponors), flowing underground through limestone conduits and re-emerging kilometers away as large springs. This subsurface flow is rapid and turbulent, unlike the slow filtration of water in sand aquifers.
+Karst landscapes are also hydrologically distinct because they lack surface drainage. You will rarely see rivers flowing across a mature karst plain. Instead, streams disappear into "swallow holes" (ponors), flowing underground through limestone conduits and re-emerging kilometers away as large springs. This subsurface flow is rapid and turbulent, unlike the slow filtration of water in sand aquifers.
 
-This geology presents unique hazards. Because the water moves quickly through open conduits without being filtered by sediment, groundwater in karst regions is highly susceptible to pollution. [C] A chemical spill or sewage leak can travel miles in a single day, contaminating springs used for drinking water. Furthermore, the unpredictable nature of void formation makes construction difficult; engineers must use ground-penetrating radar to ensure a building isn't placed over a potential collapse zone. Despite these risks, karst regions, such as the surreal towers of Guilin in China or the Mammoth Cave system in Kentucky, represent some of the most spectacular interactions between water and chemistry on the planet. [D]
-    `.trim(),
+This geology presents unique hazards. Because the water moves quickly through open conduits without being filtered by sediment, groundwater in karst regions is highly susceptible to pollution. A chemical spill or sewage leak can travel miles in a single day, contaminating springs used for drinking water. Furthermore, the unpredictable nature of void formation makes construction difficult; engineers must use ground-penetrating radar to ensure a building isn't placed over a potential collapse zone. Despite these risks, karst regions, such as the surreal towers of Guilin in China or the Mammoth Cave system in Kentucky, represent some of the most spectacular interactions between water and chemistry on the planet. `.trim(),
         questions: [
             {
                 id: "batch1_topic19_karst_Q1",
@@ -635,10 +611,9 @@ This geology presents unique hazards. Because the water moves quickly through op
         id: "batch1_topic20_green_revolution",
         taskType: "academic",
         title: "The Ecological Impacts of Agricultural Monoculture during the Green Revolution",
+        rhetoricalStructure: "Cause-Effect/Evaluation",
+        dominantSkill: "Inference",
         passage: `
-**Rhetorical Structure:** Cause-Effect/Evaluation
-**Dominant TOEFL Skill:** Inference
-
 The Green Revolution, a period of agricultural technology transfer occurring roughly between 1950 and the late 1960s, is credited with saving over a billion people from starvation. Led by agronomist Norman Borlaug, this initiative introduced high-yielding varieties (HYVs) of cereal grains—specifically wheat and rice—to the developing world, particularly India and Mexico. While the humanitarian triumph of increased caloric output is undeniable, the ecological cost of the production model it established—specifically the reliance on monoculture—has become a subject of intense scientific scrutiny.
 
 Monoculture is the practice of planting a single crop species over a wide area for many consecutive years. The HYVs developed were genetically uniform, bred to respond aggressively to irrigation and synthetic fertilizers. This uniformity is efficient for mechanization; a farmer can treat the entire field with the same protocol. However, in nature, biodiversity acts as a buffer against pests and disease. In a diverse ecosystem, a pathogen might kill one plant but fail to invade its neighbor of a different species. In a monoculture, the lack of genetic variation means that if a pest can infect one plant, it can infect them all. This creates a "feast" for pests, necessitating the massive application of chemical pesticides to protect the vulnerable, identical crop.
