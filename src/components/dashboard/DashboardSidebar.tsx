@@ -83,9 +83,9 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="p-6 border-b border-neutral-800">
+      <div className="p-6 border-b border-steel-800">
         <Link href="/dashboard" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-amber-600 rounded-panel flex items-center justify-center">
             <BookOpen className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-lg text-white">TOEFL Practice</span>
@@ -102,11 +102,11 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
               key={item.href}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                isActive
-                  ? "bg-primary-600 text-white"
-                  : "text-neutral-400 hover:text-white hover:bg-neutral-800"
-              }`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-panel transition-all ${
+ isActive
+ ? "bg-amber-600 text-white"
+ : "text-steel-400 hover:text-white hover:bg-steel-800"
+ }`}
             >
               <item.icon className="w-5 h-5" />
               <span className="font-medium">{item.name}</span>
@@ -116,9 +116,9 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       </nav>
 
       {/* User Info & Logout */}
-      <div className="p-4 border-t border-neutral-800">
+      <div className="p-4 border-t border-steel-800">
         <div className="flex items-center gap-3 px-4 py-3 mb-2">
-          <div className="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-steel-700 rounded-full flex items-center justify-center">
             <span className="text-white font-semibold">
               {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"}
             </span>
@@ -127,12 +127,12 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
             <p className="text-sm font-medium text-white truncate">
               {user?.full_name || "User"}
             </p>
-            <p className="text-xs text-neutral-400 truncate">{user?.email}</p>
+            <p className="text-xs text-steel-400 truncate">{user?.email}</p>
           </div>
         </div>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-800 transition-all"
+          className="flex items-center gap-3 w-full px-4 py-3 rounded-panel text-steel-400 hover:text-white hover:bg-steel-800 transition-all"
         >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Log out</span>
@@ -146,13 +146,13 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-neutral-900 rounded-lg border border-neutral-800"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-steel-900 rounded-flap border border-steel-800"
       >
         <Menu className="w-6 h-6 text-white" />
       </button>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 bg-neutral-900 border-r border-neutral-800">
+      <aside className="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 bg-steel-900 border-r border-steel-800">
         <SidebarContent />
       </aside>
 
@@ -174,11 +174,11 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="lg:hidden fixed inset-y-0 left-0 z-50 w-72 bg-neutral-900 border-r border-neutral-800"
+              className="lg:hidden fixed inset-y-0 left-0 z-50 w-72 bg-steel-900 border-r border-steel-800"
             >
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 p-2 text-neutral-400 hover:text-white"
+                className="absolute top-4 right-4 p-2 text-steel-400 hover:text-white"
               >
                 <X className="w-6 h-6" />
               </button>

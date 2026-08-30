@@ -18,7 +18,7 @@ const sections = [
     duration: "18-27 min",
     format: "Adaptive",
     tasks: ["Choose a Response", "Conversation", "Announcement", "Lecture"],
-    color: "bg-pink-500",
+    color: "bg-amber-500",
   },
   {
     icon: Mic,
@@ -26,7 +26,7 @@ const sections = [
     duration: "~8 min",
     format: "4 Tasks",
     tasks: ["Listen & Repeat", "Interview (4 questions)", "Integrated Tasks"],
-    color: "bg-green-500",
+    color: "bg-platform-500",
   },
   {
     icon: PenTool,
@@ -34,7 +34,7 @@ const sections = [
     duration: "~23 min",
     format: "3 Tasks",
     tasks: ["Build a Sentence", "Write an Email", "Academic Discussion"],
-    color: "bg-blue-500",
+    color: "bg-amber-500",
   },
 ];
 
@@ -48,10 +48,10 @@ export function TestFormatSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-secondary-50 border border-secondary-100 rounded-full mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-platform-50 border border-platform-100 rounded-full mb-6"
           >
-            <Layers className="w-4 h-4 text-secondary-600" />
-            <span className="text-sm font-medium text-secondary-700">
+            <Layers className="w-4 h-4 text-platform-600" />
+            <span className="text-sm font-medium text-platform-700">
               TOEFL 2026 Format
             </span>
           </motion.div>
@@ -60,7 +60,7 @@ export function TestFormatSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4"
+            className="text-3xl sm:text-4xl font-bold text-steel-900 mb-4"
           >
             Practice the Exact Test Format
           </motion.h2>
@@ -69,7 +69,7 @@ export function TestFormatSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-lg text-neutral-600 max-w-2xl mx-auto"
+            className="text-lg text-steel-600 max-w-2xl mx-auto"
           >
             The new TOEFL iBT is 67-85 minutes with adaptive Reading & Listening
             and the new 1-6 band scoring system.
@@ -79,7 +79,7 @@ export function TestFormatSection() {
         {/* Timeline */}
         <div className="relative">
           {/* Connecting line (desktop) */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-neutral-200 -translate-y-1/2" />
+          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-steel-200 -translate-y-1/2" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {sections.map((section, index) => (
@@ -89,27 +89,27 @@ export function TestFormatSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl border border-neutral-200 p-6 hover:shadow-xl hover:border-neutral-300 transition-all duration-300 relative z-10"
+                className="bg-white rounded-panel border border-steel-200 p-6 hover:shadow-xl hover:border-steel-300 transition-all duration-300 relative z-10"
               >
                 {/* Icon */}
                 <div
-                  className={`w-14 h-14 ${section.color} rounded-xl flex items-center justify-center mb-5`}
+                  className={`w-14 h-14 ${section.color} rounded-panel flex items-center justify-center mb-5`}
                 >
                   <section.icon className="w-7 h-7 text-white" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-semibold text-neutral-900 mb-2">
+                <h3 className="text-xl font-semibold text-steel-900 mb-2">
                   {section.name}
                 </h3>
 
                 {/* Meta */}
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-neutral-100 rounded-md text-xs font-medium text-neutral-600">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-steel-100 rounded-flap text-xs font-medium text-steel-600">
                     <Clock className="w-3 h-3" />
                     {section.duration}
                   </span>
-                  <span className="text-xs font-medium text-neutral-500">
+                  <span className="text-xs font-medium text-steel-500">
                     {section.format}
                   </span>
                 </div>
@@ -119,9 +119,9 @@ export function TestFormatSection() {
                   {section.tasks.map((task, i) => (
                     <li
                       key={i}
-                      className="text-sm text-neutral-600 flex items-start gap-2"
+                      className="text-sm text-steel-600 flex items-start gap-2"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-1.5 flex-shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-steel-400 mt-1.5 flex-shrink-0" />
                       {task}
                     </li>
                   ))}
@@ -138,16 +138,16 @@ export function TestFormatSection() {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <div className="inline-flex items-center gap-4 px-6 py-4 bg-neutral-900 rounded-2xl">
+          <div className="inline-flex items-center gap-4 px-6 py-4 bg-steel-900 rounded-panel">
             <div className="text-left">
-              <p className="text-xs text-neutral-400 uppercase tracking-wider">
+              <p className="text-xs text-steel-400 uppercase tracking-wider">
                 Total Duration
               </p>
               <p className="text-2xl font-bold text-white">67-85 minutes</p>
             </div>
-            <div className="w-px h-12 bg-neutral-700" />
+            <div className="w-px h-12 bg-steel-700" />
             <div className="text-left">
-              <p className="text-xs text-neutral-400 uppercase tracking-wider">
+              <p className="text-xs text-steel-400 uppercase tracking-wider">
                 Scoring
               </p>
               <p className="text-2xl font-bold text-white">1-6 Bands</p>

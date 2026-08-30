@@ -4,29 +4,30 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 /**
- * Created on first use rather than at module scope.
- * `createClient` throws when the URL is missing, and Next collects page data for
- * every route at build time, so building without Supabase env vars set failed
- * the whole production build. TTS caching is an optimisation, not a
- * requirement, so callers degrade gracefully when Supabase is not configured.
+ * Build the Supabase client on first use, not at module load.
+ *
+ * Next.js imports this module while collecting page data for /api/tts at build
+ * time. Creating the client here made the build fail with "supabaseUrl is
+ * required" whenever NEXT_PUBLIC_SUPABASE_URL was absent from the *build*
+ * environment, which is the normal case for a fresh checkout or a deploy that
+ * only exposes its variables at runtime.
+ *
+ * Deferring it keeps the credentials a runtime concern.
  */
-let supabaseClient: SupabaseClient | null = null;
+let client: SupabaseClient | null = null;
 
 export function getSupabase(): SupabaseClient {
-    if (!supabaseClient) {
-        const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-        const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-        if (!url || !anonKey) {
-            throw new Error("Supabase is not configured (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY)");
-        }
-        supabaseClient = createClient(url, anonKey);
-    }
-    return supabaseClient;
-}
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-/** True when Supabase env vars are present, so optional features can skip cleanly. */
-export function isSupabaseConfigured(): boolean {
-    return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error(
+      "Supabase is not configured: set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY."
+    );
+  }
+
+  client ??= createClient(supabaseUrl, supabaseAnonKey);
+  return client;
 }
 
 // Storage bucket names

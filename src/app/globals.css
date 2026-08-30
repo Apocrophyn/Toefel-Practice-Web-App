@@ -2,316 +2,537 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   CONCOURSE
+   The material layer for the split-flap departure-board world.
+
+   Every surface here is an object with a thickness: a matte flap face, a
+   brushed-steel frame, a glass indicator plate, an amber lamp. Light falls
+   from above, once. There are no glows, no decorative gradients, no blur
+   except inside the one glass plate the board actually has.
+   ========================================================================== */
+
 :root {
-  --background: #030712;
-  --foreground: #f9fafb;
-  --glass-bg: rgba(15, 23, 42, 0.6);
-  --glass-border: rgba(148, 163, 184, 0.1);
-  --glow-primary: rgba(56, 189, 248, 0.5);
-  --glow-secondary: rgba(168, 85, 247, 0.5);
-  --glow-accent: rgba(34, 211, 238, 0.5);
+  --concourse: #0a0b0c;
+  --concourse-deep: #060708;
+  --concourse-raised: #101214;
+
+  --flap-seam: #08090a;
+  --flap-face: #17191c;
+  --flap-lit: #1e2125;
+  --sheet: #1a1d20;
+
+  --steel-rim: #2c3136;
+  --steel-edge: #3a4046;
+  --steel-label: #8b939b;
+
+  --ivory: #edeae4;
+  --ivory-dim: #c4c7ca;
+
+  --amber: #f2a93b;
+  --amber-bright: #ffc55e;
+  --amber-deep: #b8791f;
+
+  --platform: #4ea97b;
+  --signal: #d45b49;
+
+  /* One mechanical timing family. Board hardware does not spring. */
+  --t-snap: 120ms;
+  --t-move: 220ms;
+  --e-mech: cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 
 html {
   scroll-behavior: smooth;
+  /* Board hardware sits still. Reading fields never bounce. */
+  overscroll-behavior-y: none;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-feature-settings: "rlig" 1, "calt" 1;
+  color: var(--ivory);
+  background: var(--concourse);
+  font-feature-settings: "kern" 1, "liga" 1, "tnum" 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Premium Scrollbar */
+/* --------------------------------------------------------------------------
+   Browser surfaces — the parts we did not draw still belong to the board.
+   -------------------------------------------------------------------------- */
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
-  border-radius: 3px;
+  background: var(--concourse-deep);
+  border-left: 1px solid var(--steel-rim);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.4), rgba(168, 85, 247, 0.4));
-  border-radius: 3px;
+  background: linear-gradient(90deg, #2f353a 0%, #454d54 45%, #2a3035 100%);
+  border-radius: 0;
+  border-top: 1px solid #565f67;
+  border-bottom: 1px solid #14171a;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.6), rgba(168, 85, 247, 0.6));
+  background: linear-gradient(90deg, #3a4147 0%, #566068 45%, #333a40 100%);
 }
 
-/* Glassmorphism Effects */
-@layer utilities {
-  .glassmorphism {
-    background: linear-gradient(
-      135deg,
-      rgba(15, 23, 42, 0.8) 0%,
-      rgba(15, 23, 42, 0.6) 50%,
-      rgba(15, 23, 42, 0.8) 100%
-    );
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+::-webkit-scrollbar-corner {
+  background: var(--concourse-deep);
+}
+
+* {
+  scrollbar-color: #454d54 var(--concourse-deep);
+  scrollbar-width: thin;
+}
+
+::selection {
+  background: var(--amber);
+  color: var(--concourse-deep);
+}
+
+::placeholder {
+  color: #79828a;
+}
+
+input,
+textarea {
+  caret-color: var(--amber);
+}
+
+@layer base {
+  *:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
-  .glass-panel {
+  /* Numerals in a board are always the same width. */
+  .tabular,
+  time,
+  [data-board-digits] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Long-form reading fields get a real measure and pretty wrapping. */
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* The board's compression governs the largest lettering, not just the
+     chrome. Every heading is set in the flap face, in caps, so a screen title
+     and a flap cell are recognisably the same alphabet. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-archivo-narrow), var(--font-archivo), sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    letter-spacing: 0.06em;
+  }
+
+  h3 {
+    letter-spacing: 0.12em;
+  }
+}
+
+/* ==========================================================================
+   MATERIALS
+   ========================================================================== */
+
+@layer utilities {
+  /* ---- Brushed steel ------------------------------------------------------
+     A vertical micro-grain plus a single top-lit edge. Used for the board
+     frame, the rail, and every structural rim. */
+  .steel-grain {
+    background-color: #1b1f22;
+    background-image: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.022) 0px,
+        rgba(255, 255, 255, 0.022) 1px,
+        rgba(0, 0, 0, 0.03) 1px,
+        rgba(0, 0, 0, 0.03) 3px
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.28) 100%);
+  }
+
+  /* ---- The board recess ---------------------------------------------------
+     Where flaps are mounted. Slightly darker than the frame, lit from above. */
+  .board-recess {
+    background: linear-gradient(180deg, #0d0f11 0%, #090a0b 100%);
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.8),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  /* ---- A flap face --------------------------------------------------------
+     Matte, painted, with the split seam running across its middle. This is
+     the signature material of the whole system. */
+  .flap {
+    position: relative;
+    background: linear-gradient(180deg, #1c1f23 0%, #191c1f 49.5%, #141719 50.5%, #16181b 100%);
+    border: 1px solid #24292e;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045),
+      0 2px 6px rgba(0, 0, 0, 0.55);
+  }
+
+  .flap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.72);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.035);
+    pointer-events: none;
+  }
+
+  .flap-lit {
+    background: linear-gradient(180deg, #23272c 0%, #1f2327 49.5%, #191c1f 50.5%, #1b1e21 100%);
+    border-color: #39312166;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 3px 10px rgba(0, 0, 0, 0.6);
+  }
+
+  /* ---- The reading sheet --------------------------------------------------
+     Strictly achromatic. Colour lives on rules, lamps and edges — never in
+     the field a passage is read from. */
+  .sheet {
+    background: linear-gradient(180deg, #1c1f22 0%, #191b1e 100%);
+    border: 1px solid #262b30;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 12px 32px -18px rgba(0, 0, 0, 0.9);
+  }
+
+  /* ---- Liquid-glass indicator plate --------------------------------------
+     The one round object on a board of rectangles, and the one place blur is
+     licensed. A black glass disc over the flap: refracting rim, top-lit
+     specular arc, deep inner shadow so it reads as a lens with thickness. */
+  .glass-plate {
+    position: relative;
+    isolation: isolate;
+    border-radius: 999px;
+    background: radial-gradient(
+        120% 120% at 50% 0%,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.04) 26%,
+        rgba(255, 255, 255, 0) 52%
+      ),
+      linear-gradient(180deg, #1a1d21 0%, #0c0e10 62%, #101317 100%);
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 -6px 12px rgba(0, 0, 0, 0.55),
+      0 4px 12px -4px rgba(0, 0, 0, 0.8);
+    transition: box-shadow var(--t-move) var(--e-mech),
+      transform var(--t-move) var(--e-mech);
+  }
+
+  /* Refracting rim: 1px gradient border via mask-composite. */
+  .glass-plate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
     background: linear-gradient(
-      145deg,
-      rgba(15, 23, 42, 0.9) 0%,
-      rgba(30, 41, 59, 0.7) 100%
+      180deg,
+      rgba(255, 255, 255, 0.42) 0%,
+      rgba(255, 255, 255, 0.06) 38%,
+      rgba(0, 0, 0, 0.5) 100%
     );
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border: 1px solid rgba(148, 163, 184, 0.08);
-    box-shadow:
-      0 25px 50px -12px rgba(0, 0, 0, 0.6),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Specular arc: a caught highlight on the upper-left curve of the lens. */
+  .glass-plate::after {
+    content: "";
+    position: absolute;
+    inset: 8%;
+    border-radius: inherit;
+    background: radial-gradient(
+      60% 42% at 32% 12%,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.07) 45%,
+      rgba(255, 255, 255, 0) 72%
+    );
+    pointer-events: none;
+  }
+
+  /* Live plate: the lens catches the amber of its own row lamp. */
+  .glass-plate-live {
+    box-shadow: inset 0 1px 0 rgba(255, 220, 170, 0.28),
+      inset 0 -6px 14px rgba(0, 0, 0, 0.6),
+      inset 0 0 22px -6px rgba(242, 169, 59, 0.5),
+      0 4px 14px -4px rgba(0, 0, 0, 0.85);
+  }
+
+  .glass-plate-live::before {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 213, 150, 0.62) 0%,
+      rgba(242, 169, 59, 0.16) 40%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+
+  /* ---- Row lamp -----------------------------------------------------------
+     The board's only bright object. A lamp is never decorative: it means the
+     row is live. */
+  .lamp {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--amber);
+    box-shadow: 0 0 0 1px rgba(242, 169, 59, 0.3),
+      0 0 10px -1px rgba(242, 169, 59, 0.65);
+  }
+
+  .lamp-dark {
+    background: #2a3035;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.7);
+  }
+
+  .lamp-platform {
+    background: var(--platform);
+    box-shadow: 0 0 0 1px rgba(78, 169, 123, 0.3),
+      0 0 10px -1px rgba(78, 169, 123, 0.6);
+  }
+
+  .lamp-signal {
+    background: var(--signal);
+    box-shadow: 0 0 0 1px rgba(212, 91, 73, 0.3),
+      0 0 10px -1px rgba(212, 91, 73, 0.6);
+  }
+
+  /* ---- Hairline rules -----------------------------------------------------
+     Two-tone so they read as a machined edge, not a border. */
+  .rule-h {
+    border-top: 1px solid #0a0c0d;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.035);
+  }
+
+  .rule-v {
+    border-left: 1px solid #0a0c0d;
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.03);
+  }
+
+  /* ---- Board voice --------------------------------------------------------
+     Condensed caps, wide tracking, tabular. Every label on the board. */
+  .board-label {
+    font-family: var(--font-archivo-narrow), var(--font-archivo), sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    font-size: 0.6875rem;
+    line-height: 1;
+    color: var(--steel-label);
+  }
+
+  .board-name {
+    font-family: var(--font-archivo-narrow), var(--font-archivo), sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Departure clock ----------------------------------------------------
+     The single most consequential value on a screen gets its own scale. */
+  .board-clock {
+    font-family: var(--font-archivo-narrow), var(--font-archivo), sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 0.9;
+  }
+}
+
+/* ==========================================================================
+   LEGACY ALIASES
+   The incumbent markup calls for glass panels and cards in 140 places. Rather
+   than leave those unstyled, the old names are re-cast as board hardware, so
+   every screen inherits the new world in one move.
+   ========================================================================== */
+
+@layer utilities {
+  .glassmorphism,
+  .glass-panel {
+    background: linear-gradient(180deg, #16191c 0%, #111417 100%);
+    border: 1px solid #262b30;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 24px 56px -28px rgba(0, 0, 0, 0.95);
   }
 
   .glass-card {
-    background: linear-gradient(
-      165deg,
-      rgba(15, 23, 42, 0.95) 0%,
-      rgba(30, 41, 59, 0.8) 50%,
-      rgba(15, 23, 42, 0.95) 100%
-    );
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    box-shadow:
-      0 10px 40px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.02) inset;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    background: linear-gradient(180deg, #17191c 0%, #131619 100%);
+    border: 1px solid #23282c;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 10px 26px -16px rgba(0, 0, 0, 0.9);
+    transition: border-color var(--t-move) var(--e-mech),
+      background-color var(--t-move) var(--e-mech),
+      transform var(--t-move) var(--e-mech);
   }
 
   .glass-card:hover {
-    border-color: rgba(56, 189, 248, 0.2);
-    box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.6),
-      0 0 40px rgba(56, 189, 248, 0.1),
-      0 0 0 1px rgba(56, 189, 248, 0.1) inset;
-    transform: translateY(-2px);
+    border-color: #3a4046;
+    background: linear-gradient(180deg, #1b1e22 0%, #16191c 100%);
+    transform: none;
   }
 
   .glass-button {
-    background: linear-gradient(
-      135deg,
-      rgba(56, 189, 248, 0.15) 0%,
-      rgba(168, 85, 247, 0.15) 100%
-    );
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    background: linear-gradient(180deg, #1f2327 0%, #15181b 100%);
+    border: 1px solid #333a40;
+    border-radius: 2px;
+    color: var(--ivory);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 2px 8px -3px rgba(0, 0, 0, 0.8);
+    transition: border-color var(--t-snap) var(--e-mech),
+      background var(--t-snap) var(--e-mech);
   }
 
   .glass-button:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(56, 189, 248, 0.25) 0%,
-      rgba(168, 85, 247, 0.25) 100%
-    );
-    border-color: rgba(56, 189, 248, 0.4);
-    box-shadow:
-      0 8px 24px rgba(56, 189, 248, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
+    background: linear-gradient(180deg, #262b30 0%, #1a1e21 100%);
+    border-color: var(--amber-deep);
+  }
+
+  .glass-button:active {
+    background: #121517;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
   }
 
   .glass-sidebar {
-    background: linear-gradient(
-      180deg,
-      rgba(15, 23, 42, 0.98) 0%,
-      rgba(15, 23, 42, 0.95) 100%
-    );
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border-right: 1px solid rgba(148, 163, 184, 0.08);
-    box-shadow:
-      4px 0 24px rgba(0, 0, 0, 0.4),
-      inset -1px 0 0 rgba(255, 255, 255, 0.03);
+    background: linear-gradient(180deg, #101315 0%, #0b0d0e 100%);
+    border-right: 1px solid #23282c;
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.025),
+      12px 0 40px -20px rgba(0, 0, 0, 0.9);
   }
 
-  /* Glowing text effects */
-  .heading-glow {
-    text-shadow:
-      0 0 20px rgba(56, 189, 248, 0.5),
-      0 0 40px rgba(56, 189, 248, 0.3),
-      0 0 60px rgba(56, 189, 248, 0.1);
-  }
-
-  .text-glow-cyan {
-    text-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
-  }
-
-  .text-glow-purple {
-    text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
-  }
-
+  /* Gradient text is refused by this world: emphasis is weight and size. */
   .text-gradient {
-    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #22d3ee 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--amber);
+    background: none;
+    -webkit-text-fill-color: currentColor;
   }
 
-  /* Icon glow effects */
-  .icon-glow {
-    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
+  /* The old glow hooks are neutered rather than deleted, so any markup that
+     still reaches for them gets board hardware instead of a halo. */
+  .heading-glow,
+  .text-glow-cyan,
+  .text-glow-purple {
+    text-shadow: none;
   }
 
+  .icon-glow,
   .icon-glow-purple {
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+    filter: none;
   }
 
-  /* Border glow */
   .border-glow {
-    box-shadow:
-      0 0 20px rgba(56, 189, 248, 0.15),
-      inset 0 0 20px rgba(56, 189, 248, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(242, 169, 59, 0.22);
   }
 
   .border-glow-purple {
-    box-shadow:
-      0 0 20px rgba(168, 85, 247, 0.15),
-      inset 0 0 20px rgba(168, 85, 247, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(58, 64, 70, 0.9);
+  }
+
+  /* Orbs were the old world's atmosphere. This world's atmosphere is the
+     concourse: a cool overhead wash and the board's own grain. */
+  .orb-cyan,
+  .orb-purple,
+  .orb-teal {
+    background: none;
+    display: none;
   }
 }
 
-/* Floating Animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-20px) rotate(1deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(-1deg);
-  }
-  75% {
-    transform: translateY(-25px) rotate(0.5deg);
-  }
+/* ==========================================================================
+   THE CONCOURSE GROUND
+   A single overhead light source and a fine grain, so the board is mounted in
+   a room rather than floating on a flat fill.
+   ========================================================================== */
+
+.concourse-ground {
+  background-color: #0a0b0c;
+  background-image: radial-gradient(
+      100% 70% at 50% -10%,
+      rgba(255, 255, 255, 0.035) 0%,
+      rgba(255, 255, 255, 0) 62%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.014) 0px,
+      rgba(255, 255, 255, 0.014) 1px,
+      rgba(0, 0, 0, 0) 1px,
+      rgba(0, 0, 0, 0) 4px
+    );
 }
 
-@keyframes float-slow {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-30px) scale(1.02);
-  }
-}
+/* ==========================================================================
+   THE CASCADE
+   The board's one authored motion: a value changes by flipping, character by
+   character, left to right. Used for clocks, scores, question counts and
+   section changes — never for decoration.
+   ========================================================================== */
 
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.35;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes shimmer {
+@keyframes flap-flip {
   0% {
-    background-position: -200% 0;
+    transform: rotateX(-90deg);
+    opacity: 0.3;
+  }
+  55% {
+    transform: rotateX(12deg);
+    opacity: 1;
+  }
+  78% {
+    transform: rotateX(-5deg);
   }
   100% {
-    background-position: 200% 0;
+    transform: rotateX(0deg);
+    opacity: 1;
   }
 }
 
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.flap-flip {
+  display: inline-block;
+  transform-origin: center center;
+  animation: flap-flip 240ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  backface-visibility: hidden;
 }
 
-@layer utilities {
-  .animate-float {
-    animation: float 8s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  .animate-float-slow {
-    animation: float-slow 12s ease-in-out infinite;
+  /* Reduced motion still gets the update — it just arrives in one piece. */
+  .flap-flip {
+    animation: none;
   }
 
-  .animate-pulse-glow {
-    animation: pulse-glow 4s ease-in-out infinite;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
-
-  .animate-shimmer {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-  }
-
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient-shift 8s ease infinite;
-  }
-}
-
-/* Gradient orb backgrounds */
-.orb-cyan {
-  background: radial-gradient(
-    circle,
-    rgba(56, 189, 248, 0.3) 0%,
-    rgba(14, 165, 233, 0.2) 30%,
-    transparent 70%
-  );
-}
-
-.orb-purple {
-  background: radial-gradient(
-    circle,
-    rgba(168, 85, 247, 0.3) 0%,
-    rgba(139, 92, 246, 0.2) 30%,
-    transparent 70%
-  );
-}
-
-.orb-teal {
-  background: radial-gradient(
-    circle,
-    rgba(34, 211, 238, 0.25) 0%,
-    rgba(6, 182, 212, 0.15) 30%,
-    transparent 70%
-  );
-}
-
-/* Focus styles */
-@layer base {
-  *:focus-visible {
-    @apply outline-none ring-2 ring-cyan-500/50 ring-offset-2 ring-offset-slate-900;
-  }
-
-  button:focus-visible,
-  a:focus-visible {
-    @apply outline-none ring-2 ring-cyan-500/50 ring-offset-2 ring-offset-slate-900 rounded-lg;
-  }
-}
-
-/* Selection styling */
-::selection {
-  background: rgba(56, 189, 248, 0.3);
-  color: #f9fafb;
 }

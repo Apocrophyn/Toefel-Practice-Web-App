@@ -70,22 +70,22 @@ export function LoginForm() {
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-md"
     >
-      <div className="bg-white rounded-2xl shadow-xl border border-neutral-200 p-8">
+      <div className="bg-white rounded-panel shadow-xl border border-steel-200 p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+          <h1 className="text-2xl font-bold text-steel-900 mb-2">
             Welcome back
           </h1>
-          <p className="text-neutral-600">
+          <p className="text-steel-600">
             Log in to continue your TOEFL practice
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-red-700">{error}</p>
+          <div className="mb-6 p-4 bg-signal-50 border border-signal-200 rounded-flap flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-signal-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-signal-700">{error}</p>
           </div>
         )}
 
@@ -93,7 +93,7 @@ export function LoginForm() {
         <button
           onClick={handleGoogleLogin}
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-neutral-300 rounded-lg font-medium text-neutral-700 hover:bg-neutral-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-steel-300 rounded-flap font-medium text-steel-700 hover:bg-steel-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -119,10 +119,10 @@ export function LoginForm() {
         {/* Divider */}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-neutral-200" />
+            <div className="w-full border-t border-steel-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-neutral-500">
+            <span className="px-4 bg-white text-steel-500">
               or continue with email
             </span>
           </div>
@@ -134,12 +134,12 @@ export function LoginForm() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-neutral-700 mb-1.5"
+              className="block text-sm font-medium text-steel-700 mb-1.5"
             >
               Email address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-steel-400" />
               <input
                 id="email"
                 type="email"
@@ -147,7 +147,7 @@ export function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-4 py-3 bg-steel-50 border border-steel-200 rounded-flap focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -156,12 +156,12 @@ export function LoginForm() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-neutral-700 mb-1.5"
+              className="block text-sm font-medium text-steel-700 mb-1.5"
             >
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-steel-400" />
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
@@ -169,12 +169,12 @@ export function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Enter your password"
-                className="w-full pl-10 pr-12 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-12 py-3 bg-steel-50 border border-steel-200 rounded-flap focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-steel-400 hover:text-steel-600"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -189,7 +189,7 @@ export function LoginForm() {
           <div className="flex justify-end">
             <Link
               href="/forgot-password"
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+              className="text-sm text-amber-600 hover:text-amber-700 font-medium"
             >
               Forgot password?
             </Link>
@@ -199,7 +199,7 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-flap transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
@@ -213,11 +213,11 @@ export function LoginForm() {
         </form>
 
         {/* Sign Up Link */}
-        <p className="mt-6 text-center text-sm text-neutral-600">
+        <p className="mt-6 text-center text-sm text-steel-600">
           Don&apos;t have an account?{" "}
           <Link
             href="/signup"
-            className="text-primary-600 hover:text-primary-700 font-semibold"
+            className="text-amber-600 hover:text-amber-700 font-semibold"
           >
             Sign up free
           </Link>

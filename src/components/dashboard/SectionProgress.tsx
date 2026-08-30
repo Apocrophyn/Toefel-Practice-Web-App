@@ -18,19 +18,19 @@ const sections = [
     name: "Listening",
     key: "listening_score" as const,
     icon: Headphones,
-    color: "bg-pink-500",
+    color: "bg-amber-500",
   },
   {
     name: "Speaking",
     key: "speaking_score" as const,
     icon: Mic,
-    color: "bg-green-500",
+    color: "bg-platform-500",
   },
   {
     name: "Writing",
     key: "writing_score" as const,
     icon: PenTool,
-    color: "bg-blue-500",
+    color: "bg-amber-500",
   },
 ];
 
@@ -50,7 +50,7 @@ export function SectionProgress({ attempts }: SectionProgressProps) {
   });
 
   return (
-    <div className="bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-2xl p-6">
+    <div className="bg-steel-900/50 backdrop-blur border border-steel-800 rounded-panel p-6">
       <h2 className="text-lg font-semibold text-white mb-5">
         Section Progress
       </h2>
@@ -61,7 +61,7 @@ export function SectionProgress({ attempts }: SectionProgressProps) {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
                 <div
-                  className={`w-8 h-8 ${section.color} rounded-lg flex items-center justify-center`}
+                  className={`w-8 h-8 ${section.color} rounded-flap flex items-center justify-center`}
                 >
                   <section.icon className="w-4 h-4 text-white" />
                 </div>
@@ -73,7 +73,7 @@ export function SectionProgress({ attempts }: SectionProgressProps) {
                 {section.average ? section.average.toFixed(1) : "—"} / 6.0
               </span>
             </div>
-            <div className="h-2 bg-neutral-800 rounded-full overflow-hidden">
+            <div className="h-2 bg-steel-800 rounded-full overflow-hidden">
               <div
                 className={`h-full ${section.color} rounded-full transition-all duration-500`}
                 style={{ width: `${section.progress}%` }}
@@ -84,7 +84,7 @@ export function SectionProgress({ attempts }: SectionProgressProps) {
       </div>
 
       {attempts.length === 0 && (
-        <p className="text-sm text-neutral-500 text-center mt-4">
+        <p className="text-sm text-steel-500 text-center mt-4">
           Complete a test to see your progress
         </p>
       )}

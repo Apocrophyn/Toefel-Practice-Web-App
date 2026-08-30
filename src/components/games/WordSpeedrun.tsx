@@ -254,40 +254,40 @@ export function WordSpeedrun() {
                 <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="inline-flex p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-4"
+                    className="inline-flex p-4 rounded-panel bg-amber-500/10 border border-amber-500/20 mb-4"
                 >
-                    <Zap className="w-12 h-12 text-cyan-400 icon-glow" />
+                    <Zap className="w-12 h-12 text-amber-400" />
                 </motion.div>
-                <h1 className="text-5xl font-bold tracking-tight text-white heading-glow">
+                <h1 className="text-5xl font-bold tracking-tight text-white">
                     Vocabulary <span className="text-gradient">Speedrun</span>
                 </h1>
-                <p className="text-slate-400 text-lg">
+                <p className="text-steel-400 text-lg">
                     Master academic vocabulary in a thrilling race against time. Complete as many words as you can!
                 </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                 {[
-                    { id: 'easy', label: 'Easy', icon: Star, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
-                    { id: 'medium', label: 'Medium', icon: Target, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
-                    { id: 'hard', label: 'Hard', icon: Trophy, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
-                    { id: 'mixed', label: 'Mixed', icon: BrainCircuit, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' }
+                    { id: 'easy', label: 'Easy', icon: Star, color: 'text-platform-400', bg: 'bg-platform-500/10', border: 'border-platform-500/20' },
+                    { id: 'medium', label: 'Medium', icon: Target, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+                    { id: 'hard', label: 'Hard', icon: Trophy, color: 'text-signal-400', bg: 'bg-signal-500/10', border: 'border-signal-500/20' },
+                    { id: 'mixed', label: 'Mixed', icon: BrainCircuit, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' }
                 ].map((level) => (
                     <motion.button
                         key={level.id}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => startGame(level.id as any)}
-                        className={`flex items-center p-6 rounded-2xl glassmorphism ${level.border} group transition-all`}
+                        className={`flex items-center p-6 rounded-panel glassmorphism ${level.border} group transition-all`}
                     >
-                        <div className={`p-3 rounded-xl ${level.bg} ${level.color} mr-4 group-hover:scale-110 transition-transform`}>
+                        <div className={`p-3 rounded-panel ${level.bg} ${level.color} mr-4 group-hover:scale-110 transition-transform`}>
                             <level.icon size={24} />
                         </div>
                         <div className="text-left">
                             <div className="font-bold text-lg text-white">{level.label}</div>
-                            <div className="text-xs text-slate-500 uppercase tracking-widest">Difficulty</div>
+                            <div className="text-xs text-steel-500 uppercase tracking-widest">Difficulty</div>
                         </div>
-                        <ChevronRight className="ml-auto text-slate-600 group-hover:text-white transition-colors" />
+                        <ChevronRight className="ml-auto text-steel-600 group-hover:text-white transition-colors" />
                     </motion.button>
                 ))}
             </div>
@@ -297,47 +297,47 @@ export function WordSpeedrun() {
     const PlayingView = () => (
         <div className="flex flex-col items-center justify-start min-h-[500px] w-full max-w-4xl mx-auto p-4 md:p-8">
             <div className="grid grid-cols-3 w-full mb-12 gap-4">
-                <div className="glass-card p-4 rounded-2xl flex items-center space-x-3 md:space-x-4">
-                    <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400">
+                <div className="glass-card p-4 rounded-panel flex items-center space-x-3 md:space-x-4">
+                    <div className="p-2 rounded-flap bg-amber-500/10 text-amber-400">
                         <Timer size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div>
                         <div className="text-lg md:text-2xl font-mono font-bold text-white leading-none">
                             {game.timeRemaining}s
                         </div>
-                        <div className="text-[10px] uppercase tracking-tighter text-slate-500 font-bold">Time</div>
+                        <div className="text-[10px] uppercase tracking-tighter text-steel-500 font-bold">Time</div>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center justify-center">
-                    <div className="text-3xl md:text-5xl font-black text-white heading-glow">
+                    <div className="text-3xl md:text-5xl font-black text-white">
                         {game.score.toLocaleString()}
                     </div>
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-cyan-400 font-bold">Score</div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-amber-400 font-bold">Score</div>
                 </div>
 
-                <div className="glass-card p-4 rounded-2xl flex items-center space-x-3 md:space-x-4">
-                    <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400">
+                <div className="glass-card p-4 rounded-panel flex items-center space-x-3 md:space-x-4">
+                    <div className="p-2 rounded-flap bg-amber-500/10 text-amber-400">
                         <Zap size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div>
                         <div className="text-lg md:text-2xl font-mono font-bold text-white leading-none">
                             {game.combo}x
                         </div>
-                        <div className="text-[10px] uppercase tracking-tighter text-slate-500 font-bold">Combo</div>
+                        <div className="text-[10px] uppercase tracking-tighter text-steel-500 font-bold">Combo</div>
                     </div>
                 </div>
             </div>
 
             <div className="w-full text-center space-y-12">
                 <div className="space-y-6">
-                    <p className="text-slate-200 text-xl md:text-2xl font-medium max-w-3xl mx-auto italic leading-relaxed">
+                    <p className="text-steel-200 text-xl md:text-2xl font-medium max-w-3xl mx-auto italic leading-relaxed">
                         &ldquo;{currentWord?.definition}&rdquo;
                     </p>
-                    <div className="inline-flex items-center space-x-4 px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/50 backdrop-blur-md">
-                        <span className="text-xs font-black text-cyan-400 uppercase tracking-widest">{currentWord?.partOfSpeech}</span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-600"></div>
-                        <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{currentWord?.category}</span>
+                    <div className="inline-flex items-center space-x-4 px-4 py-1.5 rounded-full bg-steel-800/80 border border-steel-700/50 backdrop-blur-md">
+                        <span className="text-xs font-black text-amber-400 uppercase tracking-widest">{currentWord?.partOfSpeech}</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-steel-600"></div>
+                        <span className="text-xs font-black text-steel-400 uppercase tracking-widest">{currentWord?.category}</span>
                     </div>
                 </div>
 
@@ -362,25 +362,25 @@ export function WordSpeedrun() {
                             <div
                                 key={`${currentWord?.word}-${i}`}
                                 className={`
-                                    relative w-10 h-14 md:w-14 md:h-18 lg:w-16 lg:h-20 
-                                    flex items-center justify-center rounded-2xl 
-                                    text-2xl md:text-4xl lg:text-5xl font-black transition-all duration-150
-                                    ${isBlank
-                                        ? isCurrent
-                                            ? 'bg-slate-800 border-2 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.2)]'
-                                            : 'bg-slate-900/50 border-2 border-slate-800 text-white'
-                                        : 'bg-transparent border-2 border-transparent text-slate-600'
-                                    }
-                                    ${feedback === 'correct' && isBlank ? 'bg-green-500/20 border-green-500 text-green-400 scale-105' : ''}
-                                    ${feedback === 'incorrect' && isBlank ? 'bg-red-500/20 border-red-500 text-red-400' : ''}
-                                `}
+ relative w-10 h-14 md:w-14 md:h-18 lg:w-16 lg:h-20
+ flex items-center justify-center rounded-panel
+ text-2xl md:text-4xl lg:text-5xl font-black transition-all duration-150
+ ${isBlank
+ ? isCurrent
+ ? 'bg-steel-800 border-2 border-amber-400 shadow-[0_0_15px_rgba(34,211,238,0.2)]'
+ : 'bg-steel-900/50 border-2 border-steel-800 text-white'
+ : 'bg-transparent border-2 border-transparent text-steel-600'
+ }
+ ${feedback === 'correct' && isBlank ? 'bg-platform-500/20 border-platform-500 text-platform-400 scale-105' : ''}
+ ${feedback === 'incorrect' && isBlank ? 'bg-signal-500/20 border-signal-500 text-signal-400' : ''}
+`}
                             >
                                 {feedback === 'incorrect' && isBlank ? currentWord.word[i] : userChar}
                                 {isCurrent && !feedback && (
                                     <motion.div
                                         animate={{ opacity: [0, 1, 0] }}
                                         transition={{ duration: 0.8, repeat: Infinity }}
-                                        className="absolute bottom-3 w-1/3 h-1 bg-cyan-400 rounded-full"
+                                        className="absolute bottom-3 w-1/3 h-1 bg-amber-400 rounded-full"
                                     />
                                 )}
                             </div>
@@ -395,9 +395,9 @@ export function WordSpeedrun() {
                                 initial={{ y: 10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -10, opacity: 0 }}
-                                className="text-red-400 font-bold uppercase tracking-widest text-sm"
+                                className="text-signal-400 font-bold uppercase tracking-widest text-sm"
                             >
-                                Incorrect! The word was: <span className="text-white border-b border-red-500">{currentWord?.word}</span>
+                                Incorrect! The word was: <span className="text-white border-b border-signal-500">{currentWord?.word}</span>
                             </motion.div>
                         )}
                         {feedback === 'correct' && (
@@ -405,7 +405,7 @@ export function WordSpeedrun() {
                                 initial={{ y: 10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -10, opacity: 0 }}
-                                className="text-green-400 font-bold uppercase tracking-widest text-sm"
+                                className="text-platform-400 font-bold uppercase tracking-widest text-sm"
                             >
                                 Perfect! +100 Points
                             </motion.div>
@@ -418,7 +418,7 @@ export function WordSpeedrun() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => checkWord()}
-                        className="px-10 py-4 rounded-2xl glass-button font-black text-white tracking-[0.2em] uppercase flex items-center space-x-3 mx-auto"
+                        className="px-10 py-4 rounded-panel glass-button font-black text-white tracking-[0.2em] uppercase flex items-center space-x-3 mx-auto"
                     >
                         <span>Submit Word</span>
                         <ArrowRight size={20} />
@@ -434,33 +434,33 @@ export function WordSpeedrun() {
                 <motion.div
                     initial={{ scale: 0, rotate: -20 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    className="p-6 inline-block rounded-3xl bg-yellow-500/10 border border-yellow-500/20 mb-4"
+                    className="p-6 inline-block rounded-panel bg-amber-500/10 border border-amber-500/20 mb-4"
                 >
-                    <Trophy className="w-20 h-20 text-yellow-400 icon-glow" />
+                    <Trophy className="w-20 h-20 text-amber-400" />
                 </motion.div>
                 <h2 className="text-6xl font-black text-white uppercase tracking-tighter text-gradient">Session Complete!</h2>
-                <p className="text-slate-400 text-xl font-medium tracking-wide">Excellent work on your vocabulary practice.</p>
+                <p className="text-steel-400 text-xl font-medium tracking-wide">Excellent work on your vocabulary practice.</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
                 {[
-                    { label: 'Total Score', value: game.score.toLocaleString(), icon: Award, color: 'text-cyan-400' },
-                    { label: 'Accuracy', value: `${game.wordsAttempted > 0 ? Math.round((game.wordsCorrect / game.wordsAttempted) * 100) : 0}%`, icon: Target, color: 'text-blue-400' },
-                    { label: 'Words Mastered', value: `${game.wordsCorrect}/${game.wordsAttempted}`, icon: CheckCircle2, color: 'text-green-400' },
-                    { label: 'Best Combo', value: `${game.maxCombo}x`, icon: Zap, color: 'text-purple-400' }
+                    { label: 'Total Score', value: game.score.toLocaleString(), icon: Award, color: 'text-amber-400' },
+                    { label: 'Accuracy', value: `${game.wordsAttempted > 0 ? Math.round((game.wordsCorrect / game.wordsAttempted) * 100) : 0}%`, icon: Target, color: 'text-amber-400' },
+                    { label: 'Words Mastered', value: `${game.wordsCorrect}/${game.wordsAttempted}`, icon: CheckCircle2, color: 'text-platform-400' },
+                    { label: 'Best Combo', value: `${game.maxCombo}x`, icon: Zap, color: 'text-amber-400' }
                 ].map((stat, i) => (
-                    <div key={i} className="glass-card p-8 rounded-3xl flex flex-col items-center space-y-3 border-glow shadow-2xl bg-slate-900/40">
+                    <div key={i} className="glass-card p-8 rounded-panel flex flex-col items-center space-y-3 shadow-2xl bg-steel-900/40">
                         <stat.icon className={`w-10 h-10 ${stat.color} mb-2`} />
                         <div className="text-4xl font-black text-white leading-none">{stat.value}</div>
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">{stat.label}</div>
+                        <div className="text-xs font-bold text-steel-500 uppercase tracking-widest">{stat.label}</div>
                     </div>
                 ))}
             </div>
 
-            <div className="w-full glassmorphism rounded-[2.5rem] p-10 border-slate-800 bg-slate-900/20">
+            <div className="w-full glassmorphism rounded-[2.5rem] p-10 border-steel-800 bg-steel-900/20">
                 <div className="flex items-center justify-between mb-8">
                     <h3 className="text-white font-black uppercase tracking-[0.3em] text-sm flex items-center">
-                        <TrendingUp className="mr-3 text-cyan-400" size={20} />
+                        <TrendingUp className="mr-3 text-amber-400" size={20} />
                         Detailed Session Review
                     </h3>
                 </div>
@@ -473,21 +473,21 @@ export function WordSpeedrun() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.05 }}
                                 key={i}
-                                className={`flex flex-col md:flex-row md:items-center justify-between p-6 rounded-2xl border ${h.isCorrect ? 'bg-green-500/5 border-green-500/20' : 'bg-red-500/5 border-red-500/20'} transition-all hover:bg-slate-800/30 group`}
+                                className={`flex flex-col md:flex-row md:items-center justify-between p-6 rounded-panel border ${h.isCorrect ? 'bg-platform-500/5 border-platform-500/20' : 'bg-signal-500/5 border-signal-500/20'} transition-all hover:bg-steel-800/30 group`}
                             >
                                 <div className="flex items-center space-x-4">
-                                    <div className={`p-2 rounded-lg ${h.isCorrect ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
+                                    <div className={`p-2 rounded-flap ${h.isCorrect ? 'bg-platform-500/10 text-platform-400' : 'bg-signal-500/10 text-signal-400'}`}>
                                         {h.isCorrect ? <CheckCircle2 size={24} /> : <XCircle size={24} />}
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-black text-white group-hover:text-cyan-400 transition-colors uppercase tracking-tight">{h.word}</div>
-                                        <div className="text-sm text-slate-500 font-medium italic mt-1 line-clamp-1">&ldquo;{h.definition}&rdquo;</div>
+                                        <div className="text-2xl font-black text-white group-hover:text-amber-400 transition-colors uppercase tracking-tight">{h.word}</div>
+                                        <div className="text-sm text-steel-500 font-medium italic mt-1 line-clamp-1">&ldquo;{h.definition}&rdquo;</div>
                                     </div>
                                 </div>
                                 {!h.isCorrect && (
                                     <div className="mt-4 md:mt-0 text-right">
-                                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">You typed blanks:</div>
-                                        <div className="text-red-400 font-mono font-bold line-through opacity-60">
+                                        <div className="text-[10px] font-bold text-steel-500 uppercase tracking-widest mb-1">You typed blanks:</div>
+                                        <div className="text-signal-400 font-mono font-bold line-through opacity-60">
                                             {h.userTyped.split('').filter((_, idx) => blankIndices.includes(idx)).join('')}
                                         </div>
                                     </div>
@@ -502,7 +502,7 @@ export function WordSpeedrun() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setGameState("idle")}
-                className="px-14 py-6 rounded-3xl glass-button font-black text-white tracking-[0.3em] uppercase flex items-center space-x-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+                className="px-14 py-6 rounded-panel glass-button font-black text-white tracking-[0.3em] uppercase flex items-center space-x-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
                 <RotateCcw size={24} />
                 <span>Restart Speedrun</span>
@@ -511,7 +511,7 @@ export function WordSpeedrun() {
     );
 
     return (
-        <div className="relative min-h-screen pt-24 pb-12 overflow-hidden bg-slate-950">
+        <div className="relative min-h-screen pt-24 pb-12 overflow-hidden bg-steel-950">
             <div className="absolute top-1/4 -left-20 w-[40rem] h-[40rem] orb-cyan opacity-[0.05] animate-pulse blur-[120px] pointer-events-none" />
             <div className="absolute bottom-1/4 -right-20 w-[40rem] h-[40rem] orb-purple opacity-[0.05] animate-pulse blur-[120px] pointer-events-none" />
 

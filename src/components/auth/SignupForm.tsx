@@ -106,21 +106,21 @@ export function SignupForm() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-2xl shadow-xl border border-neutral-200 p-8 text-center">
-          <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-8 h-8 text-secondary-600" />
+        <div className="bg-white rounded-panel shadow-xl border border-steel-200 p-8 text-center">
+          <div className="w-16 h-16 bg-platform-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle2 className="w-8 h-8 text-platform-600" />
           </div>
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+          <h1 className="text-2xl font-bold text-steel-900 mb-2">
             Check your email
           </h1>
-          <p className="text-neutral-600 mb-6">
+          <p className="text-steel-600 mb-6">
             We&apos;ve sent a confirmation link to{" "}
             <span className="font-semibold">{email}</span>. Click the link to
             activate your account.
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-flap transition-colors"
           >
             Back to login
           </Link>
@@ -135,22 +135,22 @@ export function SignupForm() {
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-md"
     >
-      <div className="bg-white rounded-2xl shadow-xl border border-neutral-200 p-8">
+      <div className="bg-white rounded-panel shadow-xl border border-steel-200 p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+          <h1 className="text-2xl font-bold text-steel-900 mb-2">
             Create your account
           </h1>
-          <p className="text-neutral-600">
+          <p className="text-steel-600">
             Start practicing for TOEFL 2026 today
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <p className="text-sm text-red-700">{error}</p>
+          <div className="mb-6 p-4 bg-signal-50 border border-signal-200 rounded-flap flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-signal-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-signal-700">{error}</p>
           </div>
         )}
 
@@ -158,7 +158,7 @@ export function SignupForm() {
         <button
           onClick={handleGoogleSignup}
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-neutral-300 rounded-lg font-medium text-neutral-700 hover:bg-neutral-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-steel-300 rounded-flap font-medium text-steel-700 hover:bg-steel-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -184,10 +184,10 @@ export function SignupForm() {
         {/* Divider */}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-neutral-200" />
+            <div className="w-full border-t border-steel-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-neutral-500">
+            <span className="px-4 bg-white text-steel-500">
               or sign up with email
             </span>
           </div>
@@ -199,12 +199,12 @@ export function SignupForm() {
           <div>
             <label
               htmlFor="fullName"
-              className="block text-sm font-medium text-neutral-700 mb-1.5"
+              className="block text-sm font-medium text-steel-700 mb-1.5"
             >
               Full name
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-steel-400" />
               <input
                 id="fullName"
                 type="text"
@@ -212,7 +212,7 @@ export function SignupForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 required
                 placeholder="John Doe"
-                className="w-full pl-10 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-4 py-3 bg-steel-50 border border-steel-200 rounded-flap focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -221,12 +221,12 @@ export function SignupForm() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-neutral-700 mb-1.5"
+              className="block text-sm font-medium text-steel-700 mb-1.5"
             >
               Email address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-steel-400" />
               <input
                 id="email"
                 type="email"
@@ -234,7 +234,7 @@ export function SignupForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-4 py-3 bg-steel-50 border border-steel-200 rounded-flap focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -243,12 +243,12 @@ export function SignupForm() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-neutral-700 mb-1.5"
+              className="block text-sm font-medium text-steel-700 mb-1.5"
             >
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-steel-400" />
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
@@ -256,12 +256,12 @@ export function SignupForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Create a password"
-                className="w-full pl-10 pr-12 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-12 py-3 bg-steel-50 border border-steel-200 rounded-flap focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-steel-400 hover:text-steel-600"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -278,17 +278,17 @@ export function SignupForm() {
                   <li
                     key={index}
                     className={`flex items-center gap-2 text-sm ${
-                      req.test(password)
-                        ? "text-secondary-600"
-                        : "text-neutral-500"
-                    }`}
+ req.test(password)
+ ? "text-platform-600"
+ : "text-steel-500"
+ }`}
                   >
                     <CheckCircle2
                       className={`w-4 h-4 ${
-                        req.test(password)
-                          ? "text-secondary-500"
-                          : "text-neutral-300"
-                      }`}
+ req.test(password)
+ ? "text-platform-500"
+ : "text-steel-300"
+ }`}
                     />
                     {req.label}
                   </li>
@@ -298,18 +298,18 @@ export function SignupForm() {
           </div>
 
           {/* Terms */}
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-steel-500">
             By signing up, you agree to our{" "}
             <Link
               href="/terms"
-              className="text-primary-600 hover:underline"
+              className="text-amber-600 hover:underline"
             >
               Terms of Service
             </Link>{" "}
             and{" "}
             <Link
               href="/privacy"
-              className="text-primary-600 hover:underline"
+              className="text-amber-600 hover:underline"
             >
               Privacy Policy
             </Link>
@@ -320,7 +320,7 @@ export function SignupForm() {
           <button
             type="submit"
             disabled={isLoading || !allRequirementsMet}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-flap transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
@@ -334,11 +334,11 @@ export function SignupForm() {
         </form>
 
         {/* Login Link */}
-        <p className="mt-6 text-center text-sm text-neutral-600">
+        <p className="mt-6 text-center text-sm text-steel-600">
           Already have an account?{" "}
           <Link
             href="/login"
-            className="text-primary-600 hover:text-primary-700 font-semibold"
+            className="text-amber-600 hover:text-amber-700 font-semibold"
           >
             Log in
           </Link>

@@ -25,10 +25,10 @@ const testTypeIcons: Record<string, typeof BookOpen> = {
 
 const testTypeColors: Record<string, string> = {
   reading: "bg-amber-500",
-  listening: "bg-pink-500",
-  speaking: "bg-green-500",
-  writing: "bg-blue-500",
-  full_mock: "bg-primary-500",
+  listening: "bg-amber-500",
+  speaking: "bg-platform-500",
+  writing: "bg-amber-500",
+  full_mock: "bg-amber-500",
 };
 
 function formatDate(dateString: string): string {
@@ -63,12 +63,12 @@ function formatTestType(type: string): string {
 
 export function RecentActivity({ attempts }: RecentActivityProps) {
   return (
-    <div className="bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-2xl p-6">
+    <div className="bg-steel-900/50 backdrop-blur border border-steel-800 rounded-panel p-6">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-lg font-semibold text-white">Recent Activity</h2>
         <Link
           href="/results"
-          className="text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1"
+          className="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1"
         >
           View all
           <ArrowRight className="w-4 h-4" />
@@ -77,10 +77,10 @@ export function RecentActivity({ attempts }: RecentActivityProps) {
 
       {attempts.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-neutral-500 mb-4">No recent activity</p>
+          <p className="text-steel-500 mb-4">No recent activity</p>
           <Link
             href="/practice"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded-flap transition-colors"
           >
             Start Practicing
           </Link>
@@ -89,24 +89,24 @@ export function RecentActivity({ attempts }: RecentActivityProps) {
         <div className="space-y-3">
           {attempts.slice(0, 5).map((attempt) => {
             const Icon = testTypeIcons[attempt.test_type] || GraduationCap;
-            const color = testTypeColors[attempt.test_type] || "bg-neutral-600";
+            const color = testTypeColors[attempt.test_type] || "bg-steel-600";
 
             return (
               <Link
                 key={attempt.id}
                 href={`/results/${attempt.id}`}
-                className="flex items-center gap-4 p-3 rounded-xl hover:bg-neutral-800/50 transition-colors group"
+                className="flex items-center gap-4 p-3 rounded-panel hover:bg-steel-800/50 transition-colors group"
               >
                 <div
-                  className={`w-10 h-10 ${color} rounded-lg flex items-center justify-center flex-shrink-0`}
+                  className={`w-10 h-10 ${color} rounded-flap flex items-center justify-center flex-shrink-0`}
                 >
                   <Icon className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white group-hover:text-primary-400 transition-colors">
+                  <p className="text-sm font-medium text-white group-hover:text-amber-400 transition-colors">
                     {formatTestType(attempt.test_type)}
                   </p>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-steel-500">
                     {formatDate(attempt.started_at)}
                   </p>
                 </div>
@@ -116,15 +116,15 @@ export function RecentActivity({ attempts }: RecentActivityProps) {
                       <p className="text-lg font-bold text-white">
                         {attempt.overall_score?.toFixed(1) || "—"}
                       </p>
-                      <p className="text-xs text-neutral-500">/ 6.0</p>
+                      <p className="text-xs text-steel-500">/ 6.0</p>
                     </>
                   ) : (
                     <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        attempt.status === "in_progress"
-                          ? "bg-amber-500/20 text-amber-400"
-                          : "bg-neutral-700 text-neutral-400"
-                      }`}
+                      className={`px-2 py-1 text-xs font-medium rounded-flap ${
+ attempt.status === "in_progress"
+ ? "bg-amber-500/20 text-amber-400"
+ : "bg-steel-700 text-steel-400"
+ } font-board uppercase tracking-[0.14em]`}
                     >
                       {attempt.status === "in_progress"
                         ? "In Progress"

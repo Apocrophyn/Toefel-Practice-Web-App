@@ -316,19 +316,19 @@ export function ReadingPractice() {
     setState("setup");
   };
 
-  // Setup Screen
+  // Setup Screen — the section's manifest, posted before it boards.
   if (state === "setup") {
     return (
       <div className="h-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-8 h-full flex flex-col"
+          className="glass-panel rounded-panel p-8 h-full flex flex-col"
         >
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
             <div className="relative">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/25">
+              <div className="glass-plate w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
                 <BrainCircuit className="w-7 h-7 text-white" />
               </div>
               <div className="absolute -top-1 -right-1">
@@ -348,7 +348,7 @@ export function ReadingPractice() {
 
             {/* Format Details */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="p-4 rounded-panel bg-white/5 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className="w-5 h-5 text-cyan-400" />
                   <span className="text-white font-semibold">Duration</span>
@@ -358,7 +358,7 @@ export function ReadingPractice() {
                   Module 2 varies by track
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="p-4 rounded-panel bg-white/5 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <Target className="w-5 h-5 text-purple-400" />
                   <span className="text-white font-semibold">Questions</span>
@@ -368,7 +368,7 @@ export function ReadingPractice() {
                   (10 per module)
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="p-4 rounded-panel bg-white/5 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <Zap className="w-5 h-5 text-emerald-400" />
                   <span className="text-white font-semibold">Adaptive</span>
@@ -382,7 +382,7 @@ export function ReadingPractice() {
 
             {/* Module explanation */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="p-4 rounded-panel bg-white/5 border border-white/10">
                 <h3 className="font-semibold text-white mb-2 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">1</div>
                   Module 1: Baseline
@@ -391,7 +391,7 @@ export function ReadingPractice() {
                   Mixed difficulty questions including Complete the Words, Daily Life texts, and Academic passages. Performance determines your next path.
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="p-4 rounded-panel bg-white/5 border border-white/10">
                 <h3 className="font-semibold text-white mb-2 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs">2</div>
                   Module 2: Adaptive
@@ -404,7 +404,7 @@ export function ReadingPractice() {
             </div>
 
             {/* Task Types */}
-            <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20">
+            <div className="bg-steel-900/70 mt-6 p-4 rounded-panel border border-cyan-500/20">
               <h3 className="font-semibold text-white mb-3">Task Types</h3>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
@@ -427,7 +427,7 @@ export function ReadingPractice() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={startModule1}
-            className="w-full mt-auto px-6 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25"
+            className="bg-amber-400 w-full mt-auto px-6 py-4 text-concourse-deep rounded-panel transition-all duration-300 flex items-center justify-center gap-2 shadow-lg font-board uppercase tracking-[0.14em] font-bold"
           >
             Start Module 1
             <ChevronRight className="w-5 h-5" />
@@ -448,48 +448,48 @@ export function ReadingPractice() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass-panel rounded-2xl p-10 max-w-lg w-full text-center"
+          className="glass-panel rounded-panel p-10 max-w-lg w-full text-center"
         >
-          <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 shadow-xl ${isAdvanced
-            ? "bg-gradient-to-br from-emerald-400 to-green-500 shadow-emerald-500/20"
-            : "bg-gradient-to-br from-amber-400 to-orange-500 shadow-amber-500/20"
-            }`}>
+          <div className={`glass-plate w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 shadow-xl ${isAdvanced
+ ? " "
+ : " "
+ }`}>
             <CheckCircle className="w-10 h-10 text-white" />
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-2">Module 1 Complete!</h2>
-          <p className="text-slate-400 mb-4">
+          <p className="text-steel-400 mb-4">
             You answered <span className="text-white font-semibold">{stats.answered}</span> questions
           </p>
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div className="p-4 rounded-panel bg-white/5 border border-white/10">
               <div className="text-2xl font-bold text-white">{stats.correct}/{stats.answered}</div>
-              <div className="text-sm text-slate-400">Correct</div>
+              <div className="text-sm text-steel-400">Correct</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div className="p-4 rounded-panel bg-white/5 border border-white/10">
               <div className="text-2xl font-bold text-white">{Math.round(accuracy * 100)}%</div>
-              <div className="text-sm text-slate-400">Accuracy</div>
+              <div className="text-sm text-steel-400">Accuracy</div>
             </div>
           </div>
 
-          <div className={`p-5 rounded-xl border mb-8 text-left ${isAdvanced
-            ? "bg-emerald-500/10 border-emerald-500/30"
-            : "bg-amber-500/10 border-amber-500/30"
-            }`}>
+          <div className={`p-5 rounded-panel border mb-8 text-left ${isAdvanced
+ ? "bg-platform-500/10 border-platform-500/30"
+ : "bg-amber-500/10 border-amber-500/30"
+ }`}>
             <div className="flex items-center gap-2 mb-2">
               {isAdvanced ? (
-                <TrendingUp className="w-5 h-5 text-emerald-400" />
+                <TrendingUp className="w-5 h-5 text-platform-400" />
               ) : (
                 <TrendingDown className="w-5 h-5 text-amber-400" />
               )}
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">NEXT UP</p>
+              <p className="text-xs font-semibold text-steel-500 uppercase tracking-widest">NEXT UP</p>
             </div>
-            <h3 className={`text-xl font-bold mb-1 ${isAdvanced ? "text-emerald-400" : "text-amber-400"}`}>
+            <h3 className={`text-xl font-bold mb-1 ${isAdvanced ? "text-platform-400" : "text-amber-400"}`}>
               {isAdvanced ? "Advanced Track (Hard)" : "Standard Track (Easy)"}
             </h3>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-steel-400">
               {isAdvanced
                 ? "Based on your strong performance (≥60%), you'll tackle advanced academic passages with complex inference and analysis questions."
                 : "The next module focuses on daily life scenarios with practical reading comprehension. Build your accuracy before advancing."}
@@ -500,10 +500,10 @@ export function ReadingPractice() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => startModule2(isAdvanced ? "hard" : "easy")}
-            className={`w-full px-6 py-4 text-white font-semibold rounded-xl ${isAdvanced
-              ? "bg-gradient-to-r from-emerald-500 to-teal-500"
-              : "bg-gradient-to-r from-amber-500 to-orange-500"
-              }`}
+            className={`bg-amber-400 w-full px-6 py-4 text-concourse-deep rounded-panel ${isAdvanced
+ ? " "
+ : " "
+ } font-board uppercase tracking-[0.14em] font-bold`}
           >
             Continue to Module 2
             <ArrowRight className="w-5 h-5 ml-2 inline" />
@@ -568,9 +568,9 @@ export function ReadingPractice() {
       elements.push(<span key="txt-end">{question.passage.substring(lastIndex)}</span>);
 
       return (
-        <div className="leading-loose text-lg text-slate-300">
+        <div className="leading-loose text-lg text-steel-300">
           {elements}
-          <div className="mt-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+          <div className="mt-6 p-4 rounded-panel bg-cyan-500/10 border border-cyan-500/20">
             <p className="text-sm text-cyan-300 mb-2">Click a blank and type the missing letters.</p>
             <p className="text-xs text-slate-400">The blank does not show how many letters are missing. Use the sentence around it to work out the whole word, and check the spelling.</p>
           </div>
@@ -580,70 +580,70 @@ export function ReadingPractice() {
 
     return (
       <div className="min-h-[calc(100vh-4rem)]">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${currentModule === "module1"
-              ? "bg-cyan-500/20 border border-cyan-500/30 text-cyan-400"
-              : currentModule === "module2_hard"
-                ? "bg-emerald-500/20 border border-emerald-500/30 text-emerald-400"
-                : "bg-amber-500/20 border border-amber-500/30 text-amber-400"
-              }`}>
-              <span className="text-sm font-medium capitalize">
-                {currentModule === "module1" ? "Module 1" :
-                  currentModule === "module2_hard" ? "Module 2 (Hard)" : "Module 2 (Easy)"}
-              </span>
-            </div>
+        {/* Board strip — what is running, how far in, and how long is left.
+            The clock is the single most consequential value on this screen, so
+            it is set an order of magnitude larger than everything beside it. */}
+        <div className="steel-grain mb-6 flex flex-wrap items-center gap-x-6 gap-y-4 rounded-panel border border-steel-800 px-4 py-3 sm:px-5">
+          <div className="flex min-w-0 flex-1 items-center gap-4">
+            <span
+              className={`grid h-8 shrink-0 place-items-center rounded-flap border px-2.5 font-board text-[11px] font-bold uppercase tracking-[0.14em] ${
+ currentModule === "module1"
+ ? "border-steel-700 bg-concourse-deep text-steel-300"
+ : currentModule === "module2_hard"
+ ? "border-platform-700 bg-platform-900/60 text-platform-400"
+ : "border-amber-800 bg-amber-900/50 text-amber-400"
+ }`}
+            >
+              {currentModule === "module1"
+                ? "Module 1"
+                : currentModule === "module2_hard"
+                  ? "Module 2 · Hard"
+                  : "Module 2 · Standard"}
+            </span>
 
-            {/* Progress dots */}
-            <div className="flex items-center gap-1">
-              {steps.slice(0, 20).map((_, idx) => (
-                <div
-                  key={idx}
-                  className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${idx === currentIndex
-                    ? "bg-cyan-400 scale-125"
-                    : answers[steps[idx]?.id]
-                      ? answers[steps[idx].id].isCorrect
-                        ? "bg-emerald-400"
-                        : "bg-red-400"
-                      : "bg-slate-700"
-                    }`}
-                  onClick={() => goToStep(idx)}
-                />
-              ))}
+            {/* Question track: one cell per question, the way a board reserves
+                a row per departure. Answered cells are painted. */}
+            <div className="flex min-w-0 items-center gap-[3px] overflow-hidden" role="list">
+              {steps.slice(0, 20).map((_, idx) => {
+                const answer = answers[steps[idx]?.id];
+                const isCurrent = idx === currentIndex;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => goToStep(idx)}
+                    role="listitem"
+                    aria-label={`Go to question ${idx + 1}${answer ? ", answered" : ""}`}
+                    aria-current={isCurrent ? "true" : undefined}
+                    className={`h-5 w-[9px] shrink-0 rounded-[1px] border transition-colors duration-150 ${
+ isCurrent
+ ? "border-amber-400 bg-amber-400"
+ : answer
+ ? "border-steel-600 bg-steel-500"
+ : "border-steel-800 bg-concourse-deep hover:border-steel-600"
+ }`}
+                  />
+                );
+              })}
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Stats */}
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 glass-card rounded-lg text-sm">
-              <span className="text-slate-400">Answered:</span>
-              <span className="text-white font-medium">{stats.answered}/{steps.length}</span>
+          <div className="flex items-center gap-5 sm:gap-7">
+            <div className="hidden sm:block">
+              <p className="board-label pb-1.5">Answered</p>
+              <p className="board-name text-[15px] text-ivory">
+                {stats.answered}
+                <span className="text-steel-500">/{steps.length}</span>
+              </p>
             </div>
 
-            {/* Timer */}
-            <div
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 ${timeRemaining < 60
-                ? "bg-red-500/20 border border-red-500/30 text-red-400"
-                : timeRemaining < 180
-                  ? "bg-amber-500/20 border border-amber-500/30 text-amber-400"
-                  : "glass-card text-white"
-                }`}
-            >
-              <Clock className={`w-4 h-4 ${timeRemaining < 60 ? "animate-pulse" : ""}`} />
-              <span className="font-mono text-sm font-medium">
-                {formatTime(timeRemaining)}
-              </span>
+            <div>
+              <p className="board-label pb-1.5">Time remaining</p>
+              <FlapClock seconds={timeRemaining} size="lg" />
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleModuleFinish}
-              className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-sm font-medium rounded-xl"
-            >
-              Finish Section
-            </motion.button>
+            <BoardButton onClick={handleModuleFinish} variant="quiet" size="sm">
+              Finish section
+            </BoardButton>
           </div>
         </div>
 
@@ -653,15 +653,15 @@ export function ReadingPractice() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass-panel rounded-2xl p-6 overflow-y-auto"
+            className="glass-panel rounded-panel p-6 overflow-y-auto"
           >
             <div className="flex items-center gap-2 mb-4">
-              <div className={`px-3 py-1 rounded-full text-xs font-medium ${currentStep.parentTaskType === "academic"
-                ? "bg-purple-500/20 text-purple-400"
-                : currentStep.parentTaskType === "complete_words"
-                  ? "bg-cyan-500/20 text-cyan-400"
-                  : "bg-emerald-500/20 text-emerald-400"
-                }`}>
+              <div className={`px-3 py-1 rounded-flap text-xs font-medium ${currentStep.parentTaskType === "academic"
+ ? "bg-amber-500/20 text-amber-400"
+ : currentStep.parentTaskType === "complete_words"
+ ? "bg-amber-500/20 text-amber-400"
+ : "bg-platform-500/20 text-platform-400"
+ } font-board uppercase tracking-[0.14em]`}>
                 {currentStep.parentTaskType === "complete_words"
                   ? "COMPLETE THE WORDS"
                   : currentStep.parentTaskType.replace('_', ' ').toUpperCase()}
@@ -674,7 +674,7 @@ export function ReadingPractice() {
             {currentStep.stepType === "complete_words" ? (
               renderCompleteWords(currentStep.data as CompleteWordsQuestion)
             ) : (
-              <div className="prose prose-invert prose-sm max-w-none text-slate-300 whitespace-pre-wrap leading-relaxed">
+              <div className="prose prose-invert prose-sm max-w-none text-steel-300 whitespace-pre-wrap leading-relaxed">
                 {renderTextWithFormatting(currentStep.passageContent)}
               </div>
             )}
@@ -685,24 +685,24 @@ export function ReadingPractice() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             key={currentStep.id}
-            className="glass-panel rounded-2xl flex flex-col h-full overflow-hidden"
+            className="glass-panel rounded-panel flex flex-col h-full overflow-hidden"
           >
             {/* Scrollable Content Area */}
             <div className="flex-1 overflow-y-auto p-6">
               {currentStep.stepType === "complete_words" ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center mb-4">
+                  <div className="glass-plate w-16 h-16 rounded-full flex items-center justify-center mb-4">
                     <PenTool className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">Complete the Passage</h3>
-                  <p className="text-slate-400 mb-4">
+                  <p className="text-steel-400 mb-4">
                     Type the missing letters in the input boxes to complete the words.
                     Use context clues from the passage!
                   </p>
 
                   {/* Show blank status */}
-                  <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10 w-full max-w-sm">
-                    <p className="text-sm text-slate-400 mb-2">Blanks to complete:</p>
+                  <div className="mt-4 p-4 rounded-panel bg-white/5 border border-white/10 w-full max-w-sm">
+                    <p className="text-sm text-steel-400 mb-2">Blanks to complete:</p>
                     <div className="space-y-2">
                       {(currentStep.data as CompleteWordsQuestion).blanks.map((blank, idx) => {
                         const userBlanks = (currentAnswer as Record<number, string>) || {};
@@ -711,8 +711,8 @@ export function ReadingPractice() {
 
                         return (
                           <div key={idx} className="flex items-center justify-between text-sm">
-                            <span className="text-slate-300">{blank.partialWord}</span>
-                            <span className={hasInput ? "text-emerald-400" : "text-slate-600"}>
+                            <span className="text-steel-300">{blank.partialWord}</span>
+                            <span className={hasInput ? "text-platform-400" : "text-steel-600"}>
                               {hasInput ? "✓" : "○"}
                             </span>
                           </div>
@@ -729,7 +729,7 @@ export function ReadingPractice() {
                     </h3>
                     <button
                       onClick={toggleFlag}
-                      className={`p-2 rounded-lg ${isFlagged ? "text-amber-400 bg-amber-400/10" : "text-slate-500 hover:text-white"}`}
+                      className={`p-2 rounded-flap ${isFlagged ? "text-amber-400 bg-amber-400/10" : "text-amber-900 hover:text-white"}`}
                       title="Flag for review"
                     >
                       <Flag className="w-5 h-5" />
@@ -744,10 +744,10 @@ export function ReadingPractice() {
                         <button
                           key={idx}
                           onClick={() => handleAnswer(letter)}
-                          className={`w-full text-left p-4 rounded-xl border transition-all ${isSelected
-                            ? "bg-cyan-500/20 border-cyan-500 text-white"
-                            : "bg-white/5 border-transparent hover:bg-white/10 text-slate-300"
-                            }`}
+                          className={`w-full text-left p-4 rounded-panel border transition-all ${isSelected
+ ? "bg-amber-500/20 border-amber-500 text-white"
+ : "bg-white/5 border-transparent hover:bg-white/10 text-steel-300"
+ }`}
                         >
                           <span className="font-bold mr-3">{letter}.</span>
                           {option}
@@ -760,24 +760,24 @@ export function ReadingPractice() {
             </div>
 
             {/* Fixed Navigation Footer */}
-            <div className="p-6 border-t border-white/10 bg-slate-900/20 flex items-center justify-between mt-auto">
+            <div className="p-6 border-t border-white/10 bg-steel-900/20 flex items-center justify-between mt-auto">
               <button
                 onClick={() => goToStep(currentIndex - 1)}
                 disabled={currentIndex === 0}
-                className="flex items-center gap-2 text-slate-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                className="flex items-center gap-2 text-steel-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2 rounded-flap hover:bg-white/5 transition-colors"
                 title="Previous Question"
               >
                 <ChevronLeft className="w-4 h-4" /> Previous
               </button>
 
-              <div className="text-xs text-slate-500 font-medium hidden sm:block">
+              <div className="text-xs text-steel-500 font-medium hidden sm:block">
                 Question {currentIndex + 1} of {steps.length}
               </div>
 
               <button
                 onClick={() => goToStep(currentIndex + 1)}
                 disabled={currentIndex === steps.length - 1}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-cyan-500/20 disabled:shadow-none transition-all"
+                className="bg-amber-400 flex items-center gap-2 px-4 py-2 text-concourse-deep rounded-flap disabled:opacity-50 disabled:cursor-not-allowed shadow-lg disabled:shadow-none transition-all font-board uppercase tracking-[0.14em] font-bold"
                 title="Next Question"
               >
                 Next <ChevronRight className="w-4 h-4" />
@@ -801,70 +801,20 @@ export function ReadingPractice() {
     const trackTaken = currentModule === "module2_hard" ? "Hard (Advanced)" : "Easy (Standard)";
 
     return (
-      <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="glass-panel p-10 rounded-2xl max-w-2xl w-full text-center"
-        >
-          <Trophy className="w-20 h-20 text-yellow-400 mx-auto mb-6" />
-          <h1 className="text-4xl font-bold text-white mb-2">Practice Complete!</h1>
-          <p className="text-slate-400 mb-8">You have completed both modules of the adaptive reading test.</p>
-
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="p-6 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30">
-              <div className="text-3xl font-bold text-white">{score}</div>
-              <div className="text-sm text-cyan-200">Band Score (1-6)</div>
-            </div>
-            <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-              <div className="text-3xl font-bold text-white">{correct}/{total}</div>
-              <div className="text-sm text-slate-400">Correct</div>
-            </div>
-            <div className="p-6 rounded-xl bg-white/5 border border-white/10">
-              <div className="text-3xl font-bold text-white">{percentage}%</div>
-              <div className="text-sm text-slate-400">Accuracy</div>
-            </div>
-          </div>
-
-          {/* Track Info */}
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-8">
-            <p className="text-sm text-slate-400">
-              Adaptive Path: <span className={`font-semibold ${currentModule === "module2_hard" ? "text-emerald-400" : "text-amber-400"}`}>{trackTaken}</span>
-            </p>
-            <p className="text-xs text-slate-500 mt-1">
-              Module 1: {module1Stats.correct}/{module1Stats.total} correct ({Math.round((module1Stats.correct / module1Stats.total) * 100) || 0}%)
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div className={`p-4 rounded-xl border text-left ${module1Stats.correct / module1Stats.total >= 0.6 ? "bg-emerald-500/5 border-emerald-500/20" : "bg-amber-500/5 border-amber-500/20"}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <Target className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-semibold text-slate-500 uppercase">Module 1 (Baseline)</span>
-              </div>
-              <div className="text-xl font-bold text-white mb-1">
-                {module1Stats.correct} / {module1Stats.total}
-              </div>
-              <p className="text-xs text-slate-400">Accuracy: {Math.round((module1Stats.correct / module1Stats.total) * 100) || 0}%</p>
-            </div>
-
-            <div className={`p-4 rounded-xl border text-left ${currentModule === "module2_hard" ? "bg-purple-500/5 border-purple-500/20" : "bg-blue-500/5 border-blue-500/20"}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <BrainCircuit className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-semibold text-slate-500 uppercase">Module 2 ({currentModule === "module2_hard" ? "Hard" : "Easy"})</span>
-              </div>
-              <div className="text-xl font-bold text-white mb-1">
-                {correct - module1Stats.correct} / {total - module1Stats.total}
-              </div>
-              <p className="text-xs text-slate-400">Accuracy: {Math.round(((correct - module1Stats.correct) / (total - module1Stats.total)) * 100) || 0}%</p>
-            </div>
-          </div>
-
+      <ReadingReviewBoard
+        band={score}
+        correct={correct}
+        total={total}
+        percentage={percentage}
+        trackTaken={trackTaken}
+        module1={module1Stats}
+        onRestart={handleRestart}
+      >
           {/* Detailed Incorrect Answer Breakdown */}
           {allAnswers.some(a => !a.isCorrect) && (
-            <div className="mb-8 text-left">
+            <div className="px-6 py-6 text-left sm:px-8">
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-red-400" />
+                <AlertCircle className="w-5 h-5 text-signal-400" />
                 Review Incorrect Responses
               </h3>
               <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
@@ -874,18 +824,18 @@ export function ReadingPractice() {
 
                   if (step.stepType === "multiple_choice") {
                     return (
-                      <div key={step.id} className="p-4 rounded-xl bg-white/5 border border-red-500/20">
+                      <div key={step.id} className="p-4 rounded-panel bg-white/5 border border-signal-500/20">
                         <p className="text-sm font-medium text-white mb-1">{step.data.question}</p>
                         <div className="flex gap-4 text-xs">
-                          <span className="text-red-400">Your Answer: {answer.value}</span>
-                          <span className="text-emerald-400">Correct: {step.data.correctAnswer}</span>
+                          <span className="text-signal-400">Your Answer: {answer.value}</span>
+                          <span className="text-platform-400">Correct: {step.data.correctAnswer}</span>
                         </div>
                       </div>
                     );
                   } else if (step.stepType === "complete_words") {
                     const question = step.data as CompleteWordsQuestion;
                     return (
-                      <div key={step.id} className="p-4 rounded-xl bg-white/5 border border-red-500/20">
+                      <div key={step.id} className="p-4 rounded-panel bg-white/5 border border-signal-500/20">
                         <p className="text-sm font-medium text-white mb-2">Complete the Word Passage Errors:</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {question.blanks.map((blank, bIdx) => {
@@ -894,10 +844,10 @@ export function ReadingPractice() {
                             if (userVal === correctVal) return null;
                             return (
                               <div key={bIdx} className="text-xs p-2 rounded bg-black/20 flex flex-col gap-1">
-                                <span className="text-slate-500">For prefix "{blank.partialWord.replace(/_/g, '')}":</span>
+                                <span className="text-steel-500">For prefix "{blank.partialWord.replace(/_/g, '')}":</span>
                                 <div className="flex justify-between">
-                                  <span className="text-red-400">You typed: {userVal || "(blank)"}</span>
-                                  <span className="text-emerald-400">Expected: {correctVal}</span>
+                                  <span className="text-signal-400">You typed: {userVal || "(blank)"}</span>
+                                  <span className="text-platform-400">Expected: {correctVal}</span>
                                 </div>
                               </div>
                             );
@@ -911,24 +861,83 @@ export function ReadingPractice() {
               </div>
             </div>
           )}
-
-          <div className="flex gap-4">
-            <button
-              onClick={handleRestart}
-              className="flex-1 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
-            >
-              <RotateCcw className="w-5 h-5" />
-              Start New Session
-            </button>
-          </div>
-
-          <p className="mt-6 text-xs text-slate-500">
-            All questions in this session were unique — no duplicates across modules.
-          </p>
-        </motion.div>
-      </div>
+      </ReadingReviewBoard>
     );
   }
 
   return null;
+}
+
+/* ---------------------------------------------------------------------------
+   The Reading result, posted to the board: the band score at display scale,
+   then a ruled manifest of how it was earned. The lamp on each row says
+   whether that leg cleared the 60% routing threshold.
+   --------------------------------------------------------------------------- */
+function ReadingReviewBoard({
+  band,
+  correct,
+  total,
+  percentage,
+  trackTaken,
+  module1,
+  onRestart,
+  children,
+}: {
+  band: number;
+  correct: number;
+  total: number;
+  percentage: number;
+  trackTaken: string;
+  module1: { correct: number; total: number };
+  onRestart: () => void;
+  children?: React.ReactNode;
+}) {
+  const m2Correct = correct - module1.correct;
+  const m2Total = total - module1.total;
+  const pct = (c: number, t: number) => (t > 0 ? Math.round((c / t) * 100) : 0);
+  const cleared = (c: number, t: number) =>
+    t > 0 && c / t >= READING_CONFIG.HARD_TRACK_THRESHOLD ? "cleared" : "cancelled";
+
+  return (
+    <ScoreBoard
+      section="Reading"
+      band={band}
+      rows={[
+        {
+          field: "Correct",
+          value: `${correct}/${total}`,
+          note: `${percentage}% across both modules`,
+          state: cleared(correct, total),
+        },
+        {
+          field: "Module 1",
+          value: `${module1.correct}/${module1.total}`,
+          note: `${pct(module1.correct, module1.total)}% — this is what set your routing`,
+          state: cleared(module1.correct, module1.total),
+        },
+        {
+          field: "Module 2",
+          value: `${m2Correct}/${m2Total}`,
+          note: `${pct(m2Correct, m2Total)}% on the ${trackTaken.toLowerCase()} track`,
+          state: cleared(m2Correct, m2Total),
+        },
+        {
+          field: "Track taken",
+          value: trackTaken.split(" ")[0].toUpperCase(),
+          note: trackTaken.includes("Hard")
+            ? "C1–C2 academic passages"
+            : "B1–B2 daily-life texts",
+          state: trackTaken.includes("Hard") ? "cleared" : "live",
+        },
+      ]}
+      footnote="Every question in this session was unique — nothing repeated across the two modules."
+      actions={
+        <BoardButton onClick={onRestart} icon={RotateCcw}>
+          Start a new session
+        </BoardButton>
+      }
+    >
+      {children}
+    </ScoreBoard>
+  );
 }

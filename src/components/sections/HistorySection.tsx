@@ -106,11 +106,11 @@ const mockTestHistory: TestRecord[] = [
 ];
 
 const typeConfig = {
-  full: { name: "Full Test", icon: GraduationCap, gradient: "from-emerald-400 to-green-500", glow: "shadow-emerald-500/25" },
-  reading: { name: "Reading", icon: BookOpen, gradient: "from-amber-400 to-orange-500", glow: "shadow-amber-500/25" },
-  listening: { name: "Listening", icon: Headphones, gradient: "from-pink-400 to-rose-500", glow: "shadow-pink-500/25" },
-  speaking: { name: "Speaking", icon: Mic, gradient: "from-violet-400 to-purple-500", glow: "shadow-violet-500/25" },
-  writing: { name: "Writing", icon: PenTool, gradient: "from-cyan-400 to-teal-500", glow: "shadow-cyan-500/25" },
+  full: { name: "Full Test", icon: GraduationCap, gradient: "bg-amber-400", glow: "" },
+  reading: { name: "Reading", icon: BookOpen, gradient: "bg-amber-400", glow: "" },
+  listening: { name: "Listening", icon: Headphones, gradient: "bg-amber-400", glow: "" },
+  speaking: { name: "Speaking", icon: Mic, gradient: "bg-amber-400", glow: "" },
+  writing: { name: "Writing", icon: PenTool, gradient: "bg-amber-400", glow: "" },
 };
 
 export function HistorySection() {
@@ -165,16 +165,15 @@ export function HistorySection() {
       <div className="mb-8">
         <div className="flex items-center gap-4 mb-2">
           <div className="relative">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-400 to-gray-500 flex items-center justify-center shadow-lg shadow-slate-500/25">
+            <div className="glass-plate w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
               <History className="w-7 h-7 text-white" />
             </div>
             <div className="absolute -top-1 -right-1">
-              <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
             </div>
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Test History</h1>
-            <p className="text-slate-400">Track your progress over time</p>
+            <p className="text-steel-400">Track your progress over time</p>
           </div>
         </div>
       </div>
@@ -185,10 +184,10 @@ export function HistorySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-card rounded-xl p-5"
+          className="glass-card rounded-panel p-5"
         >
-          <div className="flex items-center gap-2 text-slate-400 mb-3">
-            <BarChart3 className="w-4 h-4 text-cyan-400" />
+          <div className="flex items-center gap-2 text-steel-400 mb-3">
+            <BarChart3 className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-medium">Total Tests</span>
           </div>
           <p className="text-3xl font-bold text-white">{stats.totalTests}</p>
@@ -197,10 +196,10 @@ export function HistorySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="glass-card rounded-xl p-5"
+          className="glass-card rounded-panel p-5"
         >
-          <div className="flex items-center gap-2 text-slate-400 mb-3">
-            <TrendingUp className="w-4 h-4 text-purple-400" />
+          <div className="flex items-center gap-2 text-steel-400 mb-3">
+            <TrendingUp className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-medium">Avg Score</span>
           </div>
           <p className="text-3xl font-bold text-gradient">{stats.avgScore}</p>
@@ -209,10 +208,10 @@ export function HistorySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-card rounded-xl p-5"
+          className="glass-card rounded-panel p-5"
         >
-          <div className="flex items-center gap-2 text-slate-400 mb-3">
-            <GraduationCap className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 text-steel-400 mb-3">
+            <GraduationCap className="w-4 h-4 text-platform-400" />
             <span className="text-xs font-medium">Highest Score</span>
           </div>
           <p className="text-3xl font-bold text-white">{stats.highestScore.toFixed(1)}</p>
@@ -221,13 +220,13 @@ export function HistorySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="glass-card rounded-xl p-5"
+          className="glass-card rounded-panel p-5"
         >
-          <div className="flex items-center gap-2 text-slate-400 mb-3">
+          <div className="flex items-center gap-2 text-steel-400 mb-3">
             <Clock className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-medium">Total Time</span>
           </div>
-          <p className="text-3xl font-bold text-white">{stats.totalTime} <span className="text-lg text-slate-500">min</span></p>
+          <p className="text-3xl font-bold text-white">{stats.totalTime} <span className="text-lg text-steel-500">min</span></p>
         </motion.div>
       </div>
 
@@ -237,12 +236,9 @@ export function HistorySection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="glass-panel rounded-2xl p-6 mb-8"
+          className="glass-panel rounded-panel p-6 mb-8"
         >
-          <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-cyan-400" />
-            Score Progress
-          </h2>
+          <h2 className="board-label pb-4 text-ivory">Score progress</h2>
           <div className="flex items-end justify-between h-32 gap-2">
             {testHistory.slice(0, 10).reverse().map((test) => {
               const height = ((test.overallScore - 1) / 5) * 100;
@@ -253,21 +249,21 @@ export function HistorySection() {
                     initial={{ height: 0 }}
                     animate={{ height: `${height}%` }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
-                    className={`w-full bg-gradient-to-t ${config.gradient} rounded-t-lg`}
+                    className={`w-full rounded-[1px] ${config.gradient} min-h-[2px]`}
                   />
-                  <span className="text-xs text-slate-500">{test.overallScore}</span>
+                  <span className="text-xs text-steel-500">{test.overallScore}</span>
                 </div>
               );
             })}
           </div>
           <div className="flex items-center justify-center mt-6">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${
-              stats.scoreChange > 0
-                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                : stats.scoreChange < 0
-                ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                : "glass-card text-slate-400"
-            }`}>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-panel ${
+ stats.scoreChange > 0
+ ? "bg-platform-500/20 text-platform-400 border border-platform-500/30"
+ : stats.scoreChange < 0
+ ? "bg-signal-500/20 text-signal-400 border border-signal-500/30"
+ : "glass-card text-steel-400"
+ }`}>
               {stats.scoreChange > 0 ? (
                 <TrendingUp className="w-4 h-4" />
               ) : stats.scoreChange < 0 ? (
@@ -287,11 +283,11 @@ export function HistorySection() {
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         <button
           onClick={() => setFilter("all")}
-          className={`px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
-            filter === "all"
-              ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg shadow-cyan-500/20"
-              : "glass-card text-slate-400 hover:text-white"
-          }`}
+          className={`bg-amber-400 px-4 py-2.5 rounded-panel text-[12px] whitespace-nowrap transition-all duration-300 ${
+ filter === "all"
+ ? " text-concourse-deep shadow-lg "
+ : "glass-card text-amber-900 hover:text-concourse-deep"
+ } font-board uppercase tracking-[0.14em] font-bold`}
         >
           All Tests
         </button>
@@ -299,11 +295,11 @@ export function HistorySection() {
           <button
             key={key}
             onClick={() => setFilter(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
-              filter === key
-                ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg shadow-cyan-500/20"
-                : "glass-card text-slate-400 hover:text-white"
-            }`}
+            className={`bg-amber-400 flex items-center gap-2 px-4 py-2.5 rounded-panel text-[12px] whitespace-nowrap transition-all duration-300 ${
+ filter === key
+ ? " text-concourse-deep shadow-lg "
+ : "glass-card text-amber-900 hover:text-concourse-deep"
+ } font-board uppercase tracking-[0.14em] font-bold`}
           >
             <config.icon className="w-4 h-4" />
             {config.name}
@@ -317,11 +313,11 @@ export function HistorySection() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="glass-panel rounded-2xl p-12 text-center"
+            className="glass-panel rounded-panel p-12 text-center"
           >
-            <History className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+            <History className="w-12 h-12 text-steel-600 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">No tests found</h3>
-            <p className="text-slate-400">
+            <p className="text-steel-400">
               {filter === "all"
                 ? "Start practicing to see your test history here"
                 : `No ${typeConfig[filter as keyof typeof typeConfig]?.name || filter} tests yet`}
@@ -338,16 +334,16 @@ export function HistorySection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`glass-panel rounded-xl p-5 transition-all cursor-pointer ${
-                  selectedTest?.id === test.id
-                    ? "border-cyan-500/50 shadow-lg shadow-cyan-500/10"
-                    : "hover:border-slate-700"
-                }`}
+                className={`glass-panel rounded-panel p-5 transition-all cursor-pointer ${
+ selectedTest?.id === test.id
+ ? "border-amber-500/50 shadow-lg "
+ : "hover:border-steel-700"
+ }`}
                 onClick={() => setSelectedTest(selectedTest?.id === test.id ? null : test)}
               >
                 <div className="flex items-center gap-4">
                   {/* Type Icon */}
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${config.gradient} flex items-center justify-center flex-shrink-0 shadow-lg ${config.glow}`}>
+                  <div className={`glass-plate w-12 h-12 rounded-full ${config.gradient} flex items-center justify-center flex-shrink-0 shadow-lg ${config.glow}`}>
                     <config.icon className="w-6 h-6 text-white" />
                   </div>
 
@@ -356,13 +352,13 @@ export function HistorySection() {
                     <div className="flex items-center gap-2">
                       <h3 className="font-medium text-white">{config.name}</h3>
                       {trend === "up" && (
-                        <TrendingUp className="w-4 h-4 text-emerald-400" />
+                        <TrendingUp className="w-4 h-4 text-platform-400" />
                       )}
                       {trend === "down" && (
-                        <TrendingDown className="w-4 h-4 text-red-400" />
+                        <TrendingDown className="w-4 h-4 text-signal-400" />
                       )}
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-slate-400 mt-1">
+                    <div className="flex items-center gap-3 text-sm text-steel-400 mt-1">
                       <span className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {formatDate(test.date)}
@@ -371,7 +367,7 @@ export function HistorySection() {
                         <Clock className="w-3 h-3" />
                         {test.duration} min
                       </span>
-                      <span className="text-slate-500">
+                      <span className="text-steel-500">
                         {test.questionsAnswered}/{test.totalQuestions} answered
                       </span>
                     </div>
@@ -380,7 +376,7 @@ export function HistorySection() {
                   {/* Score */}
                   <div className="text-right">
                     <p className="text-2xl font-bold text-gradient">{test.overallScore.toFixed(1)}</p>
-                    <p className="text-xs text-slate-500">Band Score</p>
+                    <p className="text-xs text-steel-500">Band Score</p>
                   </div>
 
                   {/* Actions */}
@@ -390,13 +386,13 @@ export function HistorySection() {
                         e.stopPropagation();
                         deleteTest(test.id);
                       }}
-                      className="p-2.5 rounded-xl glass-card text-slate-500 hover:text-red-400 transition-colors"
+                      className="p-2.5 rounded-panel glass-card text-steel-500 hover:text-signal-400 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <ChevronRight className={`w-5 h-5 text-slate-500 transition-transform ${
-                      selectedTest?.id === test.id ? "rotate-90" : ""
-                    }`} />
+                    <ChevronRight className={`w-5 h-5 text-steel-500 transition-transform ${
+ selectedTest?.id === test.id ? "rotate-90" : ""
+ }`} />
                   </div>
                 </div>
 
@@ -405,15 +401,15 @@ export function HistorySection() {
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
-                    className="mt-5 pt-5 border-t border-slate-700/50"
+                    className="mt-5 pt-5 border-t border-steel-700/50"
                   >
-                    <h4 className="text-sm font-medium text-slate-400 mb-4">Section Breakdown</h4>
+                    <h4 className="text-sm font-medium text-steel-400 mb-4">Section Breakdown</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {test.sectionScores.reading !== undefined && (
-                        <div className="glass-card rounded-xl p-4">
+                        <div className="glass-card rounded-panel p-4">
                           <div className="flex items-center gap-2 mb-2">
                             <BookOpen className="w-4 h-4 text-amber-400" />
-                            <span className="text-xs text-slate-400">Reading</span>
+                            <span className="text-xs text-steel-400">Reading</span>
                           </div>
                           <p className="text-xl font-bold text-white">
                             {test.sectionScores.reading.toFixed(1)}
@@ -421,10 +417,10 @@ export function HistorySection() {
                         </div>
                       )}
                       {test.sectionScores.listening !== undefined && (
-                        <div className="glass-card rounded-xl p-4">
+                        <div className="glass-card rounded-panel p-4">
                           <div className="flex items-center gap-2 mb-2">
-                            <Headphones className="w-4 h-4 text-pink-400" />
-                            <span className="text-xs text-slate-400">Listening</span>
+                            <Headphones className="w-4 h-4 text-amber-400" />
+                            <span className="text-xs text-steel-400">Listening</span>
                           </div>
                           <p className="text-xl font-bold text-white">
                             {test.sectionScores.listening.toFixed(1)}
@@ -432,10 +428,10 @@ export function HistorySection() {
                         </div>
                       )}
                       {test.sectionScores.speaking !== undefined && (
-                        <div className="glass-card rounded-xl p-4">
+                        <div className="glass-card rounded-panel p-4">
                           <div className="flex items-center gap-2 mb-2">
-                            <Mic className="w-4 h-4 text-violet-400" />
-                            <span className="text-xs text-slate-400">Speaking</span>
+                            <Mic className="w-4 h-4 text-amber-400" />
+                            <span className="text-xs text-steel-400">Speaking</span>
                           </div>
                           <p className="text-xl font-bold text-white">
                             {test.sectionScores.speaking.toFixed(1)}
@@ -443,10 +439,10 @@ export function HistorySection() {
                         </div>
                       )}
                       {test.sectionScores.writing !== undefined && (
-                        <div className="glass-card rounded-xl p-4">
+                        <div className="glass-card rounded-panel p-4">
                           <div className="flex items-center gap-2 mb-2">
-                            <PenTool className="w-4 h-4 text-cyan-400" />
-                            <span className="text-xs text-slate-400">Writing</span>
+                            <PenTool className="w-4 h-4 text-amber-400" />
+                            <span className="text-xs text-steel-400">Writing</span>
                           </div>
                           <p className="text-xl font-bold text-white">
                             {test.sectionScores.writing.toFixed(1)}

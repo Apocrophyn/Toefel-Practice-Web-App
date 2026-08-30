@@ -3,20 +3,34 @@ import OpenAI from "openai";
 import { getCachedTTSAudio, cacheTTSAudio, generateTTSCacheKey } from "@/lib/supabase-storage";
 
 /**
- * Constructed on first request, not at module scope. The OpenAI SDK throws when
- * no key is present, and Next collects page data for every route at build time,
- * so a module-scope client made the production build fail on any machine
- * without OPENAI_API_KEY set.
+ * Build the OpenAI client on first use, not at module load.
+ *
+ * Next.js imports every route module during "Collecting page data" at build
+ * time, so constructing the client here made the whole build depend on
+ * OPENAI_API_KEY being present in the *build* environment. Where it was not —
+ * a clean checkout, CI, or a deploy whose key is only exposed to runtime — the
+ * SDK threw "Missing credentials" and the build failed before it ever reached
+ * the page it was collecting.
+ *
+ * Deferring construction keeps the key a runtime concern: the build never
+ * needs it, and a request made without it returns a clear 503 instead.
  */
-let openaiClient: OpenAI | null = null;
+let client: OpenAI | null = null;
 
 function getOpenAI(): OpenAI {
-  if (!openaiClient) {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-    openaiClient = new OpenAI({ apiKey });
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new MissingOpenAIKeyError();
   }
-  return openaiClient;
+  client ??= new OpenAI({ apiKey });
+  return client;
+}
+
+class MissingOpenAIKeyError extends Error {
+  constructor() {
+    super("OPENAI_API_KEY is not configured on the server.");
+    this.name = "MissingOpenAIKeyError";
+  }
 }
 
 // Voice mapping for different speaker types
@@ -143,6 +157,18 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("TTS API Error:", error);
+
+    // A server with no key configured is a deployment problem, not a bad
+    // request — say so plainly rather than reporting a generic failure.
+    if (error instanceof MissingOpenAIKeyError) {
+      return NextResponse.json(
+        {
+          error:
+            "This server has no OPENAI_API_KEY configured, so AI evaluation is unavailable.",
+        },
+        { status: 503 }
+      );
+    }
 
     if (error instanceof Error) {
       return NextResponse.json(

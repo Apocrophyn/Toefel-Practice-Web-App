@@ -16,8 +16,8 @@ export function HeroSection() {
     <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-50" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-100 rounded-full blur-3xl opacity-50" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-100 rounded-full blur-3xl opacity-50" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-platform-100 rounded-full blur-3xl opacity-50" />
       </div>
 
       <div className="max-w-7xl mx-auto">
@@ -27,10 +27,9 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-100 rounded-full mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-100 rounded-full mb-8"
           >
-            <Sparkles className="w-4 h-4 text-primary-600" />
-            <span className="text-sm font-medium text-primary-700">
+            <span className="text-sm font-medium text-amber-700">
               Updated for TOEFL 2026 Format
             </span>
           </motion.div>
@@ -40,7 +39,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 tracking-tight mb-6"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-steel-900 tracking-tight mb-6"
           >
             Master the TOEFL iBT with{" "}
             <span className="gradient-text">AI-Powered</span> Practice
@@ -51,7 +50,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg sm:text-xl text-neutral-600 mb-8 max-w-2xl mx-auto"
+            className="text-lg sm:text-xl text-steel-600 mb-8 max-w-2xl mx-auto"
           >
             The first platform to fully simulate the new 2026 TOEFL format.
             Get instant AI feedback on Speaking & Writing, adaptive difficulty,
@@ -67,12 +66,12 @@ export function HeroSection() {
           >
             <Link
               href="/signup"
-              className="flex items-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-primary-500/25"
+              className="flex items-center gap-2 px-6 py-3.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-panel transition-colors shadow-lg"
             >
               Start Free Practice
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <button className="flex items-center gap-2 px-6 py-3.5 bg-white hover:bg-neutral-50 text-neutral-700 font-semibold rounded-xl border border-neutral-200 transition-colors">
+            <button className="flex items-center gap-2 px-6 py-3.5 bg-white hover:bg-steel-50 text-steel-700 font-semibold rounded-panel border border-steel-200 transition-colors">
               <Play className="w-4 h-4" />
               Watch Demo
             </button>
@@ -88,9 +87,9 @@ export function HeroSection() {
             {highlights.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 text-sm text-neutral-600"
+                className="flex items-center gap-2 text-sm text-steel-600"
               >
-                <CheckCircle2 className="w-4 h-4 text-secondary-500" />
+                <CheckCircle2 className="w-4 h-4 text-platform-500" />
                 {item}
               </div>
             ))}
@@ -106,40 +105,40 @@ export function HeroSection() {
         >
           <div className="relative mx-auto max-w-5xl">
             {/* Browser chrome mockup */}
-            <div className="bg-neutral-900 rounded-t-xl p-3 flex items-center gap-2">
+            <div className="bg-steel-900 rounded-t-xl p-3 flex items-center gap-2">
               <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <div className="w-3 h-3 rounded-full bg-signal-500" />
+                <div className="w-3 h-3 rounded-full bg-amber-500" />
+                <div className="w-3 h-3 rounded-full bg-platform-500" />
               </div>
-              <div className="flex-1 bg-neutral-800 rounded-md px-4 py-1.5 text-center">
-                <span className="text-xs text-neutral-400">
+              <div className="flex-1 bg-steel-800 rounded-flap px-4 py-1.5 text-center">
+                <span className="text-xs text-steel-400">
                   toeflpractice.com/dashboard
                 </span>
               </div>
             </div>
             {/* Dashboard preview */}
-            <div className="bg-neutral-950 rounded-b-xl p-6 sm:p-8 border-x border-b border-neutral-800">
+            <div className="bg-steel-950 rounded-b-xl p-6 sm:p-8 border-x border-b border-steel-800">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Score Card */}
-                <div className="bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-xl p-5">
-                  <p className="text-xs text-neutral-500 mb-2">Overall Score</p>
+                <div className="bg-steel-900/50 backdrop-blur border border-steel-800 rounded-panel p-5">
+                  <p className="text-xs text-steel-500 mb-2">Overall Score</p>
                   <p className="text-3xl font-bold text-white mb-1">4.5</p>
-                  <p className="text-sm text-secondary-400">
+                  <p className="text-sm text-platform-400">
                     +0.5 from last test
                   </p>
                 </div>
                 {/* Progress Card */}
-                <div className="bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-xl p-5">
-                  <p className="text-xs text-neutral-500 mb-2">Tests Completed</p>
+                <div className="bg-steel-900/50 backdrop-blur border border-steel-800 rounded-panel p-5">
+                  <p className="text-xs text-steel-500 mb-2">Tests Completed</p>
                   <p className="text-3xl font-bold text-white mb-1">12</p>
-                  <p className="text-sm text-neutral-400">This month</p>
+                  <p className="text-sm text-steel-400">This month</p>
                 </div>
                 {/* Time Card */}
-                <div className="bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-xl p-5">
-                  <p className="text-xs text-neutral-500 mb-2">Practice Time</p>
+                <div className="bg-steel-900/50 backdrop-blur border border-steel-800 rounded-panel p-5">
+                  <p className="text-xs text-steel-500 mb-2">Practice Time</p>
                   <p className="text-3xl font-bold text-white mb-1">18h</p>
-                  <p className="text-sm text-neutral-400">Total</p>
+                  <p className="text-sm text-steel-400">Total</p>
                 </div>
               </div>
               {/* Section Progress */}
@@ -148,12 +147,12 @@ export function HeroSection() {
                   (section, i) => (
                     <div
                       key={section}
-                      className="bg-neutral-800/50 rounded-lg p-3"
+                      className="bg-steel-800/50 rounded-flap p-3"
                     >
-                      <p className="text-xs text-neutral-400 mb-1">{section}</p>
-                      <div className="h-1.5 bg-neutral-700 rounded-full overflow-hidden">
+                      <p className="text-xs text-steel-400 mb-1">{section}</p>
+                      <div className="h-1.5 bg-steel-700 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"
+                          className="bg-amber-400 h-full rounded-full"
                           style={{ width: `${65 + i * 8}%` }}
                         />
                       </div>
@@ -164,7 +163,7 @@ export function HeroSection() {
             </div>
           </div>
           {/* Gradient overlay */}
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent" />
+          <div className="bg-steel-800 absolute inset-x-0 bottom-0 h-32" />
         </motion.div>
       </div>
     </section>

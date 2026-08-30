@@ -77,9 +77,9 @@ export function ReadingSection({
                         <span
                             key={`box-${idx}-${i}`}
                             className={`inline-block w-7 h-9 border-b-2 ${charValue
-                                ? 'border-cyan-400 bg-cyan-500/10'
-                                : 'border-slate-600 bg-slate-800/30'
-                                } text-center leading-9 text-white font-medium transition-all duration-200`}
+ ? 'border-amber-400 bg-amber-500/10'
+ : 'border-steel-600 bg-steel-800/30'
+ } text-center leading-9 text-white font-medium transition-all duration-200`}
                             title={`Letter ${i + 1} of ${underscoreCount}`}
                         >
                             {charValue}
@@ -89,7 +89,7 @@ export function ReadingSection({
 
                 elements.push(
                     <span key={`input-${idx}`} className="inline-flex items-baseline mx-1 relative group">
-                        <span className="text-cyan-400 font-semibold">{prefix}</span>
+                        <span className="text-amber-400 font-semibold">{prefix}</span>
                         <span className="inline-flex gap-0.5 mx-1 cursor-text">
                             {visualBoxes}
                         </span>
@@ -106,7 +106,7 @@ export function ReadingSection({
                             placeholder=""
                             aria-label={`Complete the word: ${prefix} (${underscoreCount} letters)`}
                         />
-                        <span className="absolute -top-7 left-0 text-xs text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none bg-slate-900 px-2 py-1 rounded">
+                        <span className="absolute -top-7 left-0 text-xs text-steel-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none bg-steel-900 px-2 py-1 rounded">
                             Click to type • {underscoreCount} {underscoreCount === 1 ? 'letter' : 'letters'}
                         </span>
                     </span>
@@ -118,11 +118,11 @@ export function ReadingSection({
         elements.push(<span key="txt-end">{renderTextWithFormatting(question.passage.substring(lastIndex))}</span>);
 
         return (
-            <div className="leading-loose text-lg text-slate-300">
+            <div className="leading-loose text-lg text-steel-300">
                 {elements}
-                <div className="mt-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
-                    <p className="text-sm text-cyan-300 mb-2">💡 Tip: Click on the blank spaces to type your answers</p>
-                    <p className="text-xs text-slate-400">Each box represents one letter. The number of boxes shows how many letters you need to type.</p>
+                <div className="mt-6 p-4 rounded-panel bg-amber-500/10 border border-amber-500/20">
+                    <p className="text-sm text-amber-300 mb-2">💡 Tip: Click on the blank spaces to type your answers</p>
+                    <p className="text-xs text-steel-400">Each box represents one letter. The number of boxes shows how many letters you need to type.</p>
                 </div>
             </div>
         );
@@ -137,7 +137,7 @@ export function ReadingSection({
     if (!currentQ) {
         return (
             <div className="h-full flex items-center justify-center">
-                <div className="glass-panel rounded-2xl p-8 text-center">
+                <div className="glass-panel rounded-panel p-8 text-center">
                     <p className="text-white">Loading questions...</p>
                 </div>
             </div>
@@ -154,31 +154,31 @@ export function ReadingSection({
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-xl">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                    <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-panel">
+                        <div className="glass-plate w-8 h-8 rounded-full flex items-center justify-center">
                             <BookOpen className="w-4 h-4 text-white" />
                         </div>
                         <span className="text-sm font-medium text-white">Reading Module {moduleNumber}</span>
                     </div>
-                    <span className="text-sm text-slate-400">
+                    <span className="text-sm text-steel-400">
                         Question {currentIndex + 1} of {questions.length}
                     </span>
                 </div>
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${timeLeft < 60
-                        ? "bg-red-500/20 border border-red-500/30 text-red-400"
-                        : "glass-card text-white"
-                    }`}>
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-panel transition-all ${timeLeft < 60
+ ? "bg-signal-500/20 border border-signal-500/30 text-signal-400"
+ : "glass-card text-white"
+ }`}>
                     <Clock className={`w-4 h-4 ${timeLeft < 60 ? "animate-pulse" : ""}`} />
                     <span className="font-mono text-sm font-medium">{formatTime(timeLeft)}</span>
                 </div>
             </div>
 
             {/* Progress Bar */}
-            <div className="h-1.5 bg-slate-800/50 rounded-full mb-6 overflow-hidden">
+            <div className="h-1.5 bg-steel-800/50 rounded-full mb-6 overflow-hidden">
                 <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-                    className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"
+                    className="bg-amber-400 h-full rounded-full"
                     transition={{ duration: 0.5 }}
                 />
             </div>
@@ -189,15 +189,15 @@ export function ReadingSection({
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="glass-panel rounded-2xl p-6 overflow-y-auto"
+                    className="glass-panel rounded-panel p-6 overflow-y-auto"
                 >
                     <div className="flex items-center gap-2 mb-4">
-                        <div className={`px-3 py-1 rounded-full text-xs font-medium ${taskType === "academic"
-                            ? "bg-purple-500/20 text-purple-400"
-                            : taskType === "complete_words"
-                                ? "bg-cyan-500/20 text-cyan-400"
-                                : "bg-emerald-500/20 text-emerald-400"
-                            }`}>
+                        <div className={`px-3 py-1 rounded-flap text-xs font-medium ${taskType === "academic"
+ ? "bg-amber-500/20 text-amber-400"
+ : taskType === "complete_words"
+ ? "bg-amber-500/20 text-amber-400"
+ : "bg-platform-500/20 text-platform-400"
+ } font-board uppercase tracking-[0.14em]`}>
                             {taskType === "complete_words"
                                 ? "COMPLETE THE WORDS"
                                 : taskType.replace('_', ' ').toUpperCase()}
@@ -207,7 +207,7 @@ export function ReadingSection({
                     {taskType === "complete_words" ? (
                         renderCompleteWords(currentQ as CompleteWordsQuestion)
                     ) : (
-                        <div className="prose prose-invert prose-sm max-w-none text-slate-300 whitespace-pre-wrap leading-relaxed">
+                        <div className="prose prose-invert prose-sm max-w-none text-steel-300 whitespace-pre-wrap leading-relaxed">
                             {renderTextWithFormatting(passageContent)}
                         </div>
                     )}
@@ -218,24 +218,24 @@ export function ReadingSection({
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     key={currentQ.id}
-                    className="glass-panel rounded-2xl flex flex-col h-full overflow-hidden"
+                    className="glass-panel rounded-panel flex flex-col h-full overflow-hidden"
                 >
                     {/* Scrollable Content Area */}
                     <div className="flex-1 overflow-y-auto p-6">
                         {taskType === "complete_words" ? (
                             <div className="h-full flex flex-col items-center justify-center text-center p-4">
-                                <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center mb-4">
+                                <div className="glass-plate w-16 h-16 rounded-full flex items-center justify-center mb-4">
                                     <PenTool className="w-8 h-8 text-white" />
                                 </div>
                                 <h3 className="text-xl font-bold text-white mb-2">Complete the Passage</h3>
-                                <p className="text-slate-400 mb-4">
+                                <p className="text-steel-400 mb-4">
                                     Type the missing letters in the input boxes to complete the words.
                                     Use context clues from the passage!
                                 </p>
 
                                 {/* Show blank status */}
-                                <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10 w-full max-w-sm">
-                                    <p className="text-sm text-slate-400 mb-2">Blanks to complete:</p>
+                                <div className="mt-4 p-4 rounded-panel bg-white/5 border border-white/10 w-full max-w-sm">
+                                    <p className="text-sm text-steel-400 mb-2">Blanks to complete:</p>
                                     <div className="space-y-2">
                                         {(currentQ as CompleteWordsQuestion).blanks.map((blank, idx) => {
                                             const userBlanks = (answers[currentQ.id] as Record<number, string>) || {};
@@ -244,8 +244,8 @@ export function ReadingSection({
 
                                             return (
                                                 <div key={idx} className="flex items-center justify-between text-sm">
-                                                    <span className="text-slate-300">{blank.partialWord}</span>
-                                                    <span className={hasInput ? "text-emerald-400" : "text-slate-600"}>
+                                                    <span className="text-steel-300">{blank.partialWord}</span>
+                                                    <span className={hasInput ? "text-platform-400" : "text-steel-600"}>
                                                         {hasInput ? "✓" : "○"}
                                                     </span>
                                                 </div>
@@ -271,10 +271,10 @@ export function ReadingSection({
                                             <button
                                                 key={idx}
                                                 onClick={() => onAnswerChange({ ...answers, [currentQ.id]: letter })}
-                                                className={`w-full text-left p-4 rounded-xl border transition-all ${isSelected
-                                                    ? "bg-cyan-500/20 border-cyan-500 text-white"
-                                                    : "bg-white/5 border-transparent hover:bg-white/10 text-slate-300"
-                                                    }`}
+                                                className={`w-full text-left p-4 rounded-panel border transition-all ${isSelected
+ ? "bg-amber-500/20 border-amber-500 text-white"
+ : "bg-white/5 border-transparent hover:bg-white/10 text-steel-300"
+ }`}
                                             >
                                                 <span className="font-bold mr-3">{letter}.</span>
                                                 {option}
@@ -287,24 +287,24 @@ export function ReadingSection({
                     </div>
 
                     {/* Fixed Navigation Footer */}
-                    <div className="p-6 border-t border-white/10 bg-slate-900/20 flex items-center justify-between mt-auto">
+                    <div className="p-6 border-t border-white/10 bg-steel-900/20 flex items-center justify-between mt-auto">
                         <button
                             onClick={onPrevious}
                             disabled={currentIndex === 0}
-                            className="flex items-center gap-2 text-slate-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                            className="flex items-center gap-2 text-steel-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2 rounded-flap hover:bg-white/5 transition-colors"
                             title="Previous Question"
                         >
                             <ChevronLeft className="w-4 h-4" /> Previous
                         </button>
 
-                        <div className="text-xs text-slate-500 font-medium hidden sm:block">
+                        <div className="text-xs text-steel-500 font-medium hidden sm:block">
                             Question {currentIndex + 1} of {questions.length}
                         </div>
 
                         {currentIndex < questions.length - 1 ? (
                             <button
                                 onClick={onNext}
-                                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white rounded-lg shadow-lg shadow-cyan-500/20 transition-all"
+                                className="bg-amber-400 flex items-center gap-2 px-4 py-2 text-concourse-deep rounded-flap shadow-lg transition-all font-board uppercase tracking-[0.14em] font-bold"
                                 title="Next Question"
                             >
                                 Next <ChevronRight className="w-4 h-4" />
@@ -312,7 +312,7 @@ export function ReadingSection({
                         ) : (
                             <button
                                 onClick={onFinish}
-                                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-white rounded-lg shadow-lg shadow-emerald-500/20 transition-all"
+                                className="bg-amber-400 flex items-center gap-2 px-4 py-2 text-concourse-deep rounded-flap shadow-lg transition-all font-board uppercase tracking-[0.14em] font-bold"
                                 title="Finish Module"
                             >
                                 Finish Module {moduleNumber} <ChevronRight className="w-4 h-4" />

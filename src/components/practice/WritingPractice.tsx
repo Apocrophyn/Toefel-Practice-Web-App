@@ -19,6 +19,7 @@ import {
   BookOpen,
   Loader2
 } from "lucide-react";
+import { SectionBrief, GlassPlate, Lamp } from "@/components/board";
 import {
   buildSentenceTasks,
   emailTasks,
@@ -349,106 +350,73 @@ export function WritingPractice() {
 
   // ============ SETUP SCREEN ============
   if (state === "setup") {
+    const MODES = [
+      { mode: "all" as const, label: "Full section", desc: "All three task types, in order · ~23 min", icon: BookOpen },
+      { mode: "build_sentence" as const, label: "Build a Sentence", desc: "5 grammar tasks · ~5 min", icon: GripVertical },
+      { mode: "email" as const, label: "Write an Email", desc: "3 email tasks · ~24 min", icon: Mail },
+      { mode: "academic_discussion" as const, label: "Academic Discussion", desc: "3 discussion tasks · ~30 min", icon: MessageSquare },
+    ];
+
     return (
-      <div className="h-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-8 h-full flex flex-col"
-        >
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="relative">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center shadow-lg shadow-cyan-500/25">
-                <PenTool className="w-7 h-7 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1">
-                <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-              </div>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">Writing Practice</h1>
-              <p className="text-slate-400">Configure your practice session</p>
-            </div>
-          </div>
-
-          {/* Format Information */}
-          <div className="mb-6 p-4 glass-card rounded-xl border border-cyan-500/30">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                <PenTool className="w-5 h-5 text-cyan-400" />
-              </div>
-              <div>
-                <p className="text-sm text-cyan-400 font-medium mb-2">2026 TOEFL iBT Writing Format</p>
-                <ul className="text-xs text-slate-400 space-y-1.5">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    Official: 3 tasks, ~23 minutes total
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    Task 1: Build a Sentence (5 min, grammar accuracy)
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    Task 2: Write an Email (8 min, 80-120 words)
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    Task 3: Academic Discussion (10 min, 100+ words)
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Practice Mode Selection */}
-          <div className="mb-8">
-            <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-3">
-              <Zap className="w-4 h-4 text-purple-400" />
-              Practice Mode
-            </label>
-            <div className="grid grid-cols-1 gap-3">
-              {[
-                { mode: "all" as const, label: "Full Section - Official", desc: "All 3 task types (~23 min)", icon: BookOpen },
-                { mode: "build_sentence" as const, label: "Build Sentence Only", desc: "5 grammar tasks (~5 min)", icon: GripVertical },
-                { mode: "email" as const, label: "Email Writing Only", desc: "3 email tasks (~24 min)", icon: Mail },
-                { mode: "academic_discussion" as const, label: "Academic Discussion Only", desc: "3 discussion tasks (~30 min)", icon: MessageSquare },
-              ].map((option) => (
+      <SectionBrief
+        icon={PenTool}
+        title="Writing"
+        standfirst="Three timed tasks, typed. Spell-check is off and paste is disabled, the way the real section runs."
+        manifest={[
+          { field: "Duration", value: "~23", note: "Minutes across the full section" },
+          { field: "Tasks", value: "3", note: "Or run one task type on its own" },
+          { field: "Scoring", value: "1–6", note: "AI band score on grammar, organisation, vocabulary and development" },
+        ]}
+        tasks={[
+          { name: "Build a Sentence", detail: "Construct a sentence from given words and a structural cue", icon: GripVertical },
+          { name: "Write an Email", detail: "80–120 words: a request, a complaint or an enquiry", icon: Mail },
+          { name: "Academic Discussion", detail: "100+ words added to a class discussion thread", icon: MessageSquare },
+        ]}
+        action="Start writing"
+        onAction={startPractice}
+        footnote="The clock runs per task. A task submits itself when its time is up, so write to the word count early."
+      >
+        <div className="px-6 pb-2 pt-6 sm:px-8">
+          <p className="board-label pb-3" id="writing-mode-label">
+            What to run
+          </p>
+          <div
+            className="divide-y divide-steel-800/80 border-y border-steel-800"
+            role="radiogroup"
+            aria-labelledby="writing-mode-label"
+          >
+            {MODES.map((option) => {
+              const selected = practiceMode === option.mode;
+              return (
                 <button
                   key={option.mode}
+                  role="radio"
+                  aria-checked={selected}
                   onClick={() => setPracticeMode(option.mode)}
-                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-300 text-left ${practiceMode === option.mode
-                    ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-cyan-500/50 text-white shadow-lg shadow-cyan-500/10"
-                    : "glass-card border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-600"
-                    }`}
+                  className={`flex w-full items-center gap-4 px-1 py-3.5 text-left transition-colors duration-150 ${
+ selected ? "bg-flap-lit/60" : "hover:bg-steel-900/60"
+ }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <option.icon className="w-5 h-5" />
-                    <div>
-                      <div className="font-semibold">{option.label}</div>
-                      <div className="text-xs opacity-75 mt-1">{option.desc}</div>
-                    </div>
-                  </div>
+                  <GlassPlate icon={option.icon} size="sm" live={selected} />
+                  <span className="min-w-0 flex-1">
+                    <span
+                      className={`block font-board text-[13px] font-bold uppercase tracking-[0.12em] ${
+ selected ? "text-ivory" : "text-steel-300"
+ }`}
+                    >
+                      {option.label}
+                    </span>
+                    <span className="mt-0.5 block text-[12px] text-steel-500">
+                      {option.desc}
+                    </span>
+                  </span>
+                  <Lamp state={selected ? "live" : "off"} />
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
-
-          {/* Start Button */}
-          <div className="mt-auto">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={startPractice}
-              className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25"
-            >
-              Start Practice
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </div>
-        </motion.div>
-      </div>
+        </div>
+      </SectionBrief>
     );
   }
 
@@ -463,8 +431,8 @@ export function WritingPractice() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-xl">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center">
+            <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-panel">
+              <div className="glass-plate w-8 h-8 rounded-full flex items-center justify-center">
                 {isBuildASentence(currentQuestion) && <GripVertical className="w-4 h-4 text-white" />}
                 {!isBuildASentence(currentQuestion) && currentQuestion.type === "email" && <Mail className="w-4 h-4 text-white" />}
                 {!isBuildASentence(currentQuestion) && currentQuestion.type === "academic_discussion" && <MessageSquare className="w-4 h-4 text-white" />}
@@ -475,17 +443,17 @@ export function WritingPractice() {
                 {!isBuildASentence(currentQuestion) && currentQuestion.type === "academic_discussion" && "Academic Discussion"}
               </span>
             </div>
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-steel-400">
               Task {currentIndex + 1} of {questions.length}
             </span>
           </div>
 
           <div className="flex items-center gap-4">
             <div
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 ${timeRemaining < 60
-                ? "bg-red-500/20 border border-red-500/30 text-red-400"
-                : "glass-card text-white"
-                }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-panel transition-all duration-300 ${timeRemaining < 60
+ ? "bg-signal-500/20 border border-signal-500/30 text-signal-400"
+ : "glass-card text-white"
+ } font-board uppercase tracking-[0.14em] font-bold`}
             >
               <Clock className={`w-4 h-4 ${timeRemaining < 60 ? "animate-pulse" : ""}`} />
               <span className="font-mono text-sm font-medium">
@@ -496,7 +464,7 @@ export function WritingPractice() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleFinish}
-              className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/20"
+              className="bg-amber-400 px-5 py-2 text-concourse-deep text-[12px] rounded-panel transition-all shadow-lg font-board uppercase tracking-[0.14em] font-bold"
             >
               Finish
             </motion.button>
@@ -504,11 +472,11 @@ export function WritingPractice() {
         </div>
 
         {/* Progress Bar */}
-        <div className="h-1.5 bg-slate-800/50 rounded-full mb-6 overflow-hidden">
+        <div className="h-1.5 bg-steel-800/50 rounded-full mb-6 overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-            className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full"
+            className="bg-amber-400 h-full rounded-full"
             transition={{ duration: 0.5, ease: "easeOut" }}
           />
         </div>
@@ -520,7 +488,7 @@ export function WritingPractice() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <div className="p-6 glass-panel rounded-2xl">
+            <div className="p-6 glass-panel rounded-panel">
               <div className="flex items-baseline justify-between mb-4">
                 <h3 className="text-lg font-semibold text-white">Build a Sentence</h3>
                 <span className="text-xs text-slate-500">
@@ -541,7 +509,7 @@ export function WritingPractice() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSubmitCurrent}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/20"
+                  className="bg-amber-400 flex items-center gap-2 px-5 py-2.5 text-concourse-deep text-[12px] rounded-panel transition-all shadow-lg font-board uppercase tracking-[0.14em] font-bold"
                 >
                   {currentIndex < questions.length - 1 ? "Submit & Next" : "Submit"}
                   <ChevronRight className="w-4 h-4" />
@@ -559,26 +527,26 @@ export function WritingPractice() {
             className="space-y-6"
           >
             {/* Scenario */}
-            <div className="p-6 glass-panel rounded-2xl">
+            <div className="p-6 glass-panel rounded-panel">
               <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                <Mail className="w-5 h-5 text-cyan-400" />
+                <Mail className="w-5 h-5 text-amber-400" />
                 Write an Email
               </h3>
-              <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-                <p className="text-sm text-slate-300 whitespace-pre-wrap">
+              <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-panel">
+                <p className="text-sm text-steel-300 whitespace-pre-wrap">
                   {currentQuestion.scenario}
                 </p>
               </div>
             </div>
 
             {/* Writing Area */}
-            <div className="glass-panel rounded-2xl p-6">
+            <div className="glass-panel rounded-panel p-6">
               <div className="mb-4">
                 <textarea
                   value={currentText}
                   onChange={(e) => setCurrentText(e.target.value)}
                   placeholder="Start typing your email here..."
-                  className="w-full h-64 bg-slate-900/50 border border-slate-700/50 rounded-xl p-4 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all"
+                  className="w-full h-64 bg-steel-900/50 border border-steel-700/50 rounded-panel p-4 text-white placeholder-steel-500 resize-none focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-all"
                   spellCheck={false}
                 />
               </div>
@@ -587,12 +555,12 @@ export function WritingPractice() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-sm font-medium px-3 py-1 rounded-lg ${isWordCountLow
-                      ? "bg-amber-500/20 text-amber-400"
-                      : isWordCountHigh
-                        ? "bg-red-500/20 text-red-400"
-                        : "bg-emerald-500/20 text-emerald-400"
-                      }`}
+                    className={`text-[12px] px-3 py-1 rounded-flap ${isWordCountLow
+ ? "bg-amber-500/20 text-amber-400"
+ : isWordCountHigh
+ ? "bg-signal-500/20 text-signal-400"
+ : "bg-platform-500/20 text-platform-400"
+ } font-board uppercase tracking-[0.14em] font-bold`}
                   >
                     {wordCount} words
                   </span>
@@ -603,7 +571,7 @@ export function WritingPractice() {
                     </span>
                   )}
                   {isWordCountHigh && (
-                    <span className="text-xs text-red-400 flex items-center gap-1">
+                    <span className="text-xs text-signal-400 flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" />
                       Exceeds maximum {requirements.max}
                     </span>
@@ -615,7 +583,7 @@ export function WritingPractice() {
                   whileTap={{ scale: wordCount >= 10 ? 0.95 : 1 }}
                   onClick={handleSubmitCurrent}
                   disabled={wordCount < 10}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 disabled:from-slate-700 disabled:to-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/20 disabled:shadow-none"
+                  className="bg-amber-400 flex items-center gap-2 px-5 py-2.5 disabled:cursor-not-allowed text-concourse-deep text-[12px] rounded-panel transition-all shadow-lg disabled:shadow-none font-board uppercase tracking-[0.14em] font-bold"
                 >
                   {currentIndex < questions.length - 1 ? "Submit & Next" : "Submit"}
                   <ChevronRight className="w-4 h-4" />
@@ -634,14 +602,14 @@ export function WritingPractice() {
           >
             {/* Professor Message */}
             <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center border-2 border-blue-200 flex-shrink-0">
-                <User className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center border-2 border-amber-200 flex-shrink-0">
+                <User className="w-6 h-6 text-amber-600" />
               </div>
-              <div className="bg-blue-900/40 p-4 rounded-2xl rounded-tl-sm border border-blue-500/30 flex-1">
-                <p className="text-blue-300 font-bold text-sm mb-1">
+              <div className="bg-amber-900/40 p-4 rounded-panel rounded-tl-sm border border-amber-500/30 flex-1">
+                <p className="text-amber-300 font-bold text-sm mb-1">
                   {currentQuestion.professor.name}
                 </p>
-                <p className="text-slate-200 text-sm leading-relaxed">
+                <p className="text-steel-200 text-sm leading-relaxed">
                   {currentQuestion.professor.message}
                 </p>
               </div>
@@ -650,14 +618,14 @@ export function WritingPractice() {
             {/* Student Responses */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {currentQuestion.students.map((student, idx) => (
-                <div key={idx} className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                <div key={idx} className="bg-steel-800/50 p-4 rounded-panel border border-steel-700">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                    <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400">
                       <User className="w-4 h-4" />
                     </div>
-                    <span className="font-semibold text-slate-300">{student.name}</span>
+                    <span className="font-semibold text-steel-300">{student.name}</span>
                   </div>
-                  <p className="text-sm text-slate-400 leading-relaxed">
+                  <p className="text-sm text-steel-400 leading-relaxed">
                     {student.message}
                   </p>
                 </div>
@@ -665,7 +633,7 @@ export function WritingPractice() {
             </div>
 
             {/* Writing Area */}
-            <div className="glass-panel rounded-2xl p-6">
+            <div className="glass-panel rounded-panel p-6">
               <h3 className="text-lg font-semibold text-white mb-4">Your Response</h3>
 
               <div className="mb-4">
@@ -673,7 +641,7 @@ export function WritingPractice() {
                   value={currentText}
                   onChange={(e) => setCurrentText(e.target.value)}
                   placeholder="Share your perspective on this discussion..."
-                  className="w-full h-64 bg-slate-900/50 border border-slate-700/50 rounded-xl p-4 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all"
+                  className="w-full h-64 bg-steel-900/50 border border-steel-700/50 rounded-panel p-4 text-white placeholder-steel-500 resize-none focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-all"
                   spellCheck={false}
                 />
               </div>
@@ -682,12 +650,12 @@ export function WritingPractice() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-sm font-medium px-3 py-1 rounded-lg ${isWordCountLow
-                      ? "bg-amber-500/20 text-amber-400"
-                      : isWordCountHigh
-                        ? "bg-red-500/20 text-red-400"
-                        : "bg-emerald-500/20 text-emerald-400"
-                      }`}
+                    className={`text-[12px] px-3 py-1 rounded-flap ${isWordCountLow
+ ? "bg-amber-500/20 text-amber-400"
+ : isWordCountHigh
+ ? "bg-signal-500/20 text-signal-400"
+ : "bg-platform-500/20 text-platform-400"
+ } font-board uppercase tracking-[0.14em] font-bold`}
                   >
                     {wordCount} words
                   </span>
@@ -698,7 +666,7 @@ export function WritingPractice() {
                     </span>
                   )}
                   {isWordCountHigh && (
-                    <span className="text-xs text-red-400 flex items-center gap-1">
+                    <span className="text-xs text-signal-400 flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" />
                       Exceeds maximum {requirements.max}
                     </span>
@@ -710,7 +678,7 @@ export function WritingPractice() {
                   whileTap={{ scale: wordCount >= 10 ? 0.95 : 1 }}
                   onClick={handleSubmitCurrent}
                   disabled={wordCount < 10}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 disabled:from-slate-700 disabled:to-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/20 disabled:shadow-none"
+                  className="bg-amber-400 flex items-center gap-2 px-5 py-2.5 disabled:cursor-not-allowed text-concourse-deep text-[12px] rounded-panel transition-all shadow-lg disabled:shadow-none font-board uppercase tracking-[0.14em] font-bold"
                 >
                   {currentIndex < questions.length - 1 ? "Submit & Next" : "Submit"}
                   <ChevronRight className="w-4 h-4" />
@@ -730,22 +698,21 @@ export function WritingPractice() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass-panel rounded-2xl p-12 text-center max-w-md"
+          className="glass-panel rounded-panel p-12 text-center max-w-md"
         >
           <div className="mb-6 flex justify-center">
             <div className="relative">
-              <Loader2 className="w-16 h-16 text-cyan-400 animate-spin" />
-              <Sparkles className="w-6 h-6 text-purple-400 absolute top-0 right-0 animate-pulse" />
+              <Loader2 className="w-16 h-16 text-amber-400 animate-spin" />
             </div>
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">Evaluating Your Responses</h2>
-          <p className="text-slate-400 mb-6">
+          <p className="text-steel-400 mb-6">
             Our AI is analyzing your writing for grammar, vocabulary, organization, and content...
           </p>
           <div className="flex items-center justify-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-            <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: "150ms" }} />
-            <div className="w-2 h-2 rounded-full bg-pink-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+            <div className="w-2 h-2 rounded-full bg-amber-400 animate-lamp-pulse" style={{ animationDelay: "0ms" }} />
+            <div className="w-2 h-2 rounded-full bg-amber-400 animate-lamp-pulse" style={{ animationDelay: "150ms" }} />
+            <div className="w-2 h-2 rounded-full bg-amber-400 animate-lamp-pulse" style={{ animationDelay: "300ms" }} />
           </div>
         </motion.div>
       </div>
@@ -762,7 +729,7 @@ export function WritingPractice() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass-panel rounded-2xl p-8 mb-6"
+          className="glass-panel rounded-panel p-8 mb-6"
         >
           {/* Score Header */}
           <div className="text-center mb-8">
@@ -770,12 +737,12 @@ export function WritingPractice() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 to-purple-500 mb-4 shadow-lg shadow-cyan-500/25"
+              className="glass-plate inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 shadow-lg"
             >
               <Trophy className="w-10 h-10 text-white" />
             </motion.div>
             <h1 className="text-3xl font-bold text-white mb-2">Writing Practice Complete!</h1>
-            <p className="text-slate-400">Here's your performance summary</p>
+            <p className="text-steel-400">Here's your performance summary</p>
           </div>
 
           {/* Score Display */}
@@ -784,28 +751,28 @@ export function WritingPractice() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="glass-card rounded-xl p-6 text-center"
+              className="glass-card rounded-panel p-6 text-center"
             >
               <p className="text-4xl font-bold text-gradient mb-1">{overallScore.toFixed(1)}</p>
-              <p className="text-sm text-slate-400">Overall Band Score</p>
+              <p className="text-sm text-steel-400">Overall Band Score</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="glass-card rounded-xl p-6 text-center"
+              className="glass-card rounded-panel p-6 text-center"
             >
               <p className="text-4xl font-bold text-white mb-1">{questions.length}</p>
-              <p className="text-sm text-slate-400">Tasks Completed</p>
+              <p className="text-sm text-steel-400">Tasks Completed</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="glass-card rounded-xl p-6 text-center"
+              className="glass-card rounded-panel p-6 text-center"
             >
               <p className="text-4xl font-bold text-white mb-1">{totalWords}</p>
-              <p className="text-sm text-slate-400">Total Words Written</p>
+              <p className="text-sm text-steel-400">Total Words Written</p>
             </motion.div>
           </div>
 
@@ -815,7 +782,7 @@ export function WritingPractice() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setState("setup")}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/25"
+              className="bg-amber-400 flex items-center justify-center gap-2 px-6 py-3 text-concourse-deep rounded-panel shadow-lg font-board uppercase tracking-[0.14em] font-bold"
             >
               <RotateCcw className="w-5 h-5" />
               Practice Again
@@ -828,10 +795,9 @@ export function WritingPractice() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="glass-panel rounded-2xl p-6"
+          className="glass-panel rounded-panel p-6"
         >
           <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-cyan-400" />
             Response Review
           </h2>
 
@@ -846,17 +812,17 @@ export function WritingPractice() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 + index * 0.05 }}
-                  className="p-5 rounded-xl border bg-cyan-500/5 border-cyan-500/20"
+                  className="p-5 rounded-panel border bg-amber-500/5 border-amber-500/20"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${isBuildASentence(question)
-                          ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                          : !isBuildASentence(question) && question.type === "email"
-                            ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                            : "bg-violet-500/20 text-violet-400 border border-violet-500/30"
-                          }`}
+                        className={`px-3 py-1 rounded-flap text-xs font-medium ${isBuildASentence(question)
+ ? "bg-green-500/20 text-green-400 border border-green-500/30"
+ : !isBuildASentence(question) && question.type === "email"
+ ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+ : "bg-violet-500/20 text-violet-400 border border-violet-500/30"
+ } font-board uppercase tracking-[0.14em]`}
                       >
                         {isBuildASentence(question) && "Build a Sentence"}
                         {!isBuildASentence(question) && question.type === "email" && "Email"}
@@ -870,23 +836,23 @@ export function WritingPractice() {
                       <p className="text-2xl font-bold text-gradient">
                         {evaluation?.overall_score.toFixed(1) || "N/A"}
                       </p>
-                      <p className="text-xs text-slate-500">Score</p>
+                      <p className="text-xs text-steel-500">Score</p>
                     </div>
                   </div>
 
                   {/* Response */}
-                  <div className="mb-4 p-4 glass-card rounded-xl">
+                  <div className="mb-4 p-4 glass-card rounded-panel">
                     {isBuildASentence(question) && (
-                      <div className="mb-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <div className="mb-3 p-3 bg-green-500/10 border border-green-500/20 rounded-flap">
                         <p className="text-xs text-green-300">
                           <strong>Correct sentence:</strong> {question.sentence}
                         </p>
                       </div>
                     )}
-                    <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
+                    <p className="text-sm text-steel-300 whitespace-pre-wrap leading-relaxed">
                       {answer.text || "No response submitted"}
                     </p>
-                    <p className="text-xs text-slate-500 mt-3">{answer.wordCount} words</p>
+                    <p className="text-xs text-steel-500 mt-3">{answer.wordCount} words</p>
                   </div>
 
                   {/* AI Feedback */}
@@ -894,47 +860,47 @@ export function WritingPractice() {
                     <>
                       {/* Scores Grid */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                        <div className="p-3 glass-card rounded-lg text-center">
-                          <p className="text-lg font-bold text-cyan-400">{evaluation.grammar_score.toFixed(1)}</p>
-                          <p className="text-xs text-slate-400">Grammar</p>
+                        <div className="p-3 glass-card rounded-flap text-center">
+                          <p className="text-lg font-bold text-amber-400">{evaluation.grammar_score.toFixed(1)}</p>
+                          <p className="text-xs text-steel-400">Grammar</p>
                         </div>
-                        <div className="p-3 glass-card rounded-lg text-center">
-                          <p className="text-lg font-bold text-purple-400">{evaluation.vocabulary_score.toFixed(1)}</p>
-                          <p className="text-xs text-slate-400">Vocabulary</p>
+                        <div className="p-3 glass-card rounded-flap text-center">
+                          <p className="text-lg font-bold text-amber-400">{evaluation.vocabulary_score.toFixed(1)}</p>
+                          <p className="text-xs text-steel-400">Vocabulary</p>
                         </div>
-                        <div className="p-3 glass-card rounded-lg text-center">
-                          <p className="text-lg font-bold text-pink-400">{evaluation.organization_score.toFixed(1)}</p>
-                          <p className="text-xs text-slate-400">Organization</p>
+                        <div className="p-3 glass-card rounded-flap text-center">
+                          <p className="text-lg font-bold text-amber-400">{evaluation.organization_score.toFixed(1)}</p>
+                          <p className="text-xs text-steel-400">Organization</p>
                         </div>
-                        <div className="p-3 glass-card rounded-lg text-center">
+                        <div className="p-3 glass-card rounded-flap text-center">
                           <p className="text-lg font-bold text-amber-400">{evaluation.content_score.toFixed(1)}</p>
-                          <p className="text-xs text-slate-400">Content</p>
+                          <p className="text-xs text-steel-400">Content</p>
                         </div>
                       </div>
 
                       {/* Detailed Feedback */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                         {/* Strengths */}
-                        <div className="p-4 glass-card rounded-xl">
-                          <p className="text-xs font-medium text-emerald-400 mb-3 flex items-center gap-2">
+                        <div className="p-4 glass-card rounded-panel">
+                          <p className="text-xs font-medium text-platform-400 mb-3 flex items-center gap-2">
                             <CheckCircle className="w-4 h-4" />
                             Strengths
                           </p>
                           {evaluation.feedback.strengths.map((strength, i) => (
-                            <p key={i} className="text-xs text-slate-300 mb-2 last:mb-0">
+                            <p key={i} className="text-xs text-steel-300 mb-2 last:mb-0">
                               • {strength}
                             </p>
                           ))}
                         </div>
 
                         {/* Improvements */}
-                        <div className="p-4 glass-card rounded-xl">
+                        <div className="p-4 glass-card rounded-panel">
                           <p className="text-xs font-medium text-amber-400 mb-3 flex items-center gap-2">
                             <AlertTriangle className="w-4 h-4" />
                             Areas to Improve
                           </p>
                           {evaluation.feedback.improvements.map((improvement, i) => (
-                            <p key={i} className="text-xs text-slate-300 mb-2 last:mb-0">
+                            <p key={i} className="text-xs text-steel-300 mb-2 last:mb-0">
                               • {improvement}
                             </p>
                           ))}
@@ -943,29 +909,29 @@ export function WritingPractice() {
 
                       {/* Detailed Notes */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div className="p-3 glass-card rounded-lg">
-                          <p className="text-xs font-medium text-cyan-400 mb-2">Grammar</p>
-                          <p className="text-xs text-slate-300">{evaluation.feedback.grammar_notes}</p>
+                        <div className="p-3 glass-card rounded-flap">
+                          <p className="text-xs font-medium text-amber-400 mb-2">Grammar</p>
+                          <p className="text-xs text-steel-300">{evaluation.feedback.grammar_notes}</p>
                         </div>
-                        <div className="p-3 glass-card rounded-lg">
-                          <p className="text-xs font-medium text-purple-400 mb-2">Vocabulary</p>
-                          <p className="text-xs text-slate-300">{evaluation.feedback.vocabulary_notes}</p>
+                        <div className="p-3 glass-card rounded-flap">
+                          <p className="text-xs font-medium text-amber-400 mb-2">Vocabulary</p>
+                          <p className="text-xs text-steel-300">{evaluation.feedback.vocabulary_notes}</p>
                         </div>
-                        <div className="p-3 glass-card rounded-lg">
-                          <p className="text-xs font-medium text-pink-400 mb-2">Organization</p>
-                          <p className="text-xs text-slate-300">{evaluation.feedback.organization_notes}</p>
+                        <div className="p-3 glass-card rounded-flap">
+                          <p className="text-xs font-medium text-amber-400 mb-2">Organization</p>
+                          <p className="text-xs text-steel-300">{evaluation.feedback.organization_notes}</p>
                         </div>
-                        <div className="p-3 glass-card rounded-lg">
+                        <div className="p-3 glass-card rounded-flap">
                           <p className="text-xs font-medium text-amber-400 mb-2">Content</p>
-                          <p className="text-xs text-slate-300">{evaluation.feedback.content_notes}</p>
+                          <p className="text-xs text-steel-300">{evaluation.feedback.content_notes}</p>
                         </div>
                       </div>
 
                       {/* Task-Specific Feedback */}
                       {evaluation.task_specific_feedback && (
-                        <div className="mt-3 p-4 glass-card rounded-xl border border-cyan-500/20">
-                          <p className="text-xs font-medium text-cyan-400 mb-2">Task-Specific Analysis</p>
-                          <p className="text-xs text-slate-300">
+                        <div className="mt-3 p-4 glass-card rounded-panel border border-amber-500/20">
+                          <p className="text-xs font-medium text-amber-400 mb-2">Task-Specific Analysis</p>
+                          <p className="text-xs text-steel-300">
                             {evaluation.task_specific_feedback.sentence_accuracy ||
                               evaluation.task_specific_feedback.appropriateness ||
                               evaluation.task_specific_feedback.critical_thinking}

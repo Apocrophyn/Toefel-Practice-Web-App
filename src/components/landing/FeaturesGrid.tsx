@@ -19,7 +19,7 @@ const features = [
     title: "AI-Powered Evaluation",
     description:
       "Get instant, detailed feedback on Speaking and Writing using advanced AI models trained on TOEFL rubrics.",
-    color: "from-purple-500 to-indigo-500",
+    color: "from-amber-500 to-amber-500",
     gridClass: "sm:col-span-2",
   },
   {
@@ -27,7 +27,7 @@ const features = [
     title: "Adaptive Difficulty",
     description:
       "Practice adapts to your level, just like the real TOEFL 2026 multistage format.",
-    color: "from-orange-500 to-red-500",
+    color: "from-amber-500 to-signal-500",
     gridClass: "",
   },
   {
@@ -35,7 +35,7 @@ const features = [
     title: "Speaking Practice",
     description:
       "Record responses, get pronunciation & fluency scores, and detailed improvement tips.",
-    color: "from-green-500 to-emerald-500",
+    color: "from-platform-500 to-platform-500",
     gridClass: "",
   },
   {
@@ -43,7 +43,7 @@ const features = [
     title: "Writing Feedback",
     description:
       "Grammar, vocabulary, organization, and content analysis in seconds.",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-amber-500 to-amber-500",
     gridClass: "",
   },
   {
@@ -51,7 +51,7 @@ const features = [
     title: "Listening Section",
     description:
       "Campus conversations, announcements, and academic lectures with real audio.",
-    color: "from-pink-500 to-rose-500",
+    color: "from-amber-500 to-signal-500",
     gridClass: "",
   },
   {
@@ -59,7 +59,7 @@ const features = [
     title: "Reading Section",
     description:
       "Daily life texts and academic passages with comprehension questions.",
-    color: "from-amber-500 to-yellow-500",
+    color: "from-amber-500 to-amber-500",
     gridClass: "",
   },
   {
@@ -67,7 +67,7 @@ const features = [
     title: "Detailed Analytics",
     description:
       "Track progress, identify weak areas, and see score predictions over time.",
-    color: "from-teal-500 to-green-500",
+    color: "from-platform-500 to-platform-500",
     gridClass: "sm:col-span-2",
   },
   {
@@ -75,7 +75,7 @@ const features = [
     title: "Exam-Accurate Timing",
     description:
       "Practice with real time limits (67-85 min) to build test stamina.",
-    color: "from-violet-500 to-purple-500",
+    color: "from-amber-500 to-amber-500",
     gridClass: "",
   },
   {
@@ -83,7 +83,7 @@ const features = [
     title: "Instant Results",
     description:
       "Get your band score (1-6) immediately after completing each section.",
-    color: "from-sky-500 to-blue-500",
+    color: "from-amber-500 to-amber-500",
     gridClass: "",
   },
 ];
@@ -105,15 +105,15 @@ const item = {
 
 export function FeaturesGrid() {
   return (
-    <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 bg-neutral-50">
+    <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 bg-steel-50">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-steel-900 mb-4">
             Everything You Need to{" "}
             <span className="gradient-text">Succeed</span>
           </h2>
-          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-lg text-steel-600 max-w-2xl mx-auto">
             Comprehensive practice tools designed to match the exact TOEFL 2026
             format with AI-powered feedback.
           </p>
@@ -131,17 +131,17 @@ export function FeaturesGrid() {
             <motion.div
               key={index}
               variants={item}
-              className={`group bg-white rounded-2xl p-6 border border-neutral-200 hover:border-neutral-300 hover:shadow-lg transition-all duration-300 ${feature.gridClass}`}
+              className={`group bg-white rounded-panel p-6 border border-steel-200 hover:border-steel-300 hover:shadow-lg transition-all duration-300 ${feature.gridClass}`}
             >
               <div
-                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                className={`glass-plate w-12 h-12 rounded-full ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
               >
                 <feature.icon className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+              <h3 className="text-lg font-semibold text-steel-900 mb-2">
                 {feature.title}
               </h3>
-              <p className="text-sm text-neutral-600 leading-relaxed">
+              <p className="text-sm text-steel-600 leading-relaxed">
                 {feature.description}
               </p>
             </motion.div>

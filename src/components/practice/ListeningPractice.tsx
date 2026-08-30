@@ -22,6 +22,7 @@ import {
   Users,
   Loader2,
 } from "lucide-react";
+import { SectionBrief } from "@/components/board";
 import {
   chooseResponseBank as chooseResponseItems,
   conversationBank as conversationScenarios,
@@ -551,123 +552,25 @@ export function ListeningPractice() {
   // ==================== SETUP SCREEN ====================
   if (state === "setup") {
     return (
-      <div className="h-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-8 h-full flex flex-col"
-        >
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="relative">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/25">
-                <Headphones className="w-7 h-7 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1">
-                <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-              </div>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">Listening Practice</h1>
-              <p className="text-slate-400">TOEFL iBT 2026 Format</p>
-            </div>
-          </div>
-
-          {/* Format Information */}
-          <div className="mb-6 p-4 glass-card rounded-xl border border-cyan-500/30">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                <Headphones className="w-5 h-5 text-cyan-400" />
-              </div>
-              <div>
-                <p className="text-sm text-cyan-400 font-medium mb-2">2026 TOEFL iBT Listening Format</p>
-                <ul className="text-xs text-slate-400 space-y-1.5">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    <strong>Adaptive Routing</strong> - Module 2 difficulty scales with performance
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    <strong>4 New Task Types</strong> - Short dialogues, announcements, lectures
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    <strong>Smooth Audio</strong> - Pre-fetched conversation flows
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                    <strong>End-to-End Evaluation</strong> - Overall 1-6 band scoring
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Task Types */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="p-4 glass-card rounded-xl border border-slate-700/50">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                  <MessageSquare className="w-4 h-4 text-purple-400" />
-                </div>
-                <h3 className="font-medium text-white text-sm">Choose Response</h3>
-              </div>
-              <p className="text-xs text-slate-500">
-                Hear a question, select the appropriate response
-              </p>
-            </div>
-
-            <div className="p-4 glass-card rounded-xl border border-slate-700/50">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center">
-                  <Users className="w-4 h-4 text-pink-400" />
-                </div>
-                <h3 className="font-medium text-white text-sm">Conversation</h3>
-              </div>
-              <p className="text-xs text-slate-500">
-                Campus dialogues with 2 questions each
-              </p>
-            </div>
-
-            <div className="p-4 glass-card rounded-xl border border-slate-700/50">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
-                  <Megaphone className="w-4 h-4 text-amber-400" />
-                </div>
-                <h3 className="font-medium text-white text-sm">Announcement</h3>
-              </div>
-              <p className="text-xs text-slate-500">
-                Campus notices with 2 questions each
-              </p>
-            </div>
-
-            <div className="p-4 glass-card rounded-xl border border-slate-700/50">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                  <GraduationCap className="w-4 h-4 text-emerald-400" />
-                </div>
-                <h3 className="font-medium text-white text-sm">Academic Talk</h3>
-              </div>
-              <p className="text-xs text-slate-500">
-                Short lectures with 4-5 questions each
-              </p>
-            </div>
-          </div>
-
-          {/* Start Button */}
-          <div className="mt-auto">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={startPractice}
-              className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25"
-            >
-              Start Listening Practice
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </div>
-        </motion.div>
-      </div>
+      <SectionBrief
+        icon={Headphones}
+        title="Listening"
+        standfirst="Two adaptive modules. Every clip plays once — there is no replay, exactly as on the day."
+        manifest={[
+          { field: "Duration", value: "18–27", note: "Minutes. Module 2 length varies by track." },
+          { field: "Playback", value: "ONCE", note: "No rewind and no second listen on any item" },
+          { field: "Routing", value: "ADAPTIVE", note: "Module 2 is set by how Module 1 goes" },
+        ]}
+        tasks={[
+          { name: "Choose a Response", detail: "Hear a question, pick the reply that fits", icon: MessageSquare },
+          { name: "Conversation", detail: "A campus exchange between two speakers", icon: Users },
+          { name: "Announcement", detail: "A short campus notice read aloud", icon: Megaphone },
+          { name: "Academic Lecture", detail: "A mini-lecture with comprehension questions", icon: GraduationCap },
+        ]}
+        action="Start listening"
+        onAction={startPractice}
+        footnote="Check your volume before you board. Audio starts automatically and each clip plays exactly once."
+      />
     );
   }
 
@@ -681,16 +584,16 @@ export function ListeningPractice() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${currentQ.type === "choose_response" ? "bg-purple-500/20" :
-              currentQ.type === "conversation" ? "bg-pink-500/20" :
-                currentQ.type === "announcement" ? "bg-amber-500/20" :
-                  "bg-emerald-500/20"
-              }`}>
+            <div className={`w-8 h-8 rounded-flap flex items-center justify-center ${currentQ.type === "choose_response" ? "bg-amber-500/20" :
+ currentQ.type === "conversation" ? "bg-amber-500/20" :
+ currentQ.type === "announcement" ? "bg-amber-500/20" :
+ "bg-platform-500/20"
+ }`}>
               <span className={
-                currentQ.type === "choose_response" ? "text-purple-400" :
-                  currentQ.type === "conversation" ? "text-pink-400" :
+                currentQ.type === "choose_response" ? "text-amber-400" :
+                  currentQ.type === "conversation" ? "text-amber-400" :
                     currentQ.type === "announcement" ? "text-amber-400" :
-                      "text-emerald-400"
+                      "text-platform-400"
               }>
                 {getTaskIcon(currentQ.type)}
               </span>
@@ -698,8 +601,8 @@ export function ListeningPractice() {
             <span className="text-sm font-medium text-white">{getTaskName(currentQ.type)}</span>
           </div>
 
-          <div className={`flex items-center gap-2 px-4 py-2 glass-card rounded-xl border transition-colors ${sectionTimeLeft < 120 ? "border-red-500/50 text-red-400" : "border-white/5 text-white"}`}>
-            <Clock className={`w-4 h-4 ${sectionTimeLeft < 120 ? "text-red-400" : "text-cyan-400"}`} />
+          <div className={`flex items-center gap-2 px-4 py-2 glass-card rounded-panel border transition-colors ${sectionTimeLeft < 120 ? "border-signal-500/50 text-signal-400" : "border-white/5 text-white"}`}>
+            <Clock className={`w-4 h-4 ${sectionTimeLeft < 120 ? "text-signal-400" : "text-amber-400"}`} />
             <span className="text-sm font-bold font-mono">
               Section Time: {formatTime(sectionTimeLeft)}
             </span>
@@ -707,11 +610,11 @@ export function ListeningPractice() {
         </div>
 
         {/* Progress Bar */}
-        <div className="h-1.5 bg-slate-800/50 rounded-full mb-6 overflow-hidden">
+        <div className="h-1.5 bg-steel-800/50 rounded-full mb-6 overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-            className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+            className="bg-amber-400 h-full rounded-full"
             transition={{ duration: 0.5, ease: "easeOut" }}
           />
         </div>
@@ -720,10 +623,10 @@ export function ListeningPractice() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-6 mb-6"
+          className="glass-panel rounded-panel p-6 mb-6"
         >
           <div className="flex items-center gap-3 mb-4">
-            <Headphones className="w-5 h-5 text-cyan-400" />
+            <Headphones className="w-5 h-5 text-amber-400" />
             <h3 className="font-semibold text-white">
               {currentQ.type === "choose_response" ? "Listen and Choose" :
                 currentQ.type === "conversation" ? (currentQ.data as ConversationScenario).context :
@@ -733,7 +636,7 @@ export function ListeningPractice() {
           </div>
 
           {currentQ.type !== "choose_response" && (
-            <p className="text-sm text-slate-400 mb-4">
+            <p className="text-sm text-steel-400 mb-4">
               {currentQ.type === "conversation" ? (currentQ.data as ConversationScenario).setting :
                 currentQ.type === "announcement" ? (currentQ.data as AnnouncementScenario).setting :
                   (currentQ.data as AcademicTalkScenario).subject}
@@ -743,29 +646,29 @@ export function ListeningPractice() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-panel rounded-2xl p-8 text-center max-w-2xl mx-auto"
+            className="glass-panel rounded-panel p-8 text-center max-w-2xl mx-auto"
           >
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-cyan-500/20">
+            <div className="glass-plate w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
               {isPreloading ? <Loader2 className="w-10 h-10 text-white animate-spin" /> : <Volume2 className="w-10 h-10 text-white" />}
             </div>
 
             <h3 className="text-xl font-bold text-white mb-2">
               {isPreloading ? "Preparing Recording..." : isPlayingAudio ? "Listening..." : "Listen to the Prompt"}
             </h3>
-            <p className="text-sm text-slate-400 mb-8 max-w-md mx-auto">
+            <p className="text-sm text-steel-400 mb-8 max-w-md mx-auto">
               {isPreloading ? "Retrieving transcriptions and generating high-quality dialogue segments..." : "The audio will play automatically. Listen carefully as you can only hear it once."}
             </p>
 
             {isPreloading ? (
               <div className="space-y-4">
-                <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-steel-800 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-cyan-500"
+                    className="h-full bg-amber-500"
                     animate={{ x: ["-100%", "100%"] }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
                   />
                 </div>
-                <p className="text-xs text-cyan-400 animate-pulse font-medium uppercase tracking-widest">Preloading Conversation Flow</p>
+                <p className="text-xs text-amber-400 animate-pulse font-medium uppercase tracking-widest">Preloading Conversation Flow</p>
               </div>
             ) : isPlayingAudio ? (
               <div className="space-y-6">
@@ -776,18 +679,18 @@ export function ListeningPractice() {
                         key={i}
                         animate={{ scaleY: [1, 2, 1] }}
                         transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }}
-                        className="w-1 h-4 bg-cyan-400 rounded-full"
+                        className="w-1 h-4 bg-amber-400 rounded-full"
                       />
                     ))}
                   </div>
-                  <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">
+                  <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">
                     Speaking: {audioSegments[currentSegmentIndex]?.voice.split('_').pop()?.toUpperCase() || "NARRATOR"}
                   </span>
                 </div>
 
-                <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-2 bg-steel-800 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-cyan-500 to-blue-500"
+                    className="bg-amber-400 h-full"
                     style={{ width: `${audioProgress}%` }}
                     transition={{ duration: 0.2 }}
                   />
@@ -799,7 +702,7 @@ export function ListeningPractice() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => playAudioSegments(audioData)}
                 disabled={isPreloading}
-                className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/25 flex items-center gap-3 mx-auto"
+                className="bg-amber-400 px-10 py-4 text-concourse-deep rounded-panel shadow-lg flex items-center gap-3 mx-auto font-board uppercase tracking-[0.14em] font-bold"
               >
                 <Play className="w-5 h-5 fill-current" />
                 Play Audio
@@ -807,7 +710,7 @@ export function ListeningPractice() {
             )}
 
             {audioError && (
-              <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 text-red-400 text-sm">
+              <div className="mt-6 p-4 bg-signal-500/10 border border-signal-500/30 rounded-panel flex items-center gap-3 text-signal-400 text-sm">
                 <AlertCircle className="w-5 h-5 flex-shrink-0" />
                 {audioError}
               </div>
@@ -820,9 +723,9 @@ export function ListeningPractice() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="p-4 glass-card rounded-xl text-center"
+          className="p-4 glass-card rounded-panel text-center"
         >
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-steel-400">
             {currentQ.type === "choose_response"
               ? "Listen to the statement, then select the most appropriate response."
               : "Listen carefully to the audio. You will answer questions about what you heard."}
@@ -844,12 +747,12 @@ export function ListeningPractice() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-xl">
+            <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-panel">
               <span className={
-                currentQ.type === "choose_response" ? "text-purple-400" :
-                  currentQ.type === "conversation" ? "text-pink-400" :
+                currentQ.type === "choose_response" ? "text-amber-400" :
+                  currentQ.type === "conversation" ? "text-amber-400" :
                     currentQ.type === "announcement" ? "text-amber-400" :
-                      "text-emerald-400"
+                      "text-platform-400"
               }>
                 {getTaskIcon(currentQ.type)}
               </span>
@@ -857,8 +760,8 @@ export function ListeningPractice() {
             </div>
           </div>
 
-          <div className={`flex items-center gap-2 px-4 py-2 glass-card rounded-xl border transition-colors ${sectionTimeLeft < 120 ? "border-red-500/50 text-red-400" : "border-white/5 text-white"}`}>
-            <Clock className={`w-4 h-4 ${sectionTimeLeft < 120 ? "text-red-400" : "text-cyan-400"}`} />
+          <div className={`flex items-center gap-2 px-4 py-2 glass-card rounded-panel border transition-colors ${sectionTimeLeft < 120 ? "border-signal-500/50 text-signal-400" : "border-white/5 text-white"}`}>
+            <Clock className={`w-4 h-4 ${sectionTimeLeft < 120 ? "text-signal-400" : "text-amber-400"}`} />
             <span className="text-sm font-bold font-mono">
               Section Time: {formatTime(sectionTimeLeft)}
             </span>
@@ -869,9 +772,9 @@ export function ListeningPractice() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-6 mb-6"
+          className="glass-panel rounded-panel p-6 mb-6"
         >
-          <div className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl mb-6">
+          <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-panel mb-6">
             <p className="text-lg text-white font-medium">{questionDetails.question}</p>
           </div>
 
@@ -887,18 +790,18 @@ export function ListeningPractice() {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   onClick={() => setSelectedOption(letter)}
-                  className={`w-full p-4 rounded-xl text-left transition-all flex items-start gap-4 ${isSelected
-                    ? "bg-cyan-500/20 border-2 border-cyan-500"
-                    : "glass-card border-2 border-transparent hover:border-slate-600"
-                    }`}
+                  className={`w-full p-4 rounded-panel text-left transition-all flex items-start gap-4 ${isSelected
+ ? "bg-amber-500/20 border-2 border-amber-500"
+ : "glass-card border-2 border-transparent hover:border-steel-600"
+ }`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${isSelected ? "bg-cyan-500" : "bg-slate-700"
-                    }`}>
-                    <span className={`font-bold text-sm ${isSelected ? "text-white" : "text-slate-400"}`}>
+                  <div className={`w-8 h-8 rounded-flap flex items-center justify-center flex-shrink-0 ${isSelected ? "bg-amber-500" : "bg-steel-700"
+ }`}>
+                    <span className={`font-bold text-sm ${isSelected ? "text-white" : "text-steel-400"}`}>
                       {letter}
                     </span>
                   </div>
-                  <span className={`text-sm ${isSelected ? "text-white" : "text-slate-300"}`}>
+                  <span className={`text-sm ${isSelected ? "text-white" : "text-steel-300"}`}>
                     {option}
                   </span>
                 </motion.button>
@@ -913,7 +816,7 @@ export function ListeningPractice() {
           whileTap={{ scale: selectedOption ? 0.98 : 1 }}
           onClick={() => handleAnswer(selectedOption!)} // Updated to call handleAnswer
           disabled={!selectedOption}
-          className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 disabled:from-slate-700 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
+          className="bg-amber-400 w-full px-6 py-4 disabled:cursor-not-allowed text-concourse-deep rounded-panel transition-all flex items-center justify-center gap-2 font-board uppercase tracking-[0.14em] font-bold"
         >
           Submit Answer
           <ChevronRight className="w-5 h-5" />
@@ -937,7 +840,7 @@ export function ListeningPractice() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass-panel rounded-2xl p-8 mb-8"
+          className="glass-panel rounded-panel p-8 mb-8"
         >
           {/* Score Header */}
           <div className="text-center mb-10">
@@ -945,40 +848,40 @@ export function ListeningPractice() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-cyan-400 to-blue-500 mb-6 shadow-xl shadow-cyan-500/25"
+              className="glass-plate inline-flex items-center justify-center w-24 h-24 rounded-full mb-6 shadow-xl"
             >
               <Trophy className="w-12 h-12 text-white" />
             </motion.div>
             <h1 className="text-3xl font-bold text-white mb-2">Listening Practice Result</h1>
-            <p className="text-slate-400">Official 2026 Band Scoring (CEFR Aligned)</p>
+            <p className="text-steel-400">Official 2026 Band Scoring (CEFR Aligned)</p>
           </div>
 
           {/* New Score Display */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <motion.div
-              className="glass-card rounded-2xl p-8 text-center border-l-4 border-cyan-500"
+              className="glass-card rounded-panel p-8 text-center border-l border-amber-500"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <p className="text-5xl font-black text-cyan-400 mb-2">{overallBand.toFixed(1)}</p>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">TOEFL Band Score</p>
-              <div className="mt-3 inline-block px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-[10px] font-bold">
+              <p className="text-5xl font-black text-amber-400 mb-2">{overallBand.toFixed(1)}</p>
+              <p className="text-xs font-bold text-steel-500 uppercase tracking-widest">TOEFL Band Score</p>
+              <div className="mt-3 inline-block px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-bold">
                 {overallBand >= 5.0 ? "Expert" : overallBand >= 4.0 ? "Advanced" : "Standard"}
               </div>
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8 text-center bg-white/[0.02]"
+              className="glass-card rounded-panel p-8 text-center bg-white/[0.02]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
               <p className="text-5xl font-black text-white mb-2">{overallScaled}</p>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Scaled Score / 30</p>
-              <div className="w-full h-1.5 bg-slate-800 rounded-full mt-4 overflow-hidden">
+              <p className="text-xs font-bold text-steel-500 uppercase tracking-widest">Scaled Score / 30</p>
+              <div className="w-full h-1.5 bg-steel-800 rounded-full mt-4 overflow-hidden">
                 <motion.div
-                  className="h-full bg-blue-500"
+                  className="h-full bg-amber-500"
                   initial={{ width: 0 }}
                   animate={{ width: `${(overallScaled / 30) * 100}%` }}
                 />
@@ -986,17 +889,17 @@ export function ListeningPractice() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8 text-center bg-white/[0.02]"
+              className="glass-card rounded-panel p-8 text-center bg-white/[0.02]"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 }}
             >
               <div className="flex justify-center gap-1 mb-2">
-                <span className="text-5xl font-black text-emerald-400">{answers.filter(a => a.isCorrect).length}</span>
-                <span className="text-2xl font-bold text-slate-600 self-end mb-1">/{answers.length}</span>
+                <span className="text-5xl font-black text-platform-400">{answers.filter(a => a.isCorrect).length}</span>
+                <span className="text-2xl font-bold text-steel-600 self-end mb-1">/{answers.length}</span>
               </div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Correct Answers</p>
-              <p className="text-[10px] text-slate-400 mt-2 italic">Based on {answers.length} questions</p>
+              <p className="text-xs font-bold text-steel-500 uppercase tracking-widest">Correct Answers</p>
+              <p className="text-[10px] text-steel-400 mt-2 italic">Based on {answers.length} questions</p>
             </motion.div>
           </div>
 
@@ -1005,7 +908,7 @@ export function ListeningPractice() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setState("setup")}
-              className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2"
+              className="bg-amber-400 px-10 py-4 text-concourse-deep rounded-panel shadow-lg flex items-center justify-center gap-2 font-board uppercase tracking-[0.14em] font-bold"
             >
               <RotateCcw className="w-5 h-5" />
               Try New Module
@@ -1018,45 +921,44 @@ export function ListeningPractice() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="glass-panel rounded-2xl p-6"
+          className="glass-panel rounded-panel p-6"
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-cyan-400" />
-              Question Review
+                Question Review
             </h2>
           </div>
 
           <div className="space-y-4">
             {answers.map((answer, idx) => (
-              <div key={idx} className={`p-6 rounded-xl border ${answer.isCorrect ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-red-500/5 border-red-500/20'}`}>
+              <div key={idx} className={`p-6 rounded-panel border ${answer.isCorrect ? 'bg-platform-500/5 border-platform-500/20' : 'bg-signal-500/5 border-signal-500/20'}`}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${answer.isCorrect ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${answer.isCorrect ? 'bg-platform-500 text-white' : 'bg-signal-500 text-white'}`}>
                       {idx + 1}
                     </div>
                     <span className="text-base font-medium text-white">{answer.questionText}</span>
                   </div>
-                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${answer.isCorrect ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${answer.isCorrect ? 'bg-platform-500/20 text-platform-400' : 'bg-signal-500/20 text-signal-400'}`}>
                     {answer.isCorrect ? 'Correct' : 'Incorrect'}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 pl-11">
                   <div>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Your Response</p>
-                    <p className={`text-sm ${answer.isCorrect ? 'text-emerald-400' : 'text-red-400 font-medium'}`}>{answer.selectedOption || '-'}. {answer.selectedText || 'No answer'}</p>
+                    <p className="text-[10px] font-bold text-steel-500 uppercase tracking-wider mb-1.5">Your Response</p>
+                    <p className={`text-sm ${answer.isCorrect ? 'text-platform-400' : 'text-signal-400 font-medium'}`}>{answer.selectedOption || '-'}. {answer.selectedText || 'No answer'}</p>
                   </div>
                   {!answer.isCorrect && (
                     <div>
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Correct Answer</p>
-                      <p className="text-sm text-emerald-400 font-medium">{answer.correctAnswer}. {answer.correctText}</p>
+                      <p className="text-[10px] font-bold text-steel-500 uppercase tracking-wider mb-1.5">Correct Answer</p>
+                      <p className="text-sm text-platform-400 font-medium">{answer.correctAnswer}. {answer.correctText}</p>
                     </div>
                   )}
                 </div>
 
                 <div className="mt-4 pl-11 pt-4 border-t border-white/5">
-                  <p className="text-xs text-slate-400 leading-relaxed italic line-clamp-2 hover:line-clamp-none transition-all">
+                  <p className="text-xs text-steel-400 leading-relaxed italic line-clamp-2 hover:line-clamp-none transition-all">
                     {answer.explanation}
                   </p>
                 </div>

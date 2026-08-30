@@ -40,6 +40,7 @@ import {
   User,
   AlertTriangle,
 } from "lucide-react";
+import { SectionBrief } from "@/components/board";
 
 // Reading Data & Types
 import {
@@ -983,17 +984,16 @@ export function FullTestSection() {
   // --- Render ---
 
   if (testState === "intro") {
-    // Re-using the intro design but updated
     return (
       <div className="h-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-panel rounded-2xl p-8 h-full flex flex-col"
+          className="glass-panel rounded-panel p-8 h-full flex flex-col"
         >
           <div className="text-center mb-8">
             <div className="relative inline-block">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
+              <div className="glass-plate w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <GraduationCap className="w-10 h-10 text-white" />
               </div>
               <div className="absolute -top-2 -right-2">
@@ -1019,9 +1019,9 @@ export function FullTestSection() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 * i }}
-                className="flex items-center gap-4 p-4 rounded-xl glass-card"
+                className="flex items-center gap-4 p-4 rounded-panel glass-card"
               >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.gradient} flex items-center justify-center shadow-lg`}>
+                <div className={`glass-plate w-12 h-12 rounded-full ${section.gradient} flex items-center justify-center shadow-lg`}>
                   <section.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
@@ -1037,7 +1037,7 @@ export function FullTestSection() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={startTest}
-              className="w-full px-6 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+              className="bg-platform-500 w-full px-6 py-4 text-white rounded-panel transition-all flex items-center justify-center gap-2 shadow-lg font-board uppercase tracking-[0.14em] font-bold"
             >
               Start Full Test
               <ChevronRight className="w-5 h-5" />
@@ -1047,8 +1047,6 @@ export function FullTestSection() {
       </div>
     );
   }
-
-
 
   // Reading Renderer
   if (testState === "reading_module1" || testState === "reading_module2") {
@@ -1061,10 +1059,10 @@ export function FullTestSection() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${readingCurrentModule === "module1" ? "bg-cyan-500/20 border-cyan-500/30 text-cyan-400" :
-              readingCurrentModule === "module2_hard" ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-400" :
-                "bg-amber-500/20 border-amber-500/30 text-amber-400"
-              }`}>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-panel ${readingCurrentModule === "module1" ? "bg-amber-500/20 border-amber-500/30 text-amber-400" :
+ readingCurrentModule === "module2_hard" ? "bg-platform-500/20 border-platform-500/30 text-platform-400" :
+ "bg-amber-500/20 border-amber-500/30 text-amber-400"
+ } font-board uppercase tracking-[0.14em] font-bold`}>
               <span className="text-sm font-medium capitalize">
                 {readingCurrentModule === "module1" ? "Reading Module 1" :
                   readingCurrentModule === "module2_hard" ? "Reading Module 2 (Hard)" : "Reading Module 2 (Easy)"}
@@ -1073,12 +1071,12 @@ export function FullTestSection() {
             {/* Progress Dots */}
             <div className="flex items-center gap-1">
               {readingSteps.slice(0, 20).map((_, idx) => (
-                <div key={idx} className={`w-2 h-2 rounded-full ${idx === readingCurrentIndex ? "bg-cyan-400 scale-125" : readingAnswers[readingSteps[idx]?.id] ? "bg-emerald-500" : "bg-slate-700"}`} />
+                <div key={idx} className={`w-2 h-2 rounded-full ${idx === readingCurrentIndex ? "bg-amber-400 scale-125" : readingAnswers[readingSteps[idx]?.id] ? "bg-platform-500" : "bg-steel-700"}`} />
               ))}
             </div>
           </div>
           {/* Timer */}
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${readingTimeLeft < 60 ? "bg-red-500/20 border-red-500/30 text-red-400" : "glass-card border-white/10 text-white"}`}>
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-panel border ${readingTimeLeft < 60 ? "bg-signal-500/20 border-signal-500/30 text-signal-400" : "glass-card border-white/10 text-white"} font-board uppercase tracking-[0.14em] font-bold`}>
             <Clock className="w-4 h-4" />
             <span className="font-mono">{formatTime(readingTimeLeft)}</span>
           </div>
@@ -1087,7 +1085,7 @@ export function FullTestSection() {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-12rem)]">
           {/* Left Panel */}
-          <div className="glass-panel rounded-2xl p-6 overflow-y-auto">
+          <div className="glass-panel rounded-panel p-6 overflow-y-auto">
             {currentStep.stepType === "complete_words" ? (
               <div className="leading-loose text-lg text-slate-300">
                 {/*
@@ -1142,22 +1140,22 @@ export function FullTestSection() {
                 })()}
               </div>
             ) : (
-              <div className="prose prose-invert prose-sm max-w-none text-slate-300 whitespace-pre-wrap leading-relaxed">
+              <div className="prose prose-invert prose-sm max-w-none text-steel-300 whitespace-pre-wrap leading-relaxed">
                 {renderTextWithFormatting(currentStep.passageContent)}
               </div>
             )}
           </div>
 
           {/* Right Panel */}
-          <div className="glass-panel rounded-2xl flex flex-col p-6">
+          <div className="glass-panel rounded-panel flex flex-col p-6">
             <div className="flex-1 overflow-y-auto">
               {currentStep.stepType === "complete_words" ? (
                 <div className="text-center p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <div className="glass-plate w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
                     <PenTool className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">Complete the Passage</h3>
-                  <p className="text-slate-400">Type missing letters in the blanks.</p>
+                  <p className="text-steel-400">Type missing letters in the blanks.</p>
                 </div>
               ) : (
                 <>
@@ -1167,7 +1165,7 @@ export function FullTestSection() {
                       const s = new Set(readingFlaggedSteps);
                       if (s.has(currentStep.id)) s.delete(currentStep.id); else s.add(currentStep.id);
                       setReadingFlaggedSteps(s);
-                    }} className={`p-2 rounded-lg ${isFlagged ? "text-amber-400 bg-amber-400/10" : "text-slate-500"}`}>
+                    }} className={`p-2 rounded-flap ${isFlagged ? "text-amber-400 bg-amber-400/10" : "text-amber-900"}`}>
                       <Flag className="w-5 h-5" />
                     </button>
                   </div>
@@ -1177,7 +1175,7 @@ export function FullTestSection() {
                       const isSelected = currentAnswer === letter;
                       return (
                         <button key={idx} onClick={() => handleReadingAnswer(letter)}
-                          className={`w-full text-left p-4 rounded-xl border transition-all ${isSelected ? "bg-cyan-500/20 border-cyan-500 text-white" : "bg-white/5 border-transparent text-slate-300 hover:bg-white/10"}`}>
+                          className={`w-full text-left p-4 rounded-panel border transition-all ${isSelected ? "bg-amber-500/20 border-amber-500 text-white" : "bg-white/5 border-transparent text-steel-300 hover:bg-white/10"}`}>
                           <span className="font-bold mr-3">{letter}.</span>
                           {option}
                         </button>
@@ -1190,15 +1188,15 @@ export function FullTestSection() {
 
             {/* Navigation */}
             <div className="pt-6 border-t border-white/10 flex justify-between items-center">
-              <button onClick={() => setReadingCurrentIndex(prev => Math.max(0, prev - 1))} disabled={readingCurrentIndex === 0} className="flex items-center gap-2 text-slate-400 hover:text-white disabled:opacity-50">
+              <button onClick={() => setReadingCurrentIndex(prev => Math.max(0, prev - 1))} disabled={readingCurrentIndex === 0} className="flex items-center gap-2 text-steel-400 hover:text-white disabled:opacity-50">
                 <ChevronLeft className="w-4 h-4" /> Previous
               </button>
               {readingCurrentIndex < readingSteps.length - 1 ? (
-                <button onClick={() => setReadingCurrentIndex(prev => prev + 1)} className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium">
+                <button onClick={() => setReadingCurrentIndex(prev => prev + 1)} className="bg-amber-400 flex items-center gap-2 px-6 py-3 text-concourse-deep rounded-panel font-board uppercase tracking-[0.14em] font-bold">
                   Next <ChevronRight className="w-4 h-4" />
                 </button>
               ) : (
-                <button onClick={handleReadingModuleTimeout} className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium">
+                <button onClick={handleReadingModuleTimeout} className="bg-amber-400 flex items-center gap-2 px-6 py-3 text-concourse-deep rounded-panel font-board uppercase tracking-[0.14em] font-bold">
                   Finish Module <ChevronRight className="w-4 h-4" />
                 </button>
               )}
@@ -1213,11 +1211,11 @@ export function FullTestSection() {
   if (testState === "reading_interim") {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="glass-panel p-12 rounded-2xl text-center max-w-lg w-full">
-          <CheckCircle className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
+        <div className="glass-panel p-12 rounded-panel text-center max-w-lg w-full">
+          <CheckCircle className="w-16 h-16 text-platform-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-white mb-2">Module 1 Complete</h2>
-          <p className="text-slate-400 mb-8">Move on to the next module.</p>
-          <button onClick={() => setTestState("reading_module2")} className="w-full px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-xl">
+          <p className="text-steel-400 mb-8">Move on to the next module.</p>
+          <button onClick={() => setTestState("reading_module2")} className="bg-amber-400 w-full px-6 py-4 text-concourse-deep rounded-panel font-board uppercase tracking-[0.14em] font-bold">
             Start Module 2
           </button>
         </div>
@@ -1238,17 +1236,17 @@ export function FullTestSection() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-500/20 border-pink-500/30 text-pink-400`}>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-panel bg-amber-500/20 border-amber-500/30 text-amber-400`}>
               <Headphones className="w-4 h-4" />
               <span className="text-sm font-medium">Listening Module {listeningCurrentModule}</span>
             </div>
             <div className="flex items-center gap-1">
               {listeningQuestions.map((_, idx) => (
-                <div key={idx} className={`w-2 h-2 rounded-full ${idx === listeningCurrentIndex ? "bg-pink-400 scale-125" : idx < listeningCurrentIndex ? "bg-emerald-500" : "bg-slate-700"}`} />
+                <div key={idx} className={`w-2 h-2 rounded-full ${idx === listeningCurrentIndex ? "bg-amber-400 scale-125" : idx < listeningCurrentIndex ? "bg-platform-500" : "bg-steel-700"}`} />
               ))}
             </div>
           </div>
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${listeningTimeLeft < 60 ? "bg-red-500/20 border-red-500/30 text-red-400" : "glass-card border-white/10 text-white"}`}>
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-panel border ${listeningTimeLeft < 60 ? "bg-signal-500/20 border-signal-500/30 text-signal-400" : "glass-card border-white/10 text-white"} font-board uppercase tracking-[0.14em] font-bold`}>
             <Clock className="w-4 h-4" />
             <span className="font-mono">{formatTime(listeningTimeLeft)}</span>
           </div>
@@ -1257,9 +1255,9 @@ export function FullTestSection() {
         {/* Content */}
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Audio Context Card */}
-          <div className="glass-panel p-8 rounded-2xl text-center relative overflow-hidden">
+          <div className="glass-panel p-8 rounded-panel text-center relative overflow-hidden">
             <div className="relative z-10 w-full max-w-2xl mx-auto">
-              <div className="w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-pink-500/20">
+              <div className="glass-plate w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                 {listeningIsPreloading ? <Loader2 className="w-10 h-10 text-white animate-spin" /> :
                   listeningIsPlaying ? <Volume2 className="w-10 h-10 text-white animate-pulse" /> :
                     <Headphones className="w-10 h-10 text-white" />}
@@ -1271,44 +1269,44 @@ export function FullTestSection() {
 
               {!listeningAudioPlayed && !listeningIsPlaying && !listeningIsPreloading ? (
                 <div className="space-y-4">
-                  <p className="text-slate-400 mb-6">The audio will play automatically locally. Listen carefully as you can only hear it once.</p>
-                  <button onClick={() => playAudioSegments(getAudioSegments(currentQ))} className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2 mx-auto">
+                  <p className="text-steel-400 mb-6">The audio will play automatically locally. Listen carefully as you can only hear it once.</p>
+                  <button onClick={() => playAudioSegments(getAudioSegments(currentQ))} className="px-8 py-3 bg-white text-steel-900 font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2 mx-auto">
                     <Play className="w-5 h-5" /> Play Audio
                   </button>
                 </div>
               ) : listeningIsPreloading ? (
                 <div className="space-y-4 mt-8">
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-steel-800 rounded-full overflow-hidden">
                     <motion.div
-                      className="h-full bg-pink-500"
+                      className="h-full bg-amber-500"
                       animate={{ x: ["-100%", "100%"] }}
                       transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
                     />
                   </div>
-                  <p className="text-xs text-pink-400 animate-pulse font-medium uppercase tracking-widest">Generating High-Quality Dialogue...</p>
+                  <p className="text-xs text-amber-400 animate-pulse font-medium uppercase tracking-widest">Generating High-Quality Dialogue...</p>
                 </div>
               ) : listeningIsPlaying ? (
                 <div className="w-full max-w-md mx-auto space-y-6 mt-8">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-1.5">
                       {[...Array(4)].map((_, i) => (
-                        <motion.div key={i} className="w-1 h-4 bg-pink-400 rounded-full" animate={{ scaleY: [1, 2, 1] }} transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }} />
+                        <motion.div key={i} className="w-1 h-4 bg-amber-400 rounded-full" animate={{ scaleY: [1, 2, 1] }} transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }} />
                       ))}
                     </div>
-                    <span className="text-xs font-bold text-pink-400 uppercase tracking-widest">
+                    <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">
                       Speaking: {listeningAudioSegments[listeningSegmentIndex]?.voice.replace(/_/g, " ").toUpperCase() || "NARRATOR"}
                     </span>
                   </div>
-                  <div className="flex justify-between text-xs text-pink-300 font-medium">
+                  <div className="flex justify-between text-xs text-amber-300 font-medium">
                     <span>Playing...</span>
                     <span>{Math.round(listeningAudioProgress)}%</span>
                   </div>
-                  <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <motion.div className="h-full bg-pink-500" style={{ width: `${listeningAudioProgress}%` }} />
+                  <div className="h-2 bg-steel-800 rounded-full overflow-hidden">
+                    <motion.div className="h-full bg-amber-500" style={{ width: `${listeningAudioProgress}%` }} />
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center justify-center gap-2 text-emerald-400 font-medium mt-4">
+                <div className="flex items-center justify-center gap-2 text-platform-400 font-medium mt-4">
                   <CheckCircle className="w-5 h-5" /> Audio Complete
                 </div>
               )}
@@ -1317,7 +1315,7 @@ export function FullTestSection() {
             {listeningIsPlaying && !listeningIsPreloading && (
               <div className="absolute inset-0 z-0 opacity-20 flex items-center justify-center gap-1 pointer-events-none">
                 {[...Array(20)].map((_, i) => (
-                  <motion.div key={i} className="w-4 bg-pink-500" animate={{ height: [20, Math.random() * 100 + 50, 20] }} transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.05 }} />
+                  <motion.div key={i} className="w-4 bg-amber-500" animate={{ height: [20, Math.random() * 100 + 50, 20] }} transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.05 }} />
                 ))}
               </div>
             )}
@@ -1325,7 +1323,7 @@ export function FullTestSection() {
 
           {/* Question Area */}
           {(listeningAudioPlayed || (currentQ.type === "choose_response" && listeningAudioPlayed)) && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-panel p-8 rounded-2xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-panel p-8 rounded-panel">
               <h3 className="text-xl font-semibold text-white mb-6">
                 {qData.question}
               </h3>
@@ -1341,11 +1339,11 @@ export function FullTestSection() {
 
                     return (
                       <button key={idx} onClick={() => handleListeningAnswer(letter)}
-                        className={`w-full text-left p-4 rounded-xl transition-all flex items-center gap-4 group ${isSelected ? "bg-pink-500/20 border border-pink-500" : "glass-card border border-white/5 hover:bg-white/10"}`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors border ${isSelected ? "bg-pink-500 text-white border-pink-500" : "bg-slate-800 text-slate-400 border-slate-700 group-hover:border-pink-500"}`}>
+                        className={`w-full text-left p-4 rounded-panel transition-all flex items-center gap-4 group ${isSelected ? "bg-amber-500/20 border border-amber-500" : "glass-card border border-white/5 hover:bg-white/10"}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors border ${isSelected ? "bg-amber-500 text-white border-amber-500" : "bg-steel-800 text-steel-400 border-steel-700 group-hover:border-amber-500"}`}>
                           {letter}
                         </div>
-                        <span className={`transition-colors ${isSelected ? "text-white" : "text-slate-300 group-hover:text-white"}`}>{opt}</span>
+                        <span className={`transition-colors ${isSelected ? "text-white" : "text-steel-300 group-hover:text-white"}`}>{opt}</span>
                       </button>
                     );
                   });
@@ -1362,26 +1360,26 @@ export function FullTestSection() {
   if (testState === "speaking_intro") {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="glass-panel p-12 rounded-2xl text-center max-w-lg w-full">
-          <Mic className="w-16 h-16 text-purple-400 mx-auto mb-6" />
+        <div className="glass-panel p-12 rounded-panel text-center max-w-lg w-full">
+          <Mic className="w-16 h-16 text-amber-400 mx-auto mb-6" />
           <h2 className="text-3xl font-bold text-white mb-2">Speaking Section</h2>
           <div className="space-y-4 mb-8 text-left">
-            <div className="flex items-start gap-3 p-4 bg-white/5 rounded-xl">
-              <span className="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
+            <div className="flex items-start gap-3 p-4 bg-white/5 rounded-panel">
+              <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
               <div>
                 <h4 className="text-white font-medium">Listen & Repeat</h4>
-                <p className="text-sm text-slate-400">Repeat 20 sentences accurately.</p>
+                <p className="text-sm text-steel-400">Repeat 20 sentences accurately.</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 bg-white/5 rounded-xl">
-              <span className="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
+            <div className="flex items-start gap-3 p-4 bg-white/5 rounded-panel">
+              <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
               <div>
                 <h4 className="text-white font-medium">Interview</h4>
-                <p className="text-sm text-slate-400">Answer 5 open-ended questions.</p>
+                <p className="text-sm text-steel-400">Answer 5 open-ended questions.</p>
               </div>
             </div>
           </div>
-          <button onClick={startSpeakingPractice} className="w-full px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold rounded-xl shadow-lg shadow-purple-500/25">
+          <button onClick={startSpeakingPractice} className="bg-amber-400 w-full px-6 py-4 text-concourse-deep rounded-panel shadow-lg font-board uppercase tracking-[0.14em] font-bold">
             Start Speaking
           </button>
         </div>
@@ -1397,20 +1395,20 @@ export function FullTestSection() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/20 border-purple-500/30 text-purple-400">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-panel bg-amber-500/20 border-amber-500/30 text-amber-400">
               <Mic className="w-4 h-4" />
               <span className="text-sm font-medium">{isRepeat ? "Listen & Repeat" : "Interview"}</span>
             </div>
           </div>
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${speakingTimeLeft < 60 ? "bg-red-500/20 border-red-500/30 text-red-400" : "glass-card border-white/10 text-white"}`}>
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-panel border ${speakingTimeLeft < 60 ? "bg-signal-500/20 border-signal-500/30 text-signal-400" : "glass-card border-white/10 text-white"} font-board uppercase tracking-[0.14em] font-bold`}>
             <Clock className="w-4 h-4" />
             <span className="font-mono">{formatTime(speakingTimeLeft)}</span>
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto mt-12 glass-panel p-12 rounded-2xl text-center relative overflow-hidden">
+        <div className="max-w-3xl mx-auto mt-12 glass-panel p-12 rounded-panel text-center relative overflow-hidden">
           {/* Visualizer */}
-          <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-xl shadow-purple-500/30 relative">
+          <div className="bg-amber-400 w-32 h-32 mx-auto mb-8 rounded-full flex items-center justify-center shadow-xl relative">
             {speakingStage === "playing" ? (
               <Volume2 className="w-12 h-12 text-white animate-pulse" />
             ) : speakingStage === "recording" ? (
@@ -1428,9 +1426,9 @@ export function FullTestSection() {
           </h2>
 
           {speakingStage === "recording" && (
-            <div className="w-64 h-2 bg-slate-800 rounded-full mx-auto overflow-hidden">
+            <div className="w-64 h-2 bg-steel-800 rounded-full mx-auto overflow-hidden">
               <motion.div
-                className="h-full bg-red-500"
+                className="h-full bg-signal-500"
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
                 transition={{ duration: speakingMaxRecordingTime, ease: "linear" }}
@@ -1438,7 +1436,7 @@ export function FullTestSection() {
             </div>
           )}
 
-          <div className="mt-8 text-slate-400">
+          <div className="mt-8 text-steel-400">
             {isRepeat ? `Sentence ${speakingSentenceIndex + 1} of ${speakingScenario?.sentences.length || 20}` : `Question ${speakingInterviewIndex + 1} of ${speakingInterview?.questions.length || 5}`}
           </div>
         </div>
@@ -1450,8 +1448,8 @@ export function FullTestSection() {
   if (testState === "writing_intro") {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="glass-panel p-12 rounded-2xl text-center max-w-lg w-full">
-          <PenTool className="w-16 h-16 text-cyan-400 mx-auto mb-6" />
+        <div className="glass-panel p-12 rounded-panel text-center max-w-lg w-full">
+          <PenTool className="w-16 h-16 text-amber-400 mx-auto mb-6" />
           <h2 className="text-3xl font-bold text-white mb-2">Writing Section</h2>
           <p className="text-slate-400 mb-6">12 items, about 23 minutes. Each task has its own clock.</p>
           <div className="space-y-3 mb-8 text-left">
@@ -1460,7 +1458,7 @@ export function FullTestSection() {
               { name: "Write an Email", detail: "1 item, 7:00" },
               { name: "Write for an Academic Discussion", detail: "1 item, 10:00" },
             ].map((t, i) => (
-              <div key={t.name} className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
+              <div key={t.name} className="flex items-center gap-3 p-4 bg-white/5 rounded-panel">
                 <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm font-bold flex-shrink-0">{i + 1}</span>
                 <div>
                   <span className="text-white font-medium">{t.name}</span>
@@ -1469,7 +1467,7 @@ export function FullTestSection() {
               </div>
             ))}
           </div>
-          <button onClick={startWritingPractice} className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/25">
+          <button onClick={startWritingPractice} className="bg-amber-400 w-full px-6 py-4 text-concourse-deep rounded-panel shadow-lg font-board uppercase tracking-[0.14em] font-bold">
             Start Writing
           </button>
         </div>
@@ -1485,7 +1483,7 @@ export function FullTestSection() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 border-cyan-500/30 text-cyan-400">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-panel bg-amber-500/20 border-amber-500/30 text-amber-400">
               <PenTool className="w-4 h-4" />
               <span className="text-sm font-medium">
                 {isBuildASentence(task)
@@ -1501,21 +1499,21 @@ export function FullTestSection() {
               </span>
             )}
           </div>
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${writingTimeLeft < 60 ? "bg-red-500/20 border-red-500/30 text-red-400" : "glass-card border-white/10 text-white"}`}>
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-panel border ${writingTimeLeft < 60 ? "bg-signal-500/20 border-signal-500/30 text-signal-400" : "glass-card border-white/10 text-white"} font-board uppercase tracking-[0.14em] font-bold`}>
             <Clock className="w-4 h-4" />
             <span className="font-mono">{formatTime(writingTimeLeft)}</span>
           </div>
         </div>
 
         {isBuildASentence(task) ? (
-          <div className="glass-panel p-6 rounded-2xl max-w-3xl mx-auto">
+          <div className="glass-panel p-6 rounded-panel max-w-3xl mx-auto">
             <BuildASentenceTask
               item={task}
               placed={writingPlacements[task.id] ?? {}}
               onChange={(placed) => setWritingPlacements(prev => ({ ...prev, [task.id]: placed }))}
             />
             <div className="pt-6 mt-6 border-t border-white/10 flex justify-end">
-              <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-200">
+              <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-flap hover:bg-slate-200">
                 {writingCurrentIndex < WRITING_PLAN.build_a_sentence.items - 1 ? "Next Sentence" : "Continue to Email"}
               </button>
             </div>
@@ -1523,13 +1521,13 @@ export function FullTestSection() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-12rem)]">
             {/* Prompt */}
-            <div className="glass-panel p-6 rounded-2xl overflow-y-auto prose prose-invert max-w-none">
+            <div className="glass-panel p-6 rounded-panel overflow-y-auto prose prose-invert max-w-none">
               {task.type === "email" && (
                 <div className="space-y-4">
                   <h3 className="text-emerald-400 mt-0">Write an Email</h3>
                   <p className="text-lg text-white">{(task as EmailTask).scenario}</p>
                   <p className="text-slate-300">{(task as EmailTask).instructions}</p>
-                  <div className="p-4 bg-black/30 rounded-lg text-sm text-emerald-300/80 whitespace-pre-wrap">
+                  <div className="p-4 bg-black/30 rounded-flap text-sm text-emerald-300/80 whitespace-pre-wrap">
                     {(task as EmailTask).emailPrompt}
                   </div>
                 </div>
@@ -1538,12 +1536,12 @@ export function FullTestSection() {
                 <div className="space-y-4">
                   <h3 className="text-emerald-400 mt-0">Write for an Academic Discussion</h3>
                   <p className="text-slate-300">{(task as AcademicDiscussionTask).instructions}</p>
-                  <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                  <div className="p-4 bg-purple-500/10 rounded-flap border border-purple-500/20">
                     <span className="text-xs font-bold text-purple-400">Professor {(task as AcademicDiscussionTask).professor.name}</span>
                     <p className="text-sm mt-1">{(task as AcademicDiscussionTask).professor.message}</p>
                   </div>
                   {(task as AcademicDiscussionTask).students.map((st, i) => (
-                    <div key={i} className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/20 ml-4">
+                    <div key={i} className="p-4 bg-blue-500/10 rounded-flap border border-blue-500/20 ml-4">
                       <span className="text-xs font-bold text-blue-400">{st.name}</span>
                       <p className="text-sm mt-1 italic">&ldquo;{st.message}&rdquo;</p>
                     </div>
@@ -1555,7 +1553,7 @@ export function FullTestSection() {
               )}
             </div>
             {/* Input */}
-            <div className="glass-panel p-6 rounded-2xl flex flex-col">
+            <div className="glass-panel p-6 rounded-panel flex flex-col">
               <textarea
                 className="flex-1 bg-transparent border-none resize-none outline-none text-white text-lg leading-relaxed placeholder:text-slate-600"
                 placeholder="Type your response here..."
@@ -1574,7 +1572,7 @@ export function FullTestSection() {
                     <span className="text-slate-600"> &nbsp;(at least {WRITE_FOR_AN_ACADEMIC_DISCUSSION.minimumResponseWords})</span>
                   )}
                 </span>
-                <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-200">
+                <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-flap hover:bg-slate-200">
                   Submit Task
                 </button>
               </div>
@@ -1589,30 +1587,30 @@ export function FullTestSection() {
   if (testState === "results" || testState === "evaluating") {
     return (
       <div className="h-full flex items-center justify-center p-4">
-        <div className="glass-panel p-12 rounded-2xl text-center max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-          <GraduationCap className="w-20 h-20 text-emerald-400 mx-auto mb-6" />
+        <div className="glass-panel p-12 rounded-panel text-center max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+          <GraduationCap className="w-20 h-20 text-platform-400 mx-auto mb-6" />
           <h2 className="text-4xl font-bold text-white mb-4">Test Complete</h2>
-          <p className="text-slate-400 mb-8">Here is your performance summary based on this session.</p>
+          <p className="text-steel-400 mb-8">Here is your performance summary based on this session.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
             {evaluations.length > 0 ? evaluations.map((ev, i) => (
-              <div key={i} className="bg-white/5 p-6 rounded-xl border border-white/10">
+              <div key={i} className="bg-white/5 p-6 rounded-panel border border-white/10">
                 <h4 className="font-bold text-white mb-1 capitalize">{ev.section}</h4>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-2xl font-bold text-cyan-400">{Math.round(ev.scaledScore)}</span>
-                  <span className="text-xs text-slate-500 uppercase font-bold">Score</span>
+                  <span className="text-2xl font-bold text-amber-400">{Math.round(ev.scaledScore)}</span>
+                  <span className="text-xs text-steel-500 uppercase font-bold">Score</span>
                 </div>
-                <p className="text-sm text-slate-300 line-clamp-3">{ev.feedback}</p>
+                <p className="text-sm text-steel-300 line-clamp-3">{ev.feedback}</p>
               </div>
             )) : (
-              <div className="col-span-2 text-center text-slate-500">
+              <div className="col-span-2 text-center text-steel-500">
                 No evaluations recorded yet. Check console or wait for processing.
               </div>
             )}
           </div>
 
           <div className="mt-12 flex gap-4 justify-center">
-            <button onClick={() => window.location.reload()} className="px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-200">
+            <button onClick={() => window.location.reload()} className="px-8 py-4 bg-white text-steel-900 font-bold rounded-panel hover:bg-steel-200">
               Return to Home
             </button>
           </div>

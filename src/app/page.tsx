@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -11,8 +11,7 @@ import {
   History,
   Menu,
   X,
-  ChevronRight,
-  Sparkles,
+  Type,
 } from "lucide-react";
 import { ReadingPractice } from "@/components/practice/ReadingPractice";
 import { ListeningPractice } from "@/components/practice/ListeningPractice";
@@ -21,22 +20,180 @@ import { WritingPractice } from "@/components/practice/WritingPractice";
 import { FullTestSection } from "@/components/practice/FullTestSection";
 import { HistorySection } from "@/components/sections/HistorySection";
 import { WordSpeedrun } from "@/components/games/WordSpeedrun";
+import {
+  FlapText,
+  FlapClock,
+  GlassPlate,
+  Lamp,
+  BoardRow,
+  BoardButton,
+  BoardStripProvider,
+  useBoardStrip,
+} from "@/components/board";
+import { ArrowRight } from "lucide-react";
+import { OvertureMark } from "@/components/brand/Logo";
 
-type Section = "reading" | "listening" | "speaking" | "writing" | "fulltest" | "history" | "games";
+type Section =
+  | "reading"
+  | "listening"
+  | "speaking"
+  | "writing"
+  | "fulltest"
+  | "history"
+  | "games";
 
-const navItems = [
-  { id: "reading" as Section, name: "Reading", icon: BookOpen, gradient: "from-amber-400 to-orange-500", glow: "rgba(251, 191, 36, 0.5)" },
-  { id: "listening" as Section, name: "Listening", icon: Headphones, gradient: "from-pink-400 to-rose-500", glow: "rgba(244, 114, 182, 0.5)" },
-  { id: "speaking" as Section, name: "Speaking", icon: Mic, gradient: "from-violet-400 to-purple-500", glow: "rgba(167, 139, 250, 0.5)" },
-  { id: "writing" as Section, name: "Writing", icon: PenTool, gradient: "from-cyan-400 to-teal-500", glow: "rgba(34, 211, 238, 0.5)" },
-  { id: "fulltest" as Section, name: "Full Test", icon: GraduationCap, gradient: "from-emerald-400 to-green-500", glow: "rgba(52, 211, 153, 0.5)" },
-  { id: "history" as Section, name: "History", icon: History, gradient: "from-slate-400 to-gray-500", glow: "rgba(148, 163, 184, 0.5)" },
-  { id: "games" as Section, name: "Vocab Game", icon: Sparkles, gradient: "from-yellow-400 to-orange-500", glow: "rgba(251, 191, 36, 0.5)" },
+interface BoardEntry {
+  id: Section;
+  name: string;
+  meta: string;
+  icon: typeof BookOpen;
+  /** The line the departure strip reads out when this row is boarding. */
+  strip: string;
+}
+
+const BOARD: Record<"practice" | "assessment" | "training" | "record", BoardEntry[]> = {
+  practice: [
+    {
+      id: "reading",
+      name: "Reading",
+      meta: "Gate 1 · adaptive",
+      icon: BookOpen,
+      strip: "Complete the Words · Daily Life · Academic Text",
+    },
+    {
+      id: "listening",
+      name: "Listening",
+      meta: "Gate 2 · adaptive",
+      icon: Headphones,
+      strip: "Choose a Response · Conversation · Announcement · Lecture",
+    },
+    {
+      id: "speaking",
+      name: "Speaking",
+      meta: "Gate 3 · 4 tasks",
+      icon: Mic,
+      strip: "Listen and Repeat · Interview · Two integrated tasks",
+    },
+    {
+      id: "writing",
+      name: "Writing",
+      meta: "Gate 4 · 3 tasks",
+      icon: PenTool,
+      strip: "Build a Sentence · Write an Email · Academic Discussion",
+    },
+  ],
+  assessment: [
+    {
+      id: "fulltest",
+      name: "Full Test",
+      meta: "All gates · 67–85 min",
+      icon: GraduationCap,
+      strip: "Four sections back to back, under one clock",
+    },
+  ],
+  training: [
+    {
+      id: "games",
+      name: "Word Speedrun",
+      meta: "Open · untimed drill",
+      icon: Type,
+      strip: "Vocabulary against the clock",
+    },
+  ],
+  record: [
+    {
+      id: "history",
+      name: "History",
+      meta: "Posted results",
+      icon: History,
+      strip: "Every attempt, posted back to the board",
+    },
+  ],
+};
+
+const ALL_ENTRIES = [
+  ...BOARD.practice,
+  ...BOARD.assessment,
+  ...BOARD.training,
+  ...BOARD.record,
 ];
+
+const GROUPS: { label: string; entries: BoardEntry[] }[] = [
+  { label: "Practice", entries: BOARD.practice },
+  { label: "Assessment", entries: BOARD.assessment },
+  { label: "Training", entries: BOARD.training },
+  { label: "Record", entries: BOARD.record },
+];
+
+/** A real wall clock, the way a concourse has one. Set after mount so the
+ *  server and the client never disagree about the time. */
+function useLocalTime() {
+  const [now, setNow] = useState<string | null>(null);
+
+  useEffect(() => {
+    const read = () =>
+      setNow(
+        new Date().toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      );
+    read();
+    const id = setInterval(read, 15000);
+    return () => clearInterval(id);
+  }, []);
+
+  return now;
+}
+
+/**
+ * The right edge of the departure strip. It shows the running clock at display
+ * scale when a section has published one, the concourse wall clock when none
+ * is running, and the section's forward action beside it.
+ */
+function StripInstruments() {
+  const { clock, clockLabel, action } = useBoardStrip();
+  const local = useLocalTime();
+  const running = typeof clock === "number";
+
+  return (
+    <div className="flex shrink-0 items-center gap-4 sm:gap-6">
+      <div className="text-right">
+        <p className="board-label pb-1.5 text-right">
+          {running ? (clockLabel ?? "Time remaining") : "Local"}
+        </p>
+        {running ? (
+          <FlapClock seconds={clock} size="xl" />
+        ) : (
+          <FlapText
+            value={local ?? "--:--"}
+            size="xl"
+            tone="steel"
+            label={local ?? ""}
+          />
+        )}
+      </div>
+
+      {action ? (
+        <BoardButton
+          onClick={action.onClick}
+          size="lg"
+          iconRight={ArrowRight}
+          className="hidden lg:inline-flex"
+        >
+          {action.label}
+        </BoardButton>
+      ) : null}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState<Section>("reading");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isRailOpen, setIsRailOpen] = useState(false);
+
+  const active = ALL_ENTRIES.find((e) => e.id === activeSection) ?? ALL_ENTRIES[0];
 
   const renderSection = () => {
     switch (activeSection) {
@@ -59,204 +216,144 @@ export default function HomePage() {
     }
   };
 
-  const handleNavClick = (id: Section) => {
-    setActiveSection(id);
-    setIsSidebarOpen(false);
-  };
-
-  const NavButton = ({ item, index, delayOffset = 0 }: { item: typeof navItems[0]; index: number; delayOffset?: number }) => {
-    const isActive = activeSection === item.id;
-    const Icon = item.icon;
-
-    return (
-      <button
-        key={item.id}
-        onClick={() => handleNavClick(item.id)}
-        className={`group relative flex items-center gap-3 w-full px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
-            ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30"
-            : "hover:bg-white/5 border border-transparent"
-          }`}
-        style={{
-          boxShadow: isActive ? `0 0 30px ${item.glow}` : "none",
-        }}
-      >
-        <div
-          className={`relative w-10 h-10 rounded-lg bg-gradient-to-br ${item.gradient} flex items-center justify-center transition-all duration-300 ${isActive ? "shadow-lg" : "group-hover:shadow-md"
-            }`}
-          style={{
-            boxShadow: isActive ? `0 8px 20px ${item.glow}` : undefined,
-          }}
-        >
-          <Icon className="w-5 h-5 text-white" />
-        </div>
-        <span className={`font-medium transition-colors ${isActive ? "text-white" : "text-slate-400 group-hover:text-white"}`}>
-          {item.name}
-        </span>
-        {isActive && (
-          <div className="ml-auto">
-            <ChevronRight className="w-4 h-4 text-cyan-400" />
-          </div>
-        )}
-      </button>
-    );
-  };
-
-  const sidebarContent = (
-    <div className="flex flex-col h-full">
-      {/* Logo */}
-      <div className="p-6 border-b border-white/5">
+  const rail = (
+    <div className="flex h-full flex-col">
+      {/* Brand plate — the mark seated in the lens, the name in flap cells. */}
+      <div className="steel-grain border-b border-steel-800 px-5 py-5">
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/25">
-              <GraduationCap className="w-6 h-6 text-white" />
-            </div>
-            <div className="absolute -top-1 -right-1">
-              <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
-            </div>
-          </div>
-          <div>
-            <h1 className="font-bold text-lg text-white tracking-tight">
-              TOEFL <span className="text-gradient">Practice</span>
-            </h1>
-            <p className="text-xs text-slate-400">2026 Format</p>
+          <GlassPlate size="lg">
+            <OvertureMark className="h-7 w-7 text-ivory" duotone title="Overture" />
+          </GlassPlate>
+          <div className="min-w-0">
+            <FlapText value="OVERTURE" size="sm" className="mb-2" />
+            <p className="board-label text-steel-400">TOEFL iBT 2026 · Band 1–6</p>
           </div>
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-        <p className="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
-          Practice Sections
-        </p>
-        {navItems.slice(0, 4).map((item, index) => (
-          <NavButton key={item.id} item={item} index={index} />
+      {/* Column headers, the way a departure board captions its columns. */}
+      <div
+        className="flex items-center gap-3 border-b border-steel-800 bg-concourse-deep px-5 py-2"
+        aria-hidden
+      >
+        <span className="board-label flex-1">Section</span>
+        <span className="board-label">Live</span>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto px-2 py-3" aria-label="Practice sections">
+        {GROUPS.map((group, gi) => (
+          <div key={group.label} className={gi > 0 ? "mt-5" : ""}>
+            <p className="board-label px-3 pb-2 pt-1">{group.label}</p>
+            <ul className="space-y-0.5">
+              {group.entries.map((entry) => (
+                <li key={entry.id}>
+                  <BoardRow
+                    name={entry.name}
+                    meta={entry.meta}
+                    icon={entry.icon}
+                    live={activeSection === entry.id}
+                    onClick={() => {
+                      setActiveSection(entry.id);
+                      setIsRailOpen(false);
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-
-        <div className="pt-6 mt-4">
-          <p className="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
-            Full Assessment
-          </p>
-          {navItems.slice(4, 5).map((item, index) => (
-            <NavButton key={item.id} item={item} index={index} delayOffset={0.2} />
-          ))}
-        </div>
-
-        <div className="pt-6 mt-4">
-          <p className="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
-            Games & Fun
-          </p>
-          {navItems.slice(6).map((item, index) => (
-            <NavButton key={item.id} item={item} index={index} delayOffset={0.3} />
-          ))}
-        </div>
-
-        <div className="pt-6 mt-4">
-          <p className="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
-            Your Progress
-          </p>
-          {navItems.slice(5, 6).map((item, index) => (
-            <NavButton key={item.id} item={item} index={index} delayOffset={0.25} />
-          ))}
-        </div>
       </nav>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-white/5">
-        <div className="glass-card rounded-xl p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <p className="text-xs font-medium text-white">TOEFL iBT 2026</p>
-          </div>
-          <p className="text-[10px] text-slate-400 leading-relaxed">
-            Practice with the latest exam format. Band Score: 1-6 Scale
-          </p>
+      {/* Status strip. States a fact about the format, claims nothing else. */}
+      <div className="steel-grain border-t border-steel-800 px-5 py-4">
+        <div className="mb-2 flex items-center gap-2">
+          <Lamp state="live" />
+          <span className="board-label text-amber-400">Board live</span>
         </div>
+        <p className="text-[11px] leading-relaxed text-steel-500">
+          Overture is built to the TOEFL iBT format effective 21 January 2026.
+          It is not affiliated with ETS.
+        </p>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 overflow-hidden">
-      {/* Animated Gradient Orbs Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Primary cyan orb */}
-        <div
-          className="absolute top-0 left-1/4 h-[800px] w-[800px] rounded-full blur-3xl animate-float opacity-20 orb-cyan"
-        />
-        {/* Purple orb */}
-        <div
-          className="absolute top-1/3 right-0 h-[600px] w-[600px] rounded-full blur-3xl animate-float-slow opacity-15 orb-purple"
-          style={{ animationDelay: "-2s" }}
-        />
-        {/* Teal orb */}
-        <div
-          className="absolute bottom-0 left-1/2 h-[700px] w-[700px] rounded-full blur-3xl animate-pulse-glow opacity-10 orb-teal"
-        />
-        {/* Additional ambient glow */}
-        <div
-          className="absolute top-1/2 left-0 h-[500px] w-[500px] rounded-full blur-3xl animate-float opacity-10 orb-purple"
-          style={{ animationDelay: "-4s" }}
-        />
-      </div>
-
-      {/* Mobile Menu Button */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        onClick={() => setIsSidebarOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 glass-button rounded-xl"
+    <BoardStripProvider>
+    <div className="concourse-ground min-h-screen overflow-x-hidden">
+      {/* Rail toggle, mobile only. */}
+      <button
+        onClick={() => setIsRailOpen(true)}
+        aria-label="Open the section board"
+        className="glass-button fixed left-4 top-4 z-50 grid h-11 w-11 place-items-center lg:hidden"
       >
-        <Menu className="w-5 h-5 text-white" />
-      </motion.button>
+        <Menu className="h-5 w-5 text-ivory" strokeWidth={2} />
+      </button>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 glass-sidebar z-20">
-        {sidebarContent}
+      {/* The board rail. */}
+      <aside className="glass-sidebar fixed inset-y-0 z-20 hidden w-[286px] lg:flex lg:flex-col">
+        {rail}
       </aside>
 
-      {/* Mobile Sidebar */}
       <AnimatePresence>
-        {isSidebarOpen && (
+        {isRailOpen && (
           <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsSidebarOpen(false)}
-              className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+              transition={{ duration: 0.14 }}
+              onClick={() => setIsRailOpen(false)}
+              className="fixed inset-0 z-40 bg-concourse-deep/85 lg:hidden"
             />
             <motion.aside
-              initial={{ x: -300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -300, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="lg:hidden fixed inset-y-0 left-0 z-50 w-72 glass-sidebar"
+              initial={{ x: -286 }}
+              animate={{ x: 0 }}
+              exit={{ x: -286 }}
+              transition={{ duration: 0.22, ease: [0.2, 0.9, 0.25, 1] }}
+              className="glass-sidebar fixed inset-y-0 left-0 z-50 w-[286px] lg:hidden"
             >
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                onClick={() => setIsSidebarOpen(false)}
-                className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/10 transition-colors z-10"
+              <button
+                onClick={() => setIsRailOpen(false)}
+                aria-label="Close the section board"
+                className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-flap border border-steel-800 text-steel-400 transition-colors hover:border-steel-600 hover:text-ivory"
               >
-                <X className="w-5 h-5 text-slate-400" />
-              </motion.button>
-              {sidebarContent}
+                <X className="h-4 w-4" strokeWidth={2} />
+              </button>
+              {rail}
             </motion.aside>
           </>
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
-      <main className="lg:pl-72 relative z-10">
-        <div className="min-h-screen p-4 lg:p-8">
+      <main className="relative z-10 lg:pl-[286px]">
+        {/* Departure strip — what is boarding, and on what. */}
+        <header className="steel-grain sticky top-0 z-30 border-b border-steel-800">
+          <div className="flex items-center gap-5 px-4 py-4 pl-[68px] lg:px-8 lg:pl-8">
+            <div className="min-w-0 flex-1">
+              <FlapText
+                value={active.name.toUpperCase()}
+                size="lg"
+                live
+                label={active.name}
+              />
+              <p className="mt-2 truncate text-[12px] tracking-[0.05em] text-steel-400">
+                {active.strip}
+              </p>
+            </div>
+
+            <StripInstruments />
+          </div>
+        </header>
+
+        <div className="p-4 lg:p-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.98 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             >
               {renderSection()}
             </motion.div>
@@ -264,5 +361,6 @@ export default function HomePage() {
         </div>
       </main>
     </div>
+    </BoardStripProvider>
   );
 }
