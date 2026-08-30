@@ -36,6 +36,7 @@ import {
   type ReadingForm,
 } from "@/lib/toefl/reading-form";
 import { SECTIONS, moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
+import { BoardButton, FlapClock, ScoreBoard } from "@/components/board";
 
 type PracticeState = "setup" | "intro_module1" | "practice" | "interim_report" | "intro_module2" | "review";
 type ModuleType = "module1" | "module2_easy" | "module2_hard";
