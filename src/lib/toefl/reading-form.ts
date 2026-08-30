@@ -12,7 +12,7 @@
 
 import { generateCTest, type CTestItem } from "@/lib/toefl/c-test";
 import { cTestParagraphs } from "@/data/questions/2026/c-test-paragraphs";
-import { academicPassageSets } from "@/data/questions/2026/reading-academic-sets";
+import { allAcademicPassageSets as academicPassageSets } from "@/data/questions/2026/reading-bank";
 import { dailyLifeQuestions as dailyLifeBank } from "@/data/questions/reading-bank";
 import {
   READING_PLAN,

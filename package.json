@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "validate:content": "rm -rf /tmp/validate && tsc -p tsconfig.validate.json && node scripts/content/rewrite-aliases.js && node scripts/content/validate-banks.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.0",

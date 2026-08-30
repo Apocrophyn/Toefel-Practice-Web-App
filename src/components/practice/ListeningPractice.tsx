@@ -23,15 +23,18 @@ import {
   Loader2,
 } from "lucide-react";
 import {
-  chooseResponseItems,
-  conversationScenarios,
-  announcementScenarios,
-  academicTalkScenarios,
+  chooseResponseBank as chooseResponseItems,
+  conversationBank as conversationScenarios,
+  announcementBank as announcementScenarios,
+  academicTalkBank as academicTalkScenarios,
   type ChooseResponseItem,
   type ConversationScenario,
   type AnnouncementScenario,
   type AcademicTalkScenario,
-} from "@/data/questions/listening-massive";
+  ITEMS_PER_STIMULUS,
+} from "@/data/questions/2026/listening-bank";
+import { LISTENING_PLAN, type ListeningPlan } from "@/lib/toefl/form-builder";
+import { SECTIONS, moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
 import { generateAudio, createAudioPlayer, type VoiceType } from "@/lib/audio";
 
 type PracticeState = "setup" | "listening" | "answering" | "feedback" | "review";
@@ -60,39 +63,33 @@ interface ModuleConfig {
 
 // ==========================================
 // TOEFL 2026 Listening Section Configuration
-// Official Format Effective January 21, 2026
-// Section Duration: 18-27 minutes (adaptive)
+//
+// Counts come from LISTENING_PLAN, which is expressed in ITEMS (the unit ETS
+// counts). They are converted to stimulus counts here, since a conversation is
+// two items and an academic talk is four. A full section is 47 items on both
+// routes: 29 in the router plus 18 in the second module.
 // ==========================================
 const LISTENING_CONFIG = {
-  MODULE1_TIME: 18 * 60, // 18 minutes baseline
-  MODULE2_TIME_HARD: 18 * 60, // 18 minutes for complex content
-  MODULE2_TIME_EASY: 9 * 60, // 9 minutes for simpler content
-  HARD_TRACK_THRESHOLD: 0.60, // 60% accuracy triggers hard track
+  MODULE1_TIME: SECTIONS.listening.timing.routerSeconds ?? 18 * 60,
+  MODULE2_TIME_HARD: moduleSeconds("listening", "upper"),
+  MODULE2_TIME_EASY: moduleSeconds("listening", "lower"),
 };
 
-// Module 1: Baseline assessment (mixed difficulty)
-const Module1Config: ModuleConfig = {
-  chooseResponse: 5,
-  conversation: 2,
-  announcement: 2,
-  academicTalk: 1,
-};
+const toStimulusCounts = (plan: ListeningPlan): ModuleConfig => ({
+  chooseResponse: plan.listen_and_choose_a_response,
+  conversation: plan.listen_to_a_conversation / ITEMS_PER_STIMULUS.conversation,
+  announcement: plan.listen_to_an_announcement / ITEMS_PER_STIMULUS.announcement,
+  academicTalk: plan.listen_to_an_academic_talk / ITEMS_PER_STIMULUS.academic_talk,
+});
 
-// Module 2 Easy: Standard track (B1-B2 level content)
-const Module2Easy: ModuleConfig = {
-  chooseResponse: 6,
-  conversation: 2,
-  announcement: 2,
-  academicTalk: 1,
-};
+/** Router module - the same for every test taker. */
+const Module1Config: ModuleConfig = toStimulusCounts(LISTENING_PLAN.router);
 
-// Module 2 Hard: Advanced track (C1-C2 level content)
-const Module2Hard: ModuleConfig = {
-  chooseResponse: 4,
-  conversation: 2,
-  announcement: 2,
-  academicTalk: 2,
-};
+/** Lower module: weighted to short items, 7 minutes. */
+const Module2Easy: ModuleConfig = toStimulusCounts(LISTENING_PLAN.lower);
+
+/** Upper module: two extra academic talks, 11 minutes. */
+const Module2Hard: ModuleConfig = toStimulusCounts(LISTENING_PLAN.upper);
 
 export function ListeningPractice() {
   // Core state
@@ -472,8 +469,9 @@ export function ListeningPractice() {
       setModulePerformance(performance);
 
       if (currentModule === 1) {
-        // Determine adaptive track based on Module 1 performance
-        const isHardTrack = performance >= (LISTENING_CONFIG.HARD_TRACK_THRESHOLD * 100);
+        // Route on the shared blueprint threshold so the section practice and
+        // the full test make the same routing decision.
+        const isHardTrack = routeToModule(correctCount, answers.length) === "upper";
         const config = isHardTrack ? Module2Hard : Module2Easy;
         const moduleQuestions = generateModuleQuestions(config);
         setQuestions(moduleQuestions);

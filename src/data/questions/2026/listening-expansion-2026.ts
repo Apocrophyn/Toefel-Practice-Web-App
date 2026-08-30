@@ -55,7 +55,7 @@ Karl von Frisch worked this out in the nineteen forties, and honestly, at first 
           "How honeybees use dance to tell each other where food is",
           "Why honeybees build their combs vertically rather than horizontally in the hive",
           "How Karl von Frisch trained insects to respond to mechanical models",
-          "Why some patches of flowers attract more foragers than other patches do"
+          "Why some patches of flowers attract more foragers than other patches do",
         ],
         correctAnswer: "A",
         explanation: "The professor introduces the waggle dance as a communication system and spends the talk explaining how it conveys the location of a food source."
@@ -66,7 +66,7 @@ Karl von Frisch worked this out in the nineteen forties, and honestly, at first 
           "The distance to the flowers",
           "The direction of the food relative to the sun",
           "How much nectar the patch contains",
-          "Which member of the colony discovered the patch first"
+          "Which member of the colony discovered the patch first",
         ],
         correctAnswer: "B",
         explanation: "He says the angle measured against straight up on the comb tells the other bees the direction of the flowers relative to the sun."
@@ -77,7 +77,7 @@ Karl von Frisch worked this out in the nineteen forties, and honestly, at first 
           "Which species of flower the forager visited",
           "The time of day at which the food was discovered",
           "How far away the food is",
-          "The number of foragers already visiting the patch"
+          "The number of foragers already visiting the patch",
         ],
         correctAnswer: "C",
         explanation: "The professor states that the longer she waggles, the farther the other bees have to fly."
@@ -88,7 +88,7 @@ Karl von Frisch worked this out in the nineteen forties, and honestly, at first 
           "To show that bees can be trained to perform the dance on command",
           "To explain why von Frisch eventually abandoned his original theory",
           "To argue that real bees dance far more accurately than models do",
-          "To show how von Frisch's claim was later confirmed"
+          "To show how von Frisch's claim was later confirmed",
         ],
         correctAnswer: "D",
         explanation: "He first says almost nobody believed von Frisch, then reports that foragers followed the model's dance, which implies the experiment settled the doubt."
@@ -111,23 +111,23 @@ Here's the number I want to stick with you. In a temperate climate, forming one 
       {
         question: "What is the professor's main point about soil?",
         options: [
-          "Soil is chiefly valuable because it holds water in place for growing plants",
           "Soil is a slowly built layered system, not simple dirt",
+          "Soil is chiefly valuable because it holds water in place for growing plants",
           "Soil forms fastest in climates that are warm and consistently wet",
-          "Soil quality depends mainly on which crops a farmer chooses to plant in it"
+          "Soil quality depends mainly on which crops a farmer chooses to plant in it",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "She opens by insisting soil is not just dirt lying there but a layered system that takes a very long time to build, and the whole talk develops that claim."
       },
       {
         question: "Which horizon contains minerals that have washed down from above?",
         options: [
           "The O horizon",
-          "The A horizon",
           "The B horizon",
-          "The C horizon"
+          "The A horizon",
+          "The C horizon",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "She describes the B horizon as the layer where minerals washed down from above collect."
       },
       {
@@ -135,21 +135,21 @@ Here's the number I want to stick with you. In a temperate climate, forming one 
         options: [
           "To recommend one particular method of preparing farmland before planting",
           "To explain how farmers are able to speed up the formation of new topsoil",
+          "To contrast how slowly soil forms with how quickly it can be lost",
           "To show that the C horizon is more fragile than the A horizon above it",
-          "To contrast how slowly soil forms with how quickly it can be lost"
         ],
-        correctAnswer: "D",
+        correctAnswer: "C",
         explanation: "The ploughing remark follows immediately after the figure of two hundred to a thousand years per centimetre, setting slow formation against rapid loss."
       },
       {
         question: "The professor calls soil a non-renewable resource on human timescales. What does she mean?",
         options: [
-          "Lost soil cannot be replaced within a human lifetime",
           "It is certain to run out completely everywhere on the planet one day",
           "It can only be produced artificially under laboratory conditions",
-          "It is worth more money than fuels such as coal and petroleum are"
+          "It is worth more money than fuels such as coal and petroleum are",
+          "Lost soil cannot be replaced within a human lifetime",
         ],
-        correctAnswer: "A",
+        correctAnswer: "D",
         explanation: "Non-renewable on human timescales means the replacement rate, centuries per centimetre, is far slower than a human life, not that the resource is finite in an absolute sense."
       }
     ]
@@ -170,45 +170,45 @@ The catch, of course, is alignment. Most systems simply aren't tilted the right 
       {
         question: "What is the main purpose of the talk?",
         options: [
+          "To describe how astronomers detect planets they cannot see",
           "To compare the sizes of the planets found outside our own solar system",
           "To explain why Jupiter-sized planets are more common than smaller ones",
-          "To describe how astronomers detect planets they cannot see",
-          "To argue that current telescopes are not stable enough for this research"
+          "To argue that current telescopes are not stable enough for this research",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The professor sets up the problem, that planets are effectively invisible, and then explains the transit method as the solution."
       },
       {
         question: "How much does a Sun-like star dim when a Jupiter-sized planet crosses it?",
         options: [
           "By roughly one hundredth of one percent",
+          "By about one percent",
           "By roughly one tenth of one percent",
           "By roughly ten percent",
-          "By about one percent"
         ],
-        correctAnswer: "D",
+        correctAnswer: "B",
         explanation: "He gives one percent for a Jupiter-sized planet and under one hundredth of one percent for an Earth-sized one."
       },
       {
         question: "What does the time between two dips tell astronomers?",
         options: [
-          "How long the planet takes to orbit its star",
           "How massive the planet is compared with its star",
           "What the surface temperature of the star must be",
-          "Whether the planet has any moons orbiting around it"
+          "How long the planet takes to orbit its star",
+          "Whether the planet has any moons orbiting around it",
         ],
-        correctAnswer: "A",
+        correctAnswer: "C",
         explanation: "He says the interval between dips gives the orbital period, from which the orbital distance can be calculated."
       },
       {
         question: "What does the professor imply about the planets discovered so far?",
         options: [
           "Most of them are considerably larger than Jupiter is",
-          "They are only a fraction of the planets that exist",
           "They were nearly all found using one single telescope",
-          "Most of them turned out to have detectable atmospheres"
+          "Most of them turned out to have detectable atmospheres",
+          "They are only a fraction of the planets that exist",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "His closing point is that most systems are not aligned edge-on, so those planets never transit and are missed entirely."
       }
     ]
@@ -229,34 +229,34 @@ And they did something nobody planned. Put Persian, Sogdian, Armenian and Chines
       {
         question: "What is the talk mainly about?",
         options: [
+          "The roadside inns that supported Silk Road trade",
           "The dangers that merchants faced while crossing the deserts alone",
           "The kinds of luxury goods that were traded along the Silk Road",
           "Why camel trains eventually replaced other forms of overland transport",
-          "The roadside inns that supported Silk Road trade"
         ],
-        correctAnswer: "D",
+        correctAnswer: "A",
         explanation: "The speaker names the caravanserai as the focus of the talk and describes its design, spacing, funding and social effects."
       },
       {
         question: "Why were caravanserais spaced about thirty kilometres apart?",
         options: [
-          "That is roughly one day's travel for a loaded caravan",
           "That was the greatest distance water could safely be carried",
+          "That is roughly one day's travel for a loaded caravan",
           "Rulers wanted to collect tolls as frequently as they possibly could",
-          "Suitable building materials were only available at those intervals"
+          "Suitable building materials were only available at those intervals",
         ],
-        correctAnswer: "A",
+        correctAnswer: "B",
         explanation: "He says thirty kilometres is about as far as a loaded camel train moves between sunrise and sunset."
       },
       {
         question: "According to the speaker, why did rulers finance caravanserais?",
         options: [
           "Because religious law obliged them to give shelter to all travellers",
-          "To attract merchants and the tolls they paid",
           "To house the soldiers who patrolled the frontier regions nearby",
-          "Because merchants refused to travel at all without an armed escort"
+          "To attract merchants and the tolls they paid",
+          "Because merchants refused to travel at all without an armed escort",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "He says it was not charity: reliable shelter made merchants choose that route, and they paid tolls along it."
       },
       {
@@ -264,10 +264,10 @@ And they did something nobody planned. Put Persian, Sogdian, Armenian and Chines
         options: [
           "Merchants preferred routes with free lodging even when they were longer",
           "Cultural exchange was the main reason the buildings were funded at all",
+          "Traders from different regions rarely spoke to one another during the night",
           "Cultural exchange happened as an unintended result",
-          "Traders from different regions rarely spoke to one another during the night"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "He says the buildings were logistics and that they did something nobody planned, with ideas and techniques spreading as a side effect."
       }
     ]
@@ -291,7 +291,7 @@ His contemporaries were, let's say, divided. Some complained that he painted sai
           "How Caravaggio transformed a familiar painting technique",
           "Why Renaissance painters generally avoided religious subject matter",
           "The training that young painters received in Rome around sixteen hundred",
-          "How Rembrandt's early work differed from that of his Dutch contemporaries"
+          "How Rembrandt's early work differed from that of his Dutch contemporaries",
         ],
         correctAnswer: "A",
         explanation: "He defines chiaroscuro as an existing Renaissance device and then explains how Caravaggio pushed it into something far more extreme."
@@ -302,7 +302,7 @@ His contemporaries were, let's say, divided. Some complained that he painted sai
           "It falls evenly across the whole surface of the finished canvas",
           "It comes from a source outside the picture",
           "It is always brightest at the very centre of the composition",
-          "It was painted last, after all the shadows had been allowed to dry"
+          "It was painted last, after all the shadows had been allowed to dry",
         ],
         correctAnswer: "B",
         explanation: "He describes a shaft of light entering from somewhere off the canvas."
@@ -313,7 +313,7 @@ His contemporaries were, let's say, divided. Some complained that he painted sai
           "They all refused to imitate his methods in their own workshops",
           "They preferred his religious subjects to his ordinary street figures",
           "Some objected to how he portrayed holy figures",
-          "Most of them thought that his shadows were painted far too gradually"
+          "Most of them thought that his shadows were painted far too gradually",
         ],
         correctAnswer: "C",
         explanation: "He says opinion was divided and that some complained Caravaggio's saints looked like labourers off the street."
@@ -324,7 +324,7 @@ His contemporaries were, let's say, divided. Some complained that he painted sai
           "Caravaggio often painted architectural backgrounds behind his主 figures",
           "The shadowed areas of his paintings were built up with thicker paint",
           "He preferred to work directly on walls rather than on stretched canvas",
-          "Light gives way to darkness suddenly, with no soft transition"
+          "Light gives way to darkness suddenly, with no soft transition",
         ],
         correctAnswer: "D",
         explanation: "The wall image contrasts with the gradual falling-off he has just described, so it signals an abrupt boundary between lit and dark areas."

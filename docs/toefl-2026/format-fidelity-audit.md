@@ -161,3 +161,89 @@ These are known gaps, not oversights:
 7. **No first-hand test-taker reports were obtainable.** Reddit was not reachable from the
    research environment, so every mechanic is sourced from ETS plus prep publishers. Items
    marked low-confidence in `item-mechanics.md` should be re-verified against real reports.
+
+---
+
+# Remediation status — round 2
+
+The first round fixed structure, timing and scoring. This round fixes the
+*content and interaction* defects that made individual items feel unlike the exam.
+
+## Measured defects found and fixed
+
+| Defect | Measured before | After |
+|---|---|---|
+| Academic passages with a single question | **400 of 400** | 24 sets, **5 items each** (120 items) |
+| Academic passages over the 200-word ceiling | **302 of 400 (75%)** | 0 — bank runs 161–178 words |
+| Conversations longer than 2026 audio | **20 of 20** (111–172 words) | 0 — bank runs 57–73 words |
+| Announcements longer than 2026 audio | **9 of 10** (85–107 words) | 0 — bank runs 50–58 words |
+| Build a Sentence items with a context prompt | **0 of 50** | 60 of 60 |
+| Build a Sentence items with multi-word chunk tiles | **0 of 50** | 60 of 60 |
+| Build a Sentence items with distractor tiles | **0 of 50** | 60 of 60 |
+| Build a Sentence tile counts outside ETS 5–7 | **15 of 50** | 0 |
+| Listening answer-key skew | **B 57 / D 22** | 25% each across all four task types |
+
+## Build a Sentence is now the real task
+
+It was "read scrambled words, type the sentence into a textarea". The exam is a
+word-bank-to-slot assembly, so that is what it is now:
+
+- every item opens with a **context line** the sentence must answer
+- tiles are **multi-word chunks** ("showed us around", "would like"), not single words
+- items carry **distractor tiles** and **pre-locked slots**
+- **click-to-place and drag** both work; clicking a placed tile returns it
+- scored **all-or-nothing** and **machine-scored locally** — it no longer goes to the
+  AI writing evaluator, which was scoring a grammar item as if it were an essay
+- a **single pooled 6:50 clock** covers all ten items, and moving between items
+  inside the block no longer restarts the timer
+
+## Sections now run on the same engine as the full test
+
+`ReadingPractice`, `ListeningPractice` and `WritingPractice` previously had their
+own item counts, timings and routing thresholds. All three now draw from the
+blueprint: the same `LISTENING_PLAN` / `READING_PLAN` item counts, the same
+`routeToModule` threshold, the same `moduleSeconds` timings, and the same banks.
+
+Two further defects were fixed in `ReadingPractice` specifically:
+- Complete the Words was scored **all-or-nothing per paragraph**, so nine correct
+  gaps out of ten scored zero. It is now one point per gap.
+- The on-screen tip still told students "the number of boxes shows how many
+  letters you need to type", which had become untrue once the answer-length leak
+  was closed, and would have taught a strategy that fails on test day.
+
+## Content that is deliberately excluded
+
+The legacy conversations and announcements are **not** offered to the exam engine.
+They are roughly a minute of audio each against a 20–30 second target, and shipping
+them would make Listening feel like the pre-2026 test. They remain in
+`listening-massive.ts` for extended listening practice. The legacy academic talks
+(171–189 words) and single-response items (5–15 words) ARE inside spec and are kept.
+
+Likewise the 400 legacy long passages are not offered as reading stimuli. They are
+the source of Complete the Words paragraphs, which is what they are well suited to.
+
+## Regression suite
+
+`npm run validate:content` compiles the banks and asserts, on every run:
+
+- academic passages within the word ceiling, exactly 5 items, no authoring markup
+- every C-test paragraph yields exactly 10 gaps, never gaps the first sentence, and
+  never gaps a word that appears intact elsewhere in the same paragraph (including
+  as a possessive or inside a hyphenated compound)
+- every listening stimulus inside its task's published word range, correct item count
+- every MCQ has 4 distinct options with a key that exists among them
+- answer-key distribution within 15% of uniform per task type
+- Build a Sentence: 5–7 tiles, context present, correct placement scores, distractors
+  are never answers
+- 80 assembled reading forms are each exactly 50 items split 30/10/10 with no repeats
+
+## Still outstanding
+
+1. **Read in Daily Life renders as prose.** The artefact layout (email chrome, SMS
+   bubbles, menus, schedules) is part of the construct. The 29 existing sets are
+   correct in length (77–110 words) and item count (2–3), but a genre-aware renderer
+   and genre-varied stimuli are still needed.
+2. **Bank depth.** Two non-overlapping Listening forms and four Reading forms.
+   Adding conversations and announcements is the cheapest way to raise that.
+3. **Band conversion remains a documented estimate** — ETS does not publish the
+   raw-to-band table.

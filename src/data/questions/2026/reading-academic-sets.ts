@@ -60,7 +60,7 @@ export const academicPassageSets: AcademicPassageSet[] = [
 The details of this dance carry information. The direction of the straight run, measured against gravity, indicates the direction of the flowers relative to the sun. The length of the run indicates distance: a longer run means a longer flight. Bees that have followed the dance then leave the hive and search in the area it describes.
 
 Researchers tested this by moving a feeder to new locations and watching how the dance changed. The pattern shifted in a predictable way each time, and the recruits arrived near the new feeder rather than the old one. The dance therefore works as a compact set of instructions rather than as a general signal of excitement.`,
-    wordCount: 0,
+    wordCount: 172,
     difficulty: "medium",
     cefr: "B2",
     questions: [
@@ -142,7 +142,7 @@ Researchers tested this by moving a feeder to new locations and watching how the
 The reason lies in the shape of the water molecule and in the weak bonds between one molecule and the next. As water cools toward freezing, these bonds lock the molecules into an open, six-sided arrangement with wide gaps inside it. The same number of molecules then occupies more room, so ice is about nine percent less dense than the water around it.
 
 This unusual property has large effects. Ice forms at the surface of a lake rather than at the bottom, and the layer that forms slows the further cooling of the water below it. Fish and other organisms can therefore pass the winter in liquid water beneath the ice.`,
-    wordCount: 0,
+    wordCount: 167,
     difficulty: "medium",
     cefr: "B1",
     questions: [
@@ -224,7 +224,7 @@ This unusual property has large effects. Ice forms at the surface of a lake rath
 The shape of a delta depends on the balance between the river and the body of water it enters. Where waves are weak and tides are small, the river dominates and the delta pushes out in long fingers. Where waves are strong, they rework the sediment into smooth beaches and the delta takes on a rounded front.
 
 Deltas are among the most fertile places on earth, because each flood renews the soil. They are also among the most fragile, since dams upstream can starve them of the sediment that sustains them.`,
-    wordCount: 0,
+    wordCount: 171,
     difficulty: "medium",
     cefr: "B2",
     questions: [
@@ -311,7 +311,7 @@ Deltas are among the most fertile places on earth, because each flood renews the
 Wherever it arrived, papermaking was adapted to local materials. Where the traditional fibres were scarce, workers used linen and cotton rags collected from households, which produced a strong, smooth sheet. Hammers driven by water power replaced beating by hand, and production rose.
 
 The consequences reached well beyond writing. Paper was far cheaper than parchment, which was made from animal skin and required many animals for a single large book. Records that had once been kept only for the most important transactions could now be kept routinely, and administrations, merchants and schools all expanded their use of written documents.`,
-    wordCount: 0,
+    wordCount: 161,
     difficulty: "medium",
     cefr: "B2",
     questions: [
@@ -394,7 +394,7 @@ The consequences reached well beyond writing. Paper was far cheaper than parchme
 Oil, usually pressed from linseed, dries slowly by reacting with the air rather than by evaporating. A painter could return to the same passage over several days, softening an edge, adjusting a shadow, or laying a thin transparent layer over a dried one so that light passed through it and returned from below. Colours gained depth, and surfaces could imitate velvet, metal and skin.
 
 The change altered the practice of painting as much as its appearance. A composition could be revised while the work was under way, and the finished picture no longer had to be planned in full before the first stroke. Workshops also found that oil paint held up better on canvas, which was lighter and easier to transport than a wooden panel.`,
-    wordCount: 0,
+    wordCount: 173,
     difficulty: "medium",
     cefr: "B2",
     questions: [
@@ -481,7 +481,7 @@ The change altered the practice of painting as much as its appearance. A composi
 Because shell is rich in calcium carbonate, water moving through the mound stays slightly alkaline. Bone, antler and fish scales, which decay quickly in most acidic soils, are preserved here in unusual detail. Middens therefore hold evidence that is simply missing from many inland sites.
 
 The shells themselves also record the seasons. Like trees, many species add growth bands, and the outermost band shows the time of year at which the animal was collected. By sampling shells from several layers, researchers can determine whether a shore was visited all year or only in particular months, and whether that pattern changed.`,
-    wordCount: 0,
+    wordCount: 166,
     difficulty: "medium",
     cefr: "B2",
     questions: [
@@ -568,7 +568,7 @@ The shells themselves also record the seasons. Like trees, many species add grow
 In a typical experiment, two groups study the same set of items for the same total number of minutes. One group works in a single block; the other spreads the same minutes across several days. Immediately afterwards, the group that worked in one block often performs slightly better. After a week, the group that spread its study performs far better, and the gap grows as the delay increases.
 
 One explanation is that a small amount of forgetting is useful. When time passes between sessions, the learner has to retrieve the material rather than simply read it again, and each successful retrieval strengthens the memory. Studying without a break offers no such opportunity, because the information is still fully available in mind. Difficulty during practice, on this view, is not a sign of failure.`,
-    wordCount: 0,
+    wordCount: 171,
     difficulty: "medium",
     cefr: "B1",
     questions: [
@@ -658,7 +658,7 @@ One explanation is that a small amount of forgetting is useful. When time passes
 A commodity that everyone is willing to accept solves the problem. Grain, salt, cattle and metal have all served in this role. The baker sells bread for the accepted commodity and later exchanges it for shoes; the shoemaker need never want bread at all.
 
 Useful money has particular physical properties. It should not spoil, so that value can be stored; it should be divisible, so that small purchases are possible; and it should be reasonably scarce, since if too much of it circulates each unit will buy less. Metals meet these conditions well, which is one reason they were adopted so widely.`,
-    wordCount: 0,
+    wordCount: 165,
     difficulty: "medium",
     cefr: "B2",
     questions: [

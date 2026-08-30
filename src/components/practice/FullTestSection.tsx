@@ -72,13 +72,17 @@ import {
 
 // Writing Data & Types
 import {
-  buildSentenceTasks,
   emailTasks,
   academicDiscussionTasks,
-  type BuildSentenceTask,
   type EmailTask,
   type AcademicDiscussionTask
 } from "@/data/questions/writing-massive";
+import {
+  buildASentenceItems,
+  scoreBuildASentence,
+  type BuildASentenceItem,
+} from "@/data/questions/2026/build-a-sentence";
+import { BuildASentenceTask } from "@/components/practice/BuildASentenceTask";
 
 // Shared Utils
 import { generateAudio, evaluateSpeaking, type VoiceType, type SpeakingEvaluationResult } from "@/lib/audio";
@@ -86,7 +90,7 @@ import { WRITING_PLAN, LISTENING_PLAN } from "@/lib/toefl/form-builder";
 import { buildReadingRouter, buildReadingSecondModule, type ReadingForm } from "@/lib/toefl/reading-form";
 import { ITEMS_PER_STIMULUS } from "@/data/questions/2026/listening-bank";
 import { moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
-import { BUILD_A_SENTENCE, LISTEN_AND_REPEAT, TAKE_AN_INTERVIEW, SECTIONS } from "@/data/toefl-2026-blueprint";
+import { BUILD_A_SENTENCE, LISTEN_AND_REPEAT, TAKE_AN_INTERVIEW, SECTIONS, WRITE_AN_EMAIL, WRITE_FOR_AN_ACADEMIC_DISCUSSION } from "@/data/toefl-2026-blueprint";
 
 // --- Types ---
 
@@ -230,7 +234,9 @@ export function FullTestSection() {
 
 
   // --- Writing State ---
-  const [writingTasks, setWritingTasks] = useState<(BuildSentenceTask | EmailTask | AcademicDiscussionTask)[]>([]);
+  const [writingTasks, setWritingTasks] = useState<(BuildASentenceItem | EmailTask | AcademicDiscussionTask)[]>([]);
+  /** Build a Sentence answers: item id -> (slot index -> tile text). */
+  const [writingPlacements, setWritingPlacements] = useState<Record<string, Record<number, string | null>>>({});
   const [writingCurrentIndex, setWritingCurrentIndex] = useState(0);
   const [writingAnswers, setWritingAnswers] = useState<WritingAnswer[]>([]);
   const [writingCurrentText, setWritingCurrentText] = useState("");
@@ -568,6 +574,10 @@ export function FullTestSection() {
 
   // --- Writing Logic Helpers ---
 
+  /** Build a Sentence items carry `parts`; the essay tasks carry `type`. */
+  const isBuildASentence = (task: BuildASentenceItem | EmailTask | AcademicDiscussionTask): task is BuildASentenceItem =>
+    "parts" in task;
+
   const startWritingSection = useCallback(() => {
     setTestState("writing_intro");
 
@@ -578,7 +588,7 @@ export function FullTestSection() {
       [...pool].sort(() => Math.random() - 0.5).slice(0, n);
 
     setWritingTasks([
-      ...pick(buildSentenceTasks, WRITING_PLAN.build_a_sentence.items),
+      ...pick(buildASentenceItems, WRITING_PLAN.build_a_sentence.items),
       ...pick(emailTasks, 1),
       ...pick(academicDiscussionTasks, 1),
     ]);
@@ -622,6 +632,35 @@ export function FullTestSection() {
   const handleWritingSubmit = useCallback(async () => {
     const tasks = writingTasks;
     const currentTask = tasks[writingCurrentIndex];
+
+    // Build a Sentence is machine scored, all-or-nothing, and never goes to the
+    // AI evaluator — the exam awards 1 point only when every tile is in the
+    // right slot.
+    if (isBuildASentence(currentTask)) {
+      const placed = writingPlacements[currentTask.id] ?? {};
+      const correct = scoreBuildASentence(currentTask, placed);
+      setWritingAnswers(prev => [...prev, {
+        questionId: currentTask.id,
+        taskType: "build_sentence",
+        text: currentTask.parts
+          .map((part, i) => (currentTask.lockedIndices.includes(i) ? part : placed[i] ?? ""))
+          .join(" ")
+          .replace(/\s+([.?!,;:])/g, "$1")
+          .trim(),
+        wordCount: 0,
+        timeSpent: Math.floor((Date.now() - writingStartTime) / 1000),
+        evaluation: { machineScored: true, correct, points: correct ? 1 : 0, maxPoints: 1 },
+      }]);
+
+      if (writingCurrentIndex < tasks.length - 1) {
+        setWritingCurrentIndex(prev => prev + 1);
+        startWritingTask(writingCurrentIndex + 1);
+      } else {
+        finishWritingSection();
+      }
+      return;
+    }
+
     const answer: WritingAnswer = {
       questionId: `writing_${writingCurrentIndex}`,
       taskType: currentTask.type,
@@ -642,8 +681,7 @@ export function FullTestSection() {
         body: JSON.stringify({
           text: writingCurrentText,
           taskType: currentTask.type,
-          prompt: currentTask.type === "build_sentence" ? currentTask.context : (currentTask.type === "email" ? currentTask.emailPrompt : currentTask.topic),
-          expectedAnswer: currentTask.type === "build_sentence" ? (currentTask as any).correctAnswer : undefined,
+          prompt: currentTask.type === "email" ? currentTask.emailPrompt : currentTask.topic,
         }),
       }).then(res => res.json()).then(evaluation => {
         setWritingAnswers(prev => prev.map(a => a.questionId === answer.questionId ? { ...a, evaluation } : a));
@@ -665,7 +703,7 @@ export function FullTestSection() {
     } else {
       finishWritingSection();
     }
-  }, [writingTasks, writingCurrentIndex, writingCurrentText, writingStartTime, writingAnswers, startWritingTask, finishWritingSection]);
+  }, [writingTasks, writingCurrentIndex, writingCurrentText, writingStartTime, writingAnswers, writingPlacements, startWritingTask, finishWritingSection]);
 
   /**
    * The ten Build a Sentence items share one clock, so when it expires the whole
@@ -1415,11 +1453,19 @@ export function FullTestSection() {
         <div className="glass-panel p-12 rounded-2xl text-center max-w-lg w-full">
           <PenTool className="w-16 h-16 text-cyan-400 mx-auto mb-6" />
           <h2 className="text-3xl font-bold text-white mb-2">Writing Section</h2>
-          <div className="space-y-4 mb-8 text-left">
-            {writingTasks.map((t, i) => (
-              <div key={i} className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
+          <p className="text-slate-400 mb-6">12 items, about 23 minutes. Each task has its own clock.</p>
+          <div className="space-y-3 mb-8 text-left">
+            {[
+              { name: "Build a Sentence", detail: `${WRITING_PLAN.build_a_sentence.items} items on one shared 6:50 timer` },
+              { name: "Write an Email", detail: "1 item, 7:00" },
+              { name: "Write for an Academic Discussion", detail: "1 item, 10:00" },
+            ].map((t, i) => (
+              <div key={t.name} className="flex items-center gap-3 p-4 bg-white/5 rounded-xl">
                 <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm font-bold flex-shrink-0">{i + 1}</span>
-                <span className="text-white font-medium capitalize">{t.type.replace('_', ' ')}</span>
+                <div>
+                  <span className="text-white font-medium">{t.name}</span>
+                  <p className="text-xs text-slate-500">{t.detail}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -1441,8 +1487,19 @@ export function FullTestSection() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500/20 border-cyan-500/30 text-cyan-400">
               <PenTool className="w-4 h-4" />
-              <span className="text-sm font-medium capitalize">{task.type.replace('_', ' ')}</span>
+              <span className="text-sm font-medium">
+                {isBuildASentence(task)
+                  ? `Build a Sentence ${writingCurrentIndex + 1} of ${WRITING_PLAN.build_a_sentence.items}`
+                  : task.type === "email"
+                    ? "Write an Email"
+                    : "Write for an Academic Discussion"}
+              </span>
             </div>
+            {isBuildASentence(task) && (
+              <span className="text-xs text-slate-500">
+                One timer covers all {WRITING_PLAN.build_a_sentence.items} sentences
+              </span>
+            )}
           </div>
           <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${writingTimeLeft < 60 ? "bg-red-500/20 border-red-500/30 text-red-400" : "glass-card border-white/10 text-white"}`}>
             <Clock className="w-4 h-4" />
@@ -1450,74 +1507,80 @@ export function FullTestSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-12rem)]">
-          {/* Prompt */}
-          <div className="glass-panel p-6 rounded-2xl overflow-y-auto prose prose-invert max-w-none">
-            <h3 className="text-emerald-400">Task Introduction</h3>
-            <p className="text-lg text-white">
-              {task.type === "build_sentence" && (task as BuildSentenceTask).context}
-              {task.type === "email" && (task as EmailTask).scenario}
-              {task.type === "academic_discussion" && (task as AcademicDiscussionTask).topic}
-            </p>
-
-            <div className="mt-6 p-4 bg-slate-800/50 rounded-xl border border-white/5">
-              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">Instructions</h4>
-              {task.type === "build_sentence" && (
-                <div className="space-y-4">
-                  <p className="text-slate-300">Rearrange the following words into a grammatically correct sentence:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {(task as BuildSentenceTask).scrambledWords.map((word, i) => (
-                      <span key={i} className="px-3 py-1 bg-white/10 rounded-lg text-white font-mono uppercase text-xs border border-white/10">
-                        {word}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+        {isBuildASentence(task) ? (
+          <div className="glass-panel p-6 rounded-2xl max-w-3xl mx-auto">
+            <BuildASentenceTask
+              item={task}
+              placed={writingPlacements[task.id] ?? {}}
+              onChange={(placed) => setWritingPlacements(prev => ({ ...prev, [task.id]: placed }))}
+            />
+            <div className="pt-6 mt-6 border-t border-white/10 flex justify-end">
+              <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-200">
+                {writingCurrentIndex < WRITING_PLAN.build_a_sentence.items - 1 ? "Next Sentence" : "Continue to Email"}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-12rem)]">
+            {/* Prompt */}
+            <div className="glass-panel p-6 rounded-2xl overflow-y-auto prose prose-invert max-w-none">
               {task.type === "email" && (
                 <div className="space-y-4">
+                  <h3 className="text-emerald-400 mt-0">Write an Email</h3>
+                  <p className="text-lg text-white">{(task as EmailTask).scenario}</p>
                   <p className="text-slate-300">{(task as EmailTask).instructions}</p>
-                  <div className="p-4 bg-black/30 rounded-lg text-sm font-mono text-emerald-300/80">
+                  <div className="p-4 bg-black/30 rounded-lg text-sm text-emerald-300/80 whitespace-pre-wrap">
                     {(task as EmailTask).emailPrompt}
                   </div>
                 </div>
               )}
               {task.type === "academic_discussion" && (
                 <div className="space-y-4">
+                  <h3 className="text-emerald-400 mt-0">Write for an Academic Discussion</h3>
                   <p className="text-slate-300">{(task as AcademicDiscussionTask).instructions}</p>
-                  <div className="space-y-4">
-                    <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                      <span className="text-xs font-bold text-purple-400">Professor {(task as AcademicDiscussionTask).professor.name}</span>
-                      <p className="text-sm mt-1">{(task as AcademicDiscussionTask).professor.message}</p>
-                    </div>
-                    {(task as AcademicDiscussionTask).students.map((s, i) => (
-                      <div key={i} className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/20 ml-4">
-                        <span className="text-xs font-bold text-blue-400">{s.name}</span>
-                        <p className="text-sm mt-1 italic">"{s.message}"</p>
-                      </div>
-                    ))}
+                  <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                    <span className="text-xs font-bold text-purple-400">Professor {(task as AcademicDiscussionTask).professor.name}</span>
+                    <p className="text-sm mt-1">{(task as AcademicDiscussionTask).professor.message}</p>
                   </div>
+                  {(task as AcademicDiscussionTask).students.map((st, i) => (
+                    <div key={i} className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/20 ml-4">
+                      <span className="text-xs font-bold text-blue-400">{st.name}</span>
+                      <p className="text-sm mt-1 italic">&ldquo;{st.message}&rdquo;</p>
+                    </div>
+                  ))}
+                  <p className="text-xs text-slate-500">
+                    An effective response will contain at least {WRITE_FOR_AN_ACADEMIC_DISCUSSION.minimumResponseWords} words.
+                  </p>
                 </div>
               )}
             </div>
-          </div>
-          {/* Input */}
-          <div className="glass-panel p-6 rounded-2xl flex flex-col">
-            <textarea
-              className="flex-1 bg-transparent border-none resize-none outline-none text-white text-lg leading-relaxed placeholder:text-slate-600"
-              placeholder="Type your response here..."
-              value={writingCurrentText}
-              onChange={(e) => setWritingCurrentText(e.target.value)}
-              autoFocus
-            />
-            <div className="pt-4 border-t border-white/10 flex justify-between items-center text-sm text-slate-400">
-              <span>Word Count: {writingCurrentText.trim().split(/\s+/).filter(Boolean).length}</span>
-              <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-200">
-                Submit Task
-              </button>
+            {/* Input */}
+            <div className="glass-panel p-6 rounded-2xl flex flex-col">
+              <textarea
+                className="flex-1 bg-transparent border-none resize-none outline-none text-white text-lg leading-relaxed placeholder:text-slate-600"
+                placeholder="Type your response here..."
+                value={writingCurrentText}
+                onChange={(e) => setWritingCurrentText(e.target.value)}
+                spellCheck={false}
+                autoFocus
+              />
+              <div className="pt-4 border-t border-white/10 flex justify-between items-center text-sm text-slate-400">
+                <span>
+                  Words: {writingCurrentText.trim().split(/\s+/).filter(Boolean).length}
+                  {task.type === "email" && (
+                    <span className="text-slate-600"> &nbsp;(target {WRITE_AN_EMAIL.softTargetWords.min}&ndash;{WRITE_AN_EMAIL.softTargetWords.max})</span>
+                  )}
+                  {task.type === "academic_discussion" && (
+                    <span className="text-slate-600"> &nbsp;(at least {WRITE_FOR_AN_ACADEMIC_DISCUSSION.minimumResponseWords})</span>
+                  )}
+                </span>
+                <button onClick={handleWritingSubmit} className="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-200">
+                  Submit Task
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

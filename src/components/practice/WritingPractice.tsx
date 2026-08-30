@@ -23,14 +23,27 @@ import {
   buildSentenceTasks,
   emailTasks,
   academicDiscussionTasks,
-  type BuildSentenceTask,
   type EmailTask,
   type AcademicDiscussionTask
 } from "@/data/questions/writing-massive";
+import {
+  buildASentenceItems,
+  scoreBuildASentence,
+  type BuildASentenceItem,
+} from "@/data/questions/2026/build-a-sentence";
+import { BuildASentenceTask } from "@/components/practice/BuildASentenceTask";
+import { BUILD_A_SENTENCE, WRITE_AN_EMAIL, WRITE_FOR_AN_ACADEMIC_DISCUSSION } from "@/data/toefl-2026-blueprint";
 
 type PracticeState = "setup" | "practice" | "evaluating" | "review";
 type TaskType = "build_sentence" | "email" | "academic_discussion";
-type WritingTask = BuildSentenceTask | EmailTask | AcademicDiscussionTask;
+type WritingTask = BuildASentenceItem | EmailTask | AcademicDiscussionTask;
+
+/** Build a Sentence items carry `parts`; the essay tasks carry `type`. */
+const isBuildASentence = (task: WritingTask): task is BuildASentenceItem => "parts" in task;
+
+/** The discriminator, unified across both writing item shapes. */
+const taskTypeOf = (task: WritingTask): TaskType =>
+  isBuildASentence(task) ? "build_sentence" : task.type;
 
 interface Answer {
   questionId: string;
@@ -69,6 +82,8 @@ export function WritingPractice() {
   const [answers, setAnswers] = useState<Answer[]>([]);
 
   const [currentText, setCurrentText] = useState("");
+  /** Build a Sentence answers: item id -> (slot index -> tile text). */
+  const [placements, setPlacements] = useState<Record<string, Record<number, string | null>>>({});
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
 
@@ -83,14 +98,14 @@ export function WritingPractice() {
 
     if (practiceMode === "all") {
       // Mix of all 3 types (default: 1 build sentence, 1 email, 1 discussion)
-      const randomBuildSentence = buildSentenceTasks[Math.floor(Math.random() * buildSentenceTasks.length)];
+      const randomBuildSentence = buildASentenceItems[Math.floor(Math.random() * buildASentenceItems.length)];
       const randomEmail = emailTasks[Math.floor(Math.random() * emailTasks.length)];
       const randomDiscussion = academicDiscussionTasks[Math.floor(Math.random() * academicDiscussionTasks.length)];
       selected = [randomBuildSentence, randomEmail, randomDiscussion];
     } else if (practiceMode === "build_sentence") {
-      // 5 build sentence tasks
-      const shuffled = [...buildSentenceTasks].sort(() => Math.random() - 0.5);
-      selected = shuffled.slice(0, 5);
+      // A full exam block is 10 items on one shared clock.
+      const shuffled = [...buildASentenceItems].sort(() => Math.random() - 0.5);
+      selected = shuffled.slice(0, BUILD_A_SENTENCE.items);
     } else if (practiceMode === "email") {
       // 3 email tasks
       const shuffled = [...emailTasks].sort(() => Math.random() - 0.5);
@@ -106,7 +121,7 @@ export function WritingPractice() {
     setAnswers(
       selected.map((q) => ({
         questionId: q.id,
-        taskType: q.type,
+        taskType: isBuildASentence(q) ? "build_sentence" : q.type,
         text: "",
         wordCount: 0,
         timeSpent: 0,
@@ -119,18 +134,21 @@ export function WritingPractice() {
     setState("practice");
   };
 
+  /**
+   * The ten Build a Sentence items share ONE 6:50 clock on the real test, so the
+   * timer is set when the block starts and is not reset per item.
+   */
   const getTimeLimit = (question: WritingTask): number => {
-    if (question.type === "build_sentence") return 60; // 1 min per sentence
-    if (question.type === "email") return 480; // 8 min
-    if (question.type === "academic_discussion") return 600; // 10 min
-    return 600;
+    if (isBuildASentence(question)) return BUILD_A_SENTENCE.pooledSeconds;
+    if (!isBuildASentence(question) && question.type === "email") return WRITE_AN_EMAIL.seconds;
+    return WRITE_FOR_AN_ACADEMIC_DISCUSSION.seconds;
   };
 
   const getWordRequirements = (question: WritingTask) => {
-    if (question.type === "build_sentence") return { min: 0, max: 999 };
-    if (question.type === "email") return { min: 80, max: 120 };
-    if (question.type === "academic_discussion") return { min: 100, max: 200 };
-    return { min: 0, max: 999 };
+    if (isBuildASentence(question)) return { min: 0, max: 999 };
+    // ETS publishes no word count for the email, so this is a soft target only.
+    if (!isBuildASentence(question) && question.type === "email") return { min: WRITE_AN_EMAIL.softTargetWords.min, max: WRITE_AN_EMAIL.softTargetWords.max };
+    return { min: WRITE_FOR_AN_ACADEMIC_DISCUSSION.minimumResponseWords, max: 250 };
   };
 
   const evaluateAllAnswers = useCallback(async (answersToEvaluate: Answer[]) => {
@@ -139,6 +157,34 @@ export function WritingPractice() {
     for (let i = 0; i < evaluatedAnswers.length; i++) {
       const answer = evaluatedAnswers[i];
       const question = questions[i];
+
+      if (isBuildASentence(question)) {
+        // Machine scored: 1 point only when every tile sits in the right slot.
+        const correct = scoreBuildASentence(question, placements[question.id] ?? {});
+        evaluatedAnswers[i] = {
+          ...answer,
+          evaluation: {
+            overall_score: correct ? 6 : 1,
+            grammar_score: correct ? 6 : 1,
+            vocabulary_score: correct ? 6 : 1,
+            organization_score: correct ? 6 : 1,
+            content_score: correct ? 6 : 1,
+            feedback: {
+              strengths: correct ? ["Every word is in the correct position."] : [],
+              improvements: correct
+                ? []
+                : [`The correct sentence is: "${question.sentence}"`],
+              grammar_notes: `Target structure: ${question.grammarFocus.replace(/_/g, " ")}.`,
+              vocabulary_notes: "",
+              organization_notes: "",
+              content_notes: correct
+                ? "Scored 1 of 1."
+                : "Scored 0 of 1. This task is all-or-nothing: every word must be in the right place.",
+            },
+          },
+        };
+        continue;
+      }
 
       if (!answer.text.trim()) {
         // No answer provided
@@ -157,9 +203,8 @@ export function WritingPractice() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             text: answer.text,
-            taskType: question.type,
+            taskType: taskTypeOf(question),
             prompt: getPromptText(question),
-            expectedAnswer: question.type === "build_sentence" ? question.correctAnswer : undefined,
             minWords: requirements.min,
             maxWords: requirements.max,
           }),
@@ -209,19 +254,32 @@ export function WritingPractice() {
 
     setAnswers(evaluatedAnswers);
     setState("review");
-  }, [questions]);
+  }, [questions, placements]);
 
 
   const handleSubmitCurrent = useCallback(async () => {
     const timeSpent = Math.floor((Date.now() - startTime) / 1000);
     const currentQuestion = questions[currentIndex];
 
-    // Save answer with placeholder evaluation
+    // Build a Sentence is machine scored all-or-nothing and never goes to the
+    // AI evaluator; the assembled sentence is stored so review can show it.
+    const assembled = isBuildASentence(currentQuestion)
+      ? currentQuestion.parts
+          .map((part, i) =>
+            currentQuestion.lockedIndices.includes(i)
+              ? part
+              : (placements[currentQuestion.id] ?? {})[i] ?? "____"
+          )
+          .join(" ")
+          .replace(/\s+([.?!,;:])/g, "$1")
+          .trim()
+      : currentText;
+
     const newAnswer: Answer = {
       questionId: currentQuestion.id,
-      taskType: currentQuestion.type,
-      text: currentText,
-      wordCount,
+      taskType: taskTypeOf(currentQuestion),
+      text: assembled,
+      wordCount: isBuildASentence(currentQuestion) ? assembled.split(/\s+/).filter(Boolean).length : wordCount,
       timeSpent,
       evaluation: null,
     };
@@ -234,16 +292,20 @@ export function WritingPractice() {
 
     // Move to next question or evaluating state
     if (currentIndex < questions.length - 1) {
+      const next = questions[currentIndex + 1];
       setCurrentIndex((prev) => prev + 1);
       setCurrentText("");
-      setTimeRemaining(getTimeLimit(questions[currentIndex + 1]));
+      // The ten Build a Sentence items share one clock, so moving between two of
+      // them must NOT restart the timer — only a change of task type does.
+      const stayingInSameBlock = isBuildASentence(currentQuestion) && isBuildASentence(next);
+      if (!stayingInSameBlock) setTimeRemaining(getTimeLimit(next));
       setStartTime(Date.now());
     } else {
       // All questions answered, start evaluation
       setState("evaluating");
       await evaluateAllAnswers([...answers.slice(0, currentIndex), newAnswer]);
     }
-  }, [currentText, wordCount, currentIndex, questions, startTime, answers, evaluateAllAnswers]);
+  }, [currentText, wordCount, currentIndex, questions, startTime, answers, evaluateAllAnswers, placements]);
 
   useEffect(() => {
     if (state !== "practice" || timeRemaining <= 0) return;
@@ -261,16 +323,9 @@ export function WritingPractice() {
     return () => clearInterval(timer);
   }, [state, timeRemaining, handleSubmitCurrent]);
   const getPromptText = (question: WritingTask): string => {
-    if (question.type === "build_sentence") {
-      return `Rearrange these words into a grammatically correct sentence: ${question.scrambledWords.join(", ")}`;
-    }
-    if (question.type === "email") {
-      return question.scenario;
-    }
-    if (question.type === "academic_discussion") {
-      return question.professor.message;
-    }
-    return "";
+    if (isBuildASentence(question)) return question.context;
+    if (question.type === "email") return question.scenario;
+    return question.professor.message;
   };
 
   const handleFinish = () => {
@@ -400,7 +455,7 @@ export function WritingPractice() {
   // ============ PRACTICE SCREEN ============
   if (state === "practice" && questions.length > 0) {
     const requirements = getWordRequirements(currentQuestion);
-    const isWordCountLow = currentQuestion.type !== "build_sentence" && wordCount < requirements.min;
+    const isWordCountLow = !isBuildASentence(currentQuestion) && wordCount < requirements.min;
     const isWordCountHigh = wordCount > requirements.max;
 
     return (
@@ -410,14 +465,14 @@ export function WritingPractice() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 px-4 py-2 glass-card rounded-xl">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center">
-                {currentQuestion.type === "build_sentence" && <GripVertical className="w-4 h-4 text-white" />}
-                {currentQuestion.type === "email" && <Mail className="w-4 h-4 text-white" />}
-                {currentQuestion.type === "academic_discussion" && <MessageSquare className="w-4 h-4 text-white" />}
+                {isBuildASentence(currentQuestion) && <GripVertical className="w-4 h-4 text-white" />}
+                {!isBuildASentence(currentQuestion) && currentQuestion.type === "email" && <Mail className="w-4 h-4 text-white" />}
+                {!isBuildASentence(currentQuestion) && currentQuestion.type === "academic_discussion" && <MessageSquare className="w-4 h-4 text-white" />}
               </div>
               <span className="text-sm font-medium text-white">
-                {currentQuestion.type === "build_sentence" && "Build Sentence"}
-                {currentQuestion.type === "email" && "Write Email"}
-                {currentQuestion.type === "academic_discussion" && "Academic Discussion"}
+                {isBuildASentence(currentQuestion) && "Build Sentence"}
+                {!isBuildASentence(currentQuestion) && currentQuestion.type === "email" && "Write Email"}
+                {!isBuildASentence(currentQuestion) && currentQuestion.type === "academic_discussion" && "Academic Discussion"}
               </span>
             </div>
             <span className="text-sm text-slate-400">
@@ -458,56 +513,35 @@ export function WritingPractice() {
           />
         </div>
 
-        {/* ===== BUILD SENTENCE TASK ===== */}
-        {currentQuestion.type === "build_sentence" && (
+        {/* ===== BUILD A SENTENCE ===== */}
+        {isBuildASentence(currentQuestion) && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
             <div className="p-6 glass-panel rounded-2xl">
-              <h3 className="text-lg font-semibold text-white mb-2">Build a Sentence</h3>
-              <p className="text-sm text-slate-300 mb-4">
-                Rearrange these words to form a grammatically correct sentence:
-              </p>
-
-              {/* Scrambled Words */}
-              <div className="flex flex-wrap gap-2 mb-6 p-4 glass-card rounded-xl">
-                {currentQuestion.scrambledWords.map((word, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-2 bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-white font-medium text-sm"
-                  >
-                    {word}
-                  </span>
-                ))}
+              <div className="flex items-baseline justify-between mb-4">
+                <h3 className="text-lg font-semibold text-white">Build a Sentence</h3>
+                <span className="text-xs text-slate-500">
+                  Sentence {currentIndex + 1} of {questions.length} &middot; one shared timer
+                </span>
               </div>
 
-              {/* Context */}
-              <div className="mb-4 p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-                <p className="text-xs text-purple-300">
-                  <strong>Context:</strong> {currentQuestion.context}
-                </p>
-              </div>
+              <BuildASentenceTask
+                item={currentQuestion}
+                placed={placements[currentQuestion.id] ?? {}}
+                onChange={(placed) =>
+                  setPlacements((prev) => ({ ...prev, [currentQuestion.id]: placed }))
+                }
+              />
 
-              {/* Input Area */}
-              <div className="mb-4">
-                <textarea
-                  value={currentText}
-                  onChange={(e) => setCurrentText(e.target.value)}
-                  placeholder="Type your sentence here..."
-                  className="w-full h-32 bg-slate-900/50 border border-slate-700/50 rounded-xl p-4 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all"
-                  spellCheck={false}
-                />
-              </div>
-
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-end mt-6">
                 <motion.button
-                  whileHover={{ scale: currentText.trim() ? 1.05 : 1 }}
-                  whileTap={{ scale: currentText.trim() ? 0.95 : 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleSubmitCurrent}
-                  disabled={!currentText.trim()}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 disabled:from-slate-700 disabled:to-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/20 disabled:shadow-none"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/20"
                 >
                   {currentIndex < questions.length - 1 ? "Submit & Next" : "Submit"}
                   <ChevronRight className="w-4 h-4" />
@@ -518,7 +552,7 @@ export function WritingPractice() {
         )}
 
         {/* ===== EMAIL TASK ===== */}
-        {currentQuestion.type === "email" && (
+        {!isBuildASentence(currentQuestion) && currentQuestion.type === "email" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -592,7 +626,7 @@ export function WritingPractice() {
         )}
 
         {/* ===== ACADEMIC DISCUSSION TASK ===== */}
-        {currentQuestion.type === "academic_discussion" && (
+        {!isBuildASentence(currentQuestion) && currentQuestion.type === "academic_discussion" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -817,16 +851,16 @@ export function WritingPractice() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${question.type === "build_sentence"
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${isBuildASentence(question)
                           ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                          : question.type === "email"
+                          : !isBuildASentence(question) && question.type === "email"
                             ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
                             : "bg-violet-500/20 text-violet-400 border border-violet-500/30"
                           }`}
                       >
-                        {question.type === "build_sentence" && "Build Sentence"}
-                        {question.type === "email" && "Email"}
-                        {question.type === "academic_discussion" && "Academic Discussion"}
+                        {isBuildASentence(question) && "Build a Sentence"}
+                        {!isBuildASentence(question) && question.type === "email" && "Email"}
+                        {!isBuildASentence(question) && question.type === "academic_discussion" && "Academic Discussion"}
                       </span>
                       <h4 className="text-white font-medium mt-3">
                         {getPromptText(question).substring(0, 100)}...
@@ -842,10 +876,10 @@ export function WritingPractice() {
 
                   {/* Response */}
                   <div className="mb-4 p-4 glass-card rounded-xl">
-                    {question.type === "build_sentence" && (
+                    {isBuildASentence(question) && (
                       <div className="mb-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
                         <p className="text-xs text-green-300">
-                          <strong>Correct Answer:</strong> {question.correctAnswer}
+                          <strong>Correct sentence:</strong> {question.sentence}
                         </p>
                       </div>
                     )}

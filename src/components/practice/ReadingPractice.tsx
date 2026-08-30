@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -24,13 +24,18 @@ import {
   TrendingDown
 } from "lucide-react";
 import {
-  ReadingSessionManager,
   READING_CONFIG,
   type ReadingQuestionItem,
   type CompleteWordsQuestion,
   type DailyLifeQuestion,
   type AcademicQuestion
 } from "@/data/questions/reading-2026";
+import {
+  buildReadingRouter,
+  buildReadingSecondModule,
+  type ReadingForm,
+} from "@/lib/toefl/reading-form";
+import { SECTIONS, moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
 
 type PracticeState = "setup" | "intro_module1" | "practice" | "interim_report" | "intro_module2" | "review";
 type ModuleType = "module1" | "module2_easy" | "module2_hard";
@@ -51,12 +56,19 @@ interface Answer {
   stepId: string;
   value: any;
   isCorrect: boolean;
+  /**
+   * Raw points earned and available. A multiple-choice step is worth 1; a
+   * Complete the Words paragraph is worth one point PER BLANK, because ten gaps
+   * are ten scored items on the real test.
+   */
+  pointsEarned: number;
+  pointsPossible: number;
   timeSpent: number;
 }
 
 export function ReadingPractice() {
   // Session manager for no duplicates
-  const sessionManager = useMemo(() => new ReadingSessionManager(), []);
+  const readingFormRef = useRef<ReadingForm | null>(null);
 
   const [state, setState] = useState<PracticeState>("setup");
   const [currentModule, setCurrentModule] = useState<ModuleType>("module1");
@@ -109,55 +121,64 @@ export function ReadingPractice() {
 
 
 
-  // Start Module 1 with proper configuration
+  // Router module: 33 items assembled to the blueprint's ITEM counts.
   const startModule1 = useCallback(() => {
-    // Reset the session manager for a fresh start
-    sessionManager.reset();
+    const form = buildReadingRouter();
+    readingFormRef.current = form;
+    if (form.router.shortfall.length) {
+      console.warn("[Reading form] bank shortfall:", form.router.shortfall);
+    }
 
-    // Select questions using the session manager (ensures no duplicates)
-    const selectedQuestions = sessionManager.selectModule1Questions(READING_CONFIG.MODULE1_QUESTIONS);
-
-    const flatSteps = flattenQuestions(selectedQuestions);
-    setSteps(flatSteps);
+    setSteps(flattenQuestions(form.router.items));
     setCurrentIndex(0);
     setCurrentModule("module1");
-    setTimeRemaining(READING_CONFIG.MODULE1_TIME);
+    setTimeRemaining(SECTIONS.reading.timing.routerSeconds ?? READING_CONFIG.MODULE1_TIME);
     setQuestionStartTime(Date.now());
     setAnswers({});
     setFlaggedSteps(new Set());
     setState("practice");
-  }, [flattenQuestions, sessionManager]);
+  }, [flattenQuestions]);
 
-  // Start Module 2 based on adaptive path
+  // Second module: 17 further items, drawn from stimuli the router did not use.
   const startModule2 = useCallback((track: "easy" | "hard") => {
-    // Record module 1 performance
-    sessionManager.recordModule1Performance(module1Stats.correct, module1Stats.total);
+    const form = readingFormRef.current ?? buildReadingRouter();
+    const route = track === "hard" ? "upper" : "lower";
+    const module2 = buildReadingSecondModule(form, route);
+    if (module2.shortfall.length) {
+      console.warn("[Reading form] bank shortfall:", module2.shortfall);
+    }
 
-    // Select module 2 questions (session manager ensures no duplicates from module 1)
-    const selectedQuestions = sessionManager.selectModule2Questions(track, READING_CONFIG.MODULE2_QUESTIONS);
-
-    const flatSteps = flattenQuestions(selectedQuestions);
-    setSteps(flatSteps);
+    setSteps(flattenQuestions(module2.items));
     setCurrentIndex(0);
     setCurrentModule(track === "hard" ? "module2_hard" : "module2_easy");
-    // Adaptive timing: Hard track = 18 min, Easy track = 9 min
-    setTimeRemaining(track === "hard" ? READING_CONFIG.MODULE2_TIME_HARD : READING_CONFIG.MODULE2_TIME_EASY);
+    // ETS gives the second reading module 9 minutes on both routes.
+    setTimeRemaining(moduleSeconds("reading", route));
     setQuestionStartTime(Date.now());
     setState("practice");
-  }, [flattenQuestions, sessionManager, module1Stats]);
+  }, [flattenQuestions]);
 
   const handleAnswer = (val: any) => {
     const step = steps[currentIndex];
     const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000);
 
-    let isCorrect = false;
+    // Each Complete the Words gap is its own scored item on the real test, so
+    // the step is tracked in points rather than as a single boolean: a paragraph
+    // with nine of ten gaps right must score nine, not zero.
+    let pointsEarned = 0;
+    let pointsPossible = 1;
+
     if (step.stepType === "multiple_choice") {
-      isCorrect = val === step.data.correctAnswer;
+      pointsEarned = val === step.data.correctAnswer ? 1 : 0;
     } else if (step.stepType === "complete_words") {
-      // Check if all blanks are correct
       const blanks = (step.data as CompleteWordsQuestion).blanks;
-      const userBlanks = val as Record<number, string>;
-      isCorrect = blanks.every(b => (userBlanks[b.position] || "").toLowerCase().trim() === b.answer.toLowerCase().trim());
+      const userBlanks = (val ?? {}) as Record<number, string>;
+      pointsPossible = blanks.length;
+      pointsEarned = blanks.reduce((total, b) => {
+        const typed = (userBlanks[b.position] || "").toLowerCase().trim();
+        const answer = b.answer.toLowerCase().trim();
+        const stem = b.partialWord.replace(/_+/g, "").toLowerCase();
+        return total + (typed === answer || typed === answer.slice(stem.length) ? 1 : 0);
+      }, 0);
     }
 
     setAnswers(prev => ({
@@ -165,7 +186,9 @@ export function ReadingPractice() {
       [step.id]: {
         stepId: step.id,
         value: val,
-        isCorrect,
+        isCorrect: pointsEarned === pointsPossible,
+        pointsEarned,
+        pointsPossible,
         timeSpent: (prev[step.id]?.timeSpent || 0) + timeSpent
       }
     }));
@@ -196,15 +219,24 @@ export function ReadingPractice() {
   };
 
   // Calculate stats for current module
+  /**
+   * Stats are in POINTS, not steps. A ten-gap paragraph counts for ten, exactly
+   * as it does on the real test, so it cannot swing routing like a single
+   * multiple-choice item.
+   */
   const getModuleStats = useCallback(() => {
     const stepIds = steps.map(s => s.id);
     const moduleAnswers = stepIds.map(id => answers[id]).filter(Boolean);
-    const correctCount = moduleAnswers.filter(a => a.isCorrect).length;
+    const earned = moduleAnswers.reduce((t, a) => t + a.pointsEarned, 0);
+    const possible = steps.reduce(
+      (t, step) => t + (step.stepType === "complete_words" ? (step.data as CompleteWordsQuestion).blanks.length : 1),
+      0
+    );
     return {
-      total: stepIds.length,
-      answered: moduleAnswers.length,
-      correct: correctCount,
-      accuracy: moduleAnswers.length > 0 ? correctCount / moduleAnswers.length : 0
+      total: possible,
+      answered: possible,
+      correct: earned,
+      accuracy: possible > 0 ? earned / possible : 0
     };
   }, [steps, answers]);
 
@@ -277,7 +309,7 @@ export function ReadingPractice() {
 
   // Restart completely
   const handleRestart = () => {
-    sessionManager.reset();
+    readingFormRef.current = null;
     setAnswers({});
     setModule1Stats({ correct: 0, total: 0 });
     setFlaggedSteps(new Set());
@@ -305,7 +337,7 @@ export function ReadingPractice() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">Adaptive Reading</h1>
-              <p className="text-slate-400">Official TOEFL 2026 Format • {READING_CONFIG.TOTAL_QUESTIONS} Questions</p>
+              <p className="text-slate-400">Official TOEFL 2026 Format • {SECTIONS.reading.totalItems} items</p>
             </div>
           </div>
 
@@ -332,7 +364,7 @@ export function ReadingPractice() {
                   <span className="text-white font-semibold">Questions</span>
                 </div>
                 <p className="text-sm text-slate-400">
-                  {READING_CONFIG.TOTAL_QUESTIONS} questions<br />
+                  {SECTIONS.reading.totalItems} items<br />
                   (10 per module)
                 </p>
               </div>
@@ -409,7 +441,7 @@ export function ReadingPractice() {
   if (state === "interim_report") {
     const stats = getModuleStats();
     const accuracy = stats.answered > 0 ? stats.correct / stats.answered : 0;
-    const isAdvanced = accuracy >= READING_CONFIG.HARD_TRACK_THRESHOLD;
+    const isAdvanced = routeToModule(stats.correct, stats.answered) === "upper";
 
     return (
       <div className="h-full flex items-center justify-center">
@@ -539,8 +571,8 @@ export function ReadingPractice() {
         <div className="leading-loose text-lg text-slate-300">
           {elements}
           <div className="mt-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
-            <p className="text-sm text-cyan-300 mb-2">💡 Tip: Click on the blank spaces to type your answers</p>
-            <p className="text-xs text-slate-400">Each box represents one letter. The number of boxes shows how many letters you need to type.</p>
+            <p className="text-sm text-cyan-300 mb-2">Click a blank and type the missing letters.</p>
+            <p className="text-xs text-slate-400">The blank does not show how many letters are missing. Use the sentence around it to work out the whole word, and check the spelling.</p>
           </div>
         </div>
       );

@@ -72,13 +72,30 @@ function isGappable(token: string, repeated: ReadonlySet<string>): boolean {
   return /^[A-Za-z][A-Za-z'-]*$/.test(word);
 }
 
-/** Lowercased words that occur more than once in the paragraph. */
+/**
+ * Lowercased words that occur more than once in the paragraph.
+ *
+ * Possessives and hyphenated compounds count as occurrences of their parts:
+ * gapping "soil" while the paragraph also prints "soil's" leaves the answer on
+ * screen just as plainly as a bare repetition would, and the same goes for
+ * "Earth" against "proto-Earth".
+ */
 function findRepeatedWords(text: string): Set<string> {
   const counts = new Map<string, number>();
-  for (const raw of text.match(/[A-Za-z][A-Za-z'-]*/g) ?? []) {
-    const word = raw.toLowerCase();
+  const bump = (word: string) => {
+    if (!word) return;
     counts.set(word, (counts.get(word) ?? 0) + 1);
+  };
+
+  for (const raw of text.match(/[A-Za-z][A-Za-z'-]*/g) ?? []) {
+    const token = raw.toLowerCase();
+    bump(token);
+    // Index the components too, so "soil's" and "proto-earth" register as
+    // occurrences of "soil" and "earth".
+    const parts = token.split(/['-]/).filter(Boolean);
+    if (parts.length > 1) parts.forEach(bump);
   }
+
   const repeated = new Set<string>();
   counts.forEach((n, word) => {
     if (n > 1) repeated.add(word);

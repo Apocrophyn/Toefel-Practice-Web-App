@@ -33,7 +33,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "It closes at midnight during finals week.",
       "The library is on the second floor.",
       "I borrowed three books yesterday.",
-      "The computer lab is next door."
+      "The computer lab is next door.",
     ],
     correctAnswer: "A",
     explanation: "The question asks about closing time, and only option A directly answers with a specific time."
@@ -48,7 +48,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Chemistry is my favorite subject.",
       "It's in the science building, third floor.",
       "The lab report is due Friday.",
-      "I have chemistry at two o'clock."
+      "I have chemistry at two o'clock.",
     ],
     correctAnswer: "B",
     explanation: "The question asks for a location, and option B provides the building and floor number."
@@ -63,7 +63,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Parking is difficult to find.",
       "The lot is behind the gym.",
       "It's two hundred dollars for a full semester.",
-      "You need a parking permit."
+      "You need a parking permit.",
     ],
     correctAnswer: "C",
     explanation: "The question asks about cost, and option C provides a specific price."
@@ -77,10 +77,10 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     options: [
       "Professor Wilson teaches economics.",
       "Her office is in the business building.",
+      "She's a very good professor.",
       "They start at two in the afternoon.",
-      "She's a very good professor."
     ],
-    correctAnswer: "C",
+    correctAnswer: "D",
     explanation: "The question asks about start time, and option C provides the specific time."
   },
   {
@@ -93,7 +93,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "You'll need to go to the registrar's office.",
       "Student IDs are required for entry.",
       "The ID costs fifteen dollars.",
-      "Make sure to bring a photo."
+      "Make sure to bring a photo.",
     ],
     correctAnswer: "A",
     explanation: "The question asks for a location where something can be obtained, and option A provides that location."
@@ -108,7 +108,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Most students graduate in four years.",
       "You need one hundred twenty credits total.",
       "The credits transfer from community college.",
-      "Registration starts next week."
+      "Registration starts next week.",
     ],
     correctAnswer: "B",
     explanation: "The question asks about a quantity, and option B provides the specific number needed."
@@ -121,11 +121,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "You should talk to your advisor first.",
-      "The deadline is the end of the second week.",
       "Dropping a class affects your GPA.",
-      "The class meets on Mondays and Wednesdays."
+      "The deadline is the end of the second week.",
+      "The class meets on Mondays and Wednesdays.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "The question asks about a deadline, and option B provides the specific timeframe."
   },
   {
@@ -137,10 +137,10 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     options: [
       "Financial aid is very helpful.",
       "The application deadline has passed.",
+      "Scholarships are based on merit.",
       "Contact the financial aid office in the main building.",
-      "Scholarships are based on merit."
     ],
-    correctAnswer: "C",
+    correctAnswer: "D",
     explanation: "The question asks who to contact, and option C provides the appropriate office."
   },
   {
@@ -150,12 +150,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "The food is pretty good.",
       "Yes, but only for brunch from ten to two.",
+      "The food is pretty good.",
       "The cafeteria is in the student center.",
-      "Meal plans are required for freshmen."
+      "Meal plans are required for freshmen.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "The yes/no question about weekend hours is answered with confirmation and specific times."
   },
   {
@@ -165,12 +165,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "male_student",
     question: "What would be the most appropriate response?",
     options: [
-      "There are printers in the library and computer lab.",
       "The assignment is due tomorrow.",
+      "There are printers in the library and computer lab.",
       "Printing costs five cents per page.",
-      "You should use double-sided printing."
+      "You should use double-sided printing.",
     ],
-    correctAnswer: "A",
+    correctAnswer: "B",
     explanation: "The question asks where to print, and option A provides specific locations."
   },
 
@@ -183,11 +183,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Professor Martin teaches history.",
-      "I've heard the workload is manageable but you learn a lot.",
       "The class is offered on Tuesdays.",
-      "I'm not taking that class this semester."
+      "I've heard the workload is manageable but you learn a lot.",
+      "I'm not taking that class this semester.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "The question asks for an opinion, and option B provides helpful evaluation without a direct yes/no."
   },
   {
@@ -198,11 +198,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Statistics is a required course.",
-      "Have you tried going to the tutoring center?",
       "The exam is next week.",
-      "I took statistics last year."
+      "I took statistics last year.",
+      "Have you tried going to the tutoring center?",
     ],
-    correctAnswer: "B",
+    correctAnswer: "D",
     explanation: "In response to someone expressing difficulty, suggesting a helpful resource is most appropriate."
   },
   {
@@ -212,12 +212,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "Five is the maximum allowed.",
       "It depends on how demanding the courses are.",
+      "Five is the maximum allowed.",
       "Registration opens next month.",
-      "I'm taking four classes."
+      "I'm taking four classes.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "When someone is undecided, offering factors to consider is more helpful than a direct answer."
   },
   {
@@ -228,11 +228,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "When is it due?",
+      "What topic are you writing about?",
       "Essays are part of most classes.",
       "The writing center is helpful.",
-      "What topic are you writing about?"
     ],
-    correctAnswer: "D",
+    correctAnswer: "B",
     explanation: "When someone expresses frustration, showing interest and asking about specifics is supportive."
   },
   {
@@ -243,11 +243,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Study abroad is in the spring.",
-      "Both would look great on a resume, but what matters more to you?",
       "Internships are usually paid.",
-      "I studied abroad last year."
+      "Both would look great on a resume, but what matters more to you?",
+      "I studied abroad last year.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "Helping someone consider their priorities is more useful than stating facts about either option."
   },
   {
@@ -258,11 +258,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "The bookstore is in the student center.",
-      "Really? I should check if they have the textbooks I need.",
       "Textbooks are expensive.",
-      "I already bought my books online."
+      "I already bought my books online.",
+      "Really? I should check if they have the textbooks I need.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "D",
     explanation: "Expressing interest and intent to act on shared information is a natural conversational response."
   },
   {
@@ -275,7 +275,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "That's terrible! Do you have any auto-saved versions?",
       "Laptops can be expensive to repair.",
       "The computer lab has backup computers.",
-      "You should save more often."
+      "You should save more often.",
     ],
     correctAnswer: "A",
     explanation: "Expressing sympathy and suggesting a possible solution shows empathy and helpfulness."
@@ -290,7 +290,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Advisors are often busy.",
       "Did you have an appointment or is this a walk-in?",
       "The advising office closes at five.",
-      "I see my advisor next week."
+      "I see my advisor next week.",
     ],
     correctAnswer: "B",
     explanation: "Asking clarifying questions can help address the situation or explain the wait."
@@ -302,12 +302,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "That's more than I expected. Do you want to form a study group?",
       "Exams are usually difficult.",
       "Chapter six was interesting.",
-      "I missed that class."
+      "That's more than I expected. Do you want to form a study group?",
+      "I missed that class.",
     ],
-    correctAnswer: "A",
+    correctAnswer: "C",
     explanation: "Acknowledging the information and suggesting collaborative preparation is a helpful response."
   },
   {
@@ -317,12 +317,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "male_student",
     question: "What would be the most appropriate response?",
     options: [
-      "What major are you considering?",
       "Changing majors can delay graduation.",
       "I changed my major twice.",
-      "You should talk to an advisor."
+      "You should talk to an advisor.",
+      "What major are you considering?",
     ],
-    correctAnswer: "A",
+    correctAnswer: "D",
     explanation: "Showing interest by asking for more details encourages the person to share their thoughts."
   },
 
@@ -334,12 +334,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "Studying is important.",
       "Have you tried the fourth floor of the library? It's a designated quiet zone.",
+      "Studying is important.",
       "The library is always crowded.",
-      "I prefer studying in my room."
+      "I prefer studying in my room.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "Providing a specific solution with details helps advance the person toward their goal."
   },
   {
@@ -352,7 +352,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Jobs can be hard to find.",
       "The campus employment office posts positions specifically for students.",
       "Working during school is challenging.",
-      "I work at the coffee shop."
+      "I work at the coffee shop.",
     ],
     correctAnswer: "B",
     explanation: "Directing someone to a resource that can help them is an advancing response."
@@ -367,7 +367,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Campus involvement looks good on resumes.",
       "There are over a hundred student organizations.",
       "The involvement fair is next week. They showcase all the clubs.",
-      "I'm in three clubs."
+      "I'm in three clubs.",
     ],
     correctAnswer: "C",
     explanation: "Suggesting a specific opportunity to explore options helps advance the conversation."
@@ -380,11 +380,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Graduate school is competitive.",
-      "The writing center offers free workshops on academic writing.",
       "Writing takes practice.",
-      "I'm applying to graduate school too."
+      "I'm applying to graduate school too.",
+      "The writing center offers free workshops on academic writing.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "D",
     explanation: "Pointing to a specific resource that addresses the need advances the conversation helpfully."
   },
   {
@@ -394,12 +394,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "Housing is expensive off campus.",
       "Have you looked at the housing board? Students post openings there regularly.",
+      "Housing is expensive off campus.",
       "I found my apartment online.",
-      "The deadline for on-campus housing passed."
+      "The deadline for on-campus housing passed.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "Suggesting a concrete resource to address the concern is an advancing response."
   },
   {
@@ -412,7 +412,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Languages take years to learn.",
       "The language lab has self-study programs you can use anytime.",
       "I took Spanish in high school.",
-      "Language classes fill up quickly."
+      "Language classes fill up quickly.",
     ],
     correctAnswer: "B",
     explanation: "Offering an alternative solution that works around the stated obstacle is helpful."
@@ -425,11 +425,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Presentations can be nerve-wracking.",
-      "Would it help to practice in front of me? I have some time.",
       "Just don't be nervous.",
-      "I had a presentation last week."
+      "Would it help to practice in front of me? I have some time.",
+      "I had a presentation last week.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "Offering concrete help to address the worry is supportive and advances the situation."
   },
   {
@@ -440,11 +440,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Medical school is very competitive.",
-      "Professor Chen in biology is looking for research assistants.",
       "Research experience is important.",
-      "I did research last summer."
+      "I did research last summer.",
+      "Professor Chen in biology is looking for research assistants.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "D",
     explanation: "Providing a specific lead that addresses the need is an advancing response."
   },
 
@@ -456,12 +456,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "Coffee has caffeine.",
       "Sure, I could use a pick-me-up!",
+      "Coffee has caffeine.",
       "The coffee shop is nearby.",
-      "Class starts at ten."
+      "Class starts at ten.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "Using the idiomatic 'pick-me-up' naturally responds to the informal invitation."
   },
   {
@@ -471,12 +471,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "male_student",
     question: "What would be the most appropriate response?",
     options: [
-      "I think I nailed it! They said they'd call by Friday.",
       "The interview was thirty minutes.",
+      "I think I nailed it! They said they'd call by Friday.",
       "I wore my best suit.",
-      "The company is downtown."
+      "The company is downtown.",
     ],
-    correctAnswer: "A",
+    correctAnswer: "B",
     explanation: "The idiom 'nailed it' naturally expresses confidence about performance."
   },
   {
@@ -487,11 +487,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Night is the best time to study.",
-      "You should get some rest. Burning the candle at both ends isn't sustainable.",
       "Projects take a lot of time.",
-      "I stay up late sometimes too."
+      "You should get some rest. Burning the candle at both ends isn't sustainable.",
+      "I stay up late sometimes too.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "Using the idiom about overworking shows understanding and offers caring advice."
   },
   {
@@ -501,12 +501,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "male_student",
     question: "What would be the most appropriate response?",
     options: [
-      "I wouldn't worry too much. People said the same about Professor Lee, and she turned out to be fair.",
       "Strict professors give hard tests.",
       "I had a strict professor last year.",
-      "You should drop the class."
+      "You should drop the class.",
+      "I wouldn't worry too much. People said the same about Professor Lee, and she turned out to be fair.",
     ],
-    correctAnswer: "A",
+    correctAnswer: "D",
     explanation: "Using 'turned out to be' naturally addresses the concern with perspective."
   },
   {
@@ -516,12 +516,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "Calculus is a difficult subject.",
       "Don't throw in the towel yet. The tutoring center can help you catch up.",
+      "Calculus is a difficult subject.",
       "The exam is next week.",
-      "I struggled with calculus too."
+      "I struggled with calculus too.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "Using 'throw in the towel' and 'catch up' naturally encourages persistence."
   },
   {
@@ -534,7 +534,7 @@ export const chooseResponseItems: ChooseResponseItem[] = [
       "Theses are long papers.",
       "That's amazing! You must be over the moon!",
       "When did you start it?",
-      "My thesis is due next month."
+      "My thesis is due next month.",
     ],
     correctAnswer: "B",
     explanation: "Using 'over the moon' naturally celebrates the accomplishment enthusiastically."
@@ -549,11 +549,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "You should have called.",
-      "No worries! These things happen. Do you want to reschedule?",
       "I waited for an hour.",
-      "Study sessions are important."
+      "No worries! These things happen. Do you want to reschedule?",
+      "Study sessions are important.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "Accepting the apology graciously and offering to move forward is politely appropriate."
   },
   {
@@ -564,11 +564,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "Moving is hard work.",
-      "Happy to help! Your new place looks great.",
       "I was free anyway.",
-      "You should buy me lunch."
+      "You should buy me lunch.",
+      "Happy to help! Your new place looks great.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "D",
     explanation: "Accepting thanks graciously and adding a positive comment is politely appropriate."
   },
   {
@@ -578,12 +578,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "female_student",
     question: "What would be the most appropriate response?",
     options: [
-      "The lecture was interesting.",
       "Not at all! I'll send them to you tonight.",
+      "The lecture was interesting.",
       "I take good notes.",
-      "Monday's class was long."
+      "Monday's class was long.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A",
     explanation: "Responding to 'would you mind' politely with agreement and a specific offer."
   },
   {
@@ -593,12 +593,12 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     voice: "narrator",
     question: "What would be the most appropriate response?",
     options: [
-      "That's okay. Could you let me know when it comes in?",
       "I need that book.",
+      "That's okay. Could you let me know when it comes in?",
       "When will it be available?",
-      "I'll look somewhere else."
+      "I'll look somewhere else.",
     ],
-    correctAnswer: "A",
+    correctAnswer: "B",
     explanation: "Accepting the news graciously and making a polite request shows good communication."
   },
   {
@@ -609,11 +609,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "We're counting on you.",
-      "That's fine. I'll fill you in on what we discuss.",
       "Meetings are mandatory.",
-      "Why not?"
+      "That's fine. I'll fill you in on what we discuss.",
+      "Why not?",
     ],
-    correctAnswer: "B",
+    correctAnswer: "C",
     explanation: "Accepting graciously and offering to include them shows good teamwork."
   },
   {
@@ -624,11 +624,11 @@ export const chooseResponseItems: ChooseResponseItem[] = [
     question: "What would be the most appropriate response?",
     options: [
       "It took a long time.",
-      "Of course! Let me know if you have any other questions.",
       "I'm good at explaining things.",
-      "You should have understood it before."
+      "You should have understood it before.",
+      "Of course! Let me know if you have any other questions.",
     ],
-    correctAnswer: "B",
+    correctAnswer: "D",
     explanation: "Accepting appreciation graciously and offering continued help is politely appropriate."
   },
 ];
@@ -678,23 +678,23 @@ Advisor: It can be challenging, but there's an excellent tutoring center on camp
       {
         question: "Why does the advisor recommend statistics over calculus?",
         options: [
-          "Statistics is easier than calculus.",
           "Statistics is more relevant to the student's career goals in psychology.",
+          "Statistics is easier than calculus.",
           "The calculus course is full.",
-          "The student already took calculus."
+          "The student already took calculus.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The advisor explains that psychology research relies heavily on statistical analysis, making it more relevant for the student's goals."
       },
       {
         question: "What does the advisor mention about Professor Martinez?",
         options: [
           "He gives easy exams.",
-          "He is very strict.",
           "He is approachable and has helpful office hours.",
-          "He teaches both statistics and calculus."
+          "He is very strict.",
+          "He teaches both statistics and calculus.",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "The advisor mentions that Professor Martinez 'has a reputation for being very approachable and holding helpful office hours.'"
       }
     ]
@@ -725,22 +725,22 @@ Student: That could work. I studied French in high school for four years.`,
         question: "How many credits does the student still need to graduate?",
         options: [
           "Ninety credits",
-          "Thirty credits",
           "One hundred twenty credits",
-          "Ten credits"
+          "Thirty credits",
+          "Ten credits",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The student has ninety credits and needs one hundred twenty, so thirty more are needed."
       },
       {
         question: "What option does the advisor suggest for the language requirement?",
         options: [
           "Taking summer classes",
-          "Taking a proficiency exam to waive the requirement",
           "Studying abroad",
-          "Taking online courses"
+          "Taking online courses",
+          "Taking a proficiency exam to waive the requirement",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "The advisor mentions that 'if you can demonstrate proficiency through an exam, you can waive the requirement.'"
       }
     ]
@@ -770,12 +770,12 @@ Student: I think credit would be more valuable for me since I'm applying to grad
       {
         question: "What is the research project about?",
         options: [
-          "Ocean pollution",
           "Climate change impacts",
+          "Ocean pollution",
           "Wildlife conservation",
-          "Urban planning"
+          "Urban planning",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "Professor Chen mentions 'a new project on climate change impacts.'"
       },
       {
@@ -784,7 +784,7 @@ Student: I think credit would be more valuable for me since I'm applying to grad
           "The pay is too low.",
           "Credit is more valuable for graduate school applications.",
           "She doesn't need the money.",
-          "Payment would affect her financial aid."
+          "Payment would affect her financial aid.",
         ],
         correctAnswer: "B",
         explanation: "The student says 'credit would be more valuable for me since I'm applying to graduate programs.'"
@@ -819,11 +819,11 @@ Student: That's a good point. How do I sign up?`,
         question: "Why can't the student attend the Tuesday group session?",
         options: [
           "It's full.",
-          "He has a class at that time.",
           "He prefers individual tutoring.",
-          "The subject isn't offered on Tuesdays."
+          "He has a class at that time.",
+          "The subject isn't offered on Tuesdays.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The student says 'I have a class at that time on Tuesdays.'"
       },
       {
@@ -831,10 +831,10 @@ Student: That's a good point. How do I sign up?`,
         options: [
           "Only attending group sessions",
           "Only signing up for individual tutoring",
+          "Finding a private tutor off campus",
           "Signing up for both the Thursday group session and the individual waitlist",
-          "Finding a private tutor off campus"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The staff suggests 'signing up for both—the group session on Thursday and the individual waitlist.'"
       }
     ]
@@ -862,12 +862,12 @@ Lab Assistant: That's plenty of time. Just make sure to bring your student ID. W
       {
         question: "Why does the student need to use a lab computer?",
         options: [
-          "Her laptop is broken.",
           "She left her charger at home.",
+          "Her laptop is broken.",
           "The exam requires special software.",
-          "Her apartment has no internet."
+          "Her apartment has no internet.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The student says 'I left my laptop charger at home.'"
       },
       {
@@ -876,7 +876,7 @@ Lab Assistant: That's plenty of time. Just make sure to bring your student ID. W
           "Coming back another day",
           "Using computers in the testing section for privacy",
           "Borrowing a charger",
-          "Taking the exam at home"
+          "Taking the exam at home",
         ],
         correctAnswer: "B",
         explanation: "The assistant recommends 'using one of the computers in the testing section—they have dividers for privacy.'"
@@ -911,11 +911,11 @@ Staff: You can change it through the end of this week. After that, changes take 
         question: "Why does the student want to change meal plans?",
         options: [
           "The food quality is poor.",
-          "He doesn't use all the meals on the unlimited plan.",
           "The dining hall is too far from his dorm.",
-          "He has food allergies."
+          "He doesn't use all the meals on the unlimited plan.",
+          "He has food allergies.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The student says he 'often skips breakfast and eats off campus on weekends,' indicating the unlimited plan is more than he needs."
       },
       {
@@ -923,10 +923,10 @@ Staff: You can change it through the end of this week. After that, changes take 
         options: [
           "Free weekend meals",
           "Better food options",
+          "Access to special events",
           "Unused dining dollars roll over to the next semester",
-          "Access to special events"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The staff mentions 'unused dining dollars roll over to the next semester.'"
       }
     ]
@@ -958,12 +958,12 @@ Student A: That works for me. Let's meet again Thursday to check in on our progr
       {
         question: "What topic do the students decide to focus on?",
         options: [
-          "Social media advertising in general",
           "Comparing advertising platforms for local restaurants",
+          "Social media advertising in general",
           "Online shopping trends",
-          "Customer service strategies"
+          "Customer service strategies",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "Student B suggests 'comparing the effectiveness of different platforms for local restaurants,' and Student A agrees."
       },
       {
@@ -972,7 +972,7 @@ Student A: That works for me. Let's meet again Thursday to check in on our progr
           "Equally split all tasks",
           "One does surveys and interviews, the other gathers secondary data",
           "One writes the paper, the other presents",
-          "They will decide later"
+          "They will decide later",
         ],
         correctAnswer: "B",
         explanation: "Student B suggests 'you handle the surveys and interviews' and 'I'll focus on gathering secondary data and statistics.'"
@@ -1005,11 +1005,11 @@ Student A: Honestly, the research skills I've developed. You have to prepare arg
         question: "What concern does Student B have about joining the debate club?",
         options: [
           "The meeting time conflicts with classes.",
-          "She has no previous debate experience.",
           "The club is too competitive.",
-          "She doesn't like public speaking."
+          "She has no previous debate experience.",
+          "She doesn't like public speaking.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "Student B says 'I've never done competitive debate before.'"
       },
       {
@@ -1017,10 +1017,10 @@ Student A: Honestly, the research skills I've developed. You have to prepare arg
         options: [
           "Winning tournaments",
           "Making new friends",
+          "Getting course credit",
           "Developing research and critical thinking skills",
-          "Getting course credit"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "Student A says 'the research skills I've developed' and 'you really learn to think critically.'"
       }
     ]
@@ -1050,23 +1050,23 @@ Roommate A: You're right. And the startup is closer to campus, so I could still 
       {
         question: "What is the main advantage of the startup internship?",
         options: [
-          "Higher pay",
           "More responsibility and faster learning",
+          "Higher pay",
           "Better location",
-          "More prestigious company"
+          "More prestigious company",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "Roommate A says the startup offers 'a lot of responsibility and learn quickly.'"
       },
       {
         question: "What additional benefit of the startup does Roommate A mention at the end?",
         options: [
           "Free meals",
-          "Networking opportunities",
           "Being close enough to take a summer class",
-          "A signing bonus"
+          "Networking opportunities",
+          "A signing bonus",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "Roommate A mentions 'the startup is closer to campus, so I could still take a summer class.'"
       }
     ]
@@ -1099,7 +1099,7 @@ Student A: We were thinking of grabbing lunch in town on the way back. There's a
           "Taking the bus",
           "Walking from campus",
           "Carpooling in Sarah's car",
-          "Renting a car"
+          "Renting a car",
         ],
         correctAnswer: "C",
         explanation: "Student A says 'Sarah has a car, so we can carpool.'"
@@ -1109,10 +1109,10 @@ Student A: We were thinking of grabbing lunch in town on the way back. There's a
         options: [
           "Bringing a packed lunch",
           "Skipping lunch",
+          "Buying food at the trailhead",
           "Having lunch at a restaurant in town after hiking",
-          "Buying food at the trailhead"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "Student A says 'We were thinking of grabbing lunch in town on the way back.'"
       }
     ]
@@ -1142,12 +1142,12 @@ RA: We have a few space heaters we can lend out temporarily. Let me grab one fro
       {
         question: "What is the problem with the heating?",
         options: [
+          "The radiator runs but produces very little heat.",
           "The radiator is completely broken.",
           "There's no power to the room.",
-          "The radiator runs but produces very little heat.",
-          "The room is too hot."
+          "The room is too hot.",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The student says it 'makes a noise like it's trying to work, but barely any heat comes out.'"
       },
       {
@@ -1156,7 +1156,7 @@ RA: We have a few space heaters we can lend out temporarily. Let me grab one fro
           "Moving to a different room",
           "Lending a space heater",
           "Providing extra blankets",
-          "Opening windows"
+          "Opening windows",
         ],
         correctAnswer: "B",
         explanation: "The RA says 'We have a few space heaters we can lend out temporarily.'"
@@ -1189,11 +1189,11 @@ Student A: Exactly. The only downside is we have to cook for ourselves, but hone
         question: "Why is Student B stressed about housing?",
         options: [
           "They don't want roommates.",
-          "Places near campus are expensive or already taken.",
           "Their parents want them to live on campus.",
-          "The lease terms are confusing."
+          "Places near campus are expensive or already taken.",
+          "The lease terms are confusing.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "Student B says 'Everything near campus is either too expensive or already taken.'"
       },
       {
@@ -1201,10 +1201,10 @@ Student A: Exactly. The only downside is we have to cook for ourselves, but hone
         options: [
           "It's walking distance to campus.",
           "It includes a meal plan.",
+          "It has better amenities.",
           "It's significantly cheaper than dorm living.",
-          "It has better amenities."
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "Student A's rent is five hundred versus 'almost a thousand per month' for the dorm, showing significant savings."
       }
     ]
@@ -1236,12 +1236,12 @@ Student: Absolutely. Thank you so much for understanding.`,
       {
         question: "Why does the student need an extension?",
         options: [
+          "Her grandmother passed away and she had to travel for the funeral.",
           "She hasn't started the research.",
           "She was sick.",
-          "Her grandmother passed away and she had to travel for the funeral.",
-          "She has too many other assignments."
+          "She has too many other assignments.",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The student explains 'my grandmother passed away last week and I had to travel home for the funeral.'"
       },
       {
@@ -1250,7 +1250,7 @@ Student: Absolutely. Thank you so much for understanding.`,
           "The student must meet with a tutor.",
           "The student must submit a progress update by the original deadline.",
           "The student must get documentation from home.",
-          "The paper must be longer than required."
+          "The paper must be longer than required.",
         ],
         correctAnswer: "B",
         explanation: "The professor says 'I would like you to email me a progress update by the original due date.'"
@@ -1287,7 +1287,7 @@ Professor: Yes, one essay worth thirty points. You'll have a choice between two 
           "Thirty percent",
           "Forty percent",
           "Sixty percent",
-          "Seventy percent"
+          "Seventy percent",
         ],
         correctAnswer: "C",
         explanation: "The professor says 'About sixty percent of the exam will cover material from the lectures.'"
@@ -1296,11 +1296,11 @@ Professor: Yes, one essay worth thirty points. You'll have a choice between two 
         question: "What topics does the professor say to prioritize?",
         options: [
           "Reading summaries",
-          "The three main theories from weeks two through four and case studies",
           "Historical background",
-          "Vocabulary definitions"
+          "Vocabulary definitions",
+          "The three main theories from weeks two through four and case studies",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "The professor says to 'focus on the three main theories' and 'make sure you can analyze the case studies.'"
       }
     ]
@@ -1332,12 +1332,12 @@ Professor: Just remind me about specific examples of your work that you'd like m
       {
         question: "What does the professor remember about the student?",
         options: [
-          "Her excellent attendance",
           "Her project on coral reef conservation",
+          "Her excellent attendance",
           "Her study abroad experience",
-          "Her presentation skills"
+          "Her presentation skills",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The professor says 'I remember your excellent project on coral reef conservation.'"
       },
       {
@@ -1346,7 +1346,7 @@ Professor: Just remind me about specific examples of your work that you'd like m
           "Only a transcript",
           "Resume, transcript, and a statement about her interest",
           "Three letters from other professors",
-          "A research proposal"
+          "A research proposal",
         ],
         correctAnswer: "B",
         explanation: "The professor asks for 'your resume, a copy of your transcript, and a brief description of why you're passionate about this opportunity.'"
@@ -1379,11 +1379,11 @@ Lab Manager: I can do a one-on-one training at another time. Just email me a few
         question: "How far in advance must equipment be reserved?",
         options: [
           "Twelve hours",
-          "Twenty-four hours",
           "Forty-eight hours",
-          "One week"
+          "Twenty-four hours",
+          "One week",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The lab manager says 'Just make sure to reserve at least twenty-four hours in advance.'"
       },
       {
@@ -1391,10 +1391,10 @@ Lab Manager: I can do a one-on-one training at another time. Just email me a few
         options: [
           "An online video",
           "A written manual",
+          "Skipping the training",
           "A one-on-one training at a different time",
-          "Skipping the training"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The lab manager says 'I can do a one-on-one training at another time.'"
       }
     ]
@@ -1424,23 +1424,23 @@ Student A: Just your notes and the practice problems from chapter six. We're pla
       {
         question: "When was the study group originally scheduled to meet?",
         options: [
-          "Saturday morning",
           "Sunday evening",
+          "Saturday morning",
           "Friday afternoon",
-          "Monday night"
+          "Monday night",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "Student B mentions 'I heard it meets on Sunday evenings.'"
       },
       {
         question: "What should Student B bring to the study session?",
         options: [
           "Textbook only",
-          "Flashcards",
           "Notes and practice problems from chapter six",
-          "Laptop and projector"
+          "Flashcards",
+          "Laptop and projector",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "Student A says 'Just your notes and the practice problems from chapter six.'"
       }
     ]
@@ -1473,22 +1473,22 @@ Coordinator: You can start applying now. Many positions are filled before the se
         question: "Where are work-study positions posted?",
         options: [
           "On bulletin boards around campus",
-          "On the online job board",
           "In the campus newspaper",
-          "Only through email"
+          "On the online job board",
+          "Only through email",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The coordinator says 'Work-study positions are posted on our online job board.'"
       },
       {
         question: "Why does the coordinator recommend applying early?",
         options: [
           "Pay rates decrease later",
-          "Many positions fill before the semester begins",
           "Training takes several weeks",
-          "There's a mandatory waiting period"
+          "There's a mandatory waiting period",
+          "Many positions fill before the semester begins",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "The coordinator says 'Many positions are filled before the semester begins, so I'd recommend applying early.'"
       }
     ]
@@ -1522,23 +1522,23 @@ Staff: Good. I'll process the withdrawal now. You should see it reflected in you
       {
         question: "Why is the student withdrawing from calculus?",
         options: [
-          "The class time conflicts with work.",
           "They're struggling and it's affecting other classes.",
+          "The class time conflicts with work.",
           "The professor recommended it.",
-          "They don't need the credit."
+          "They don't need the credit.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The student says 'I'm struggling and it's affecting my other classes.'"
       },
       {
         question: "What condition would affect the student's financial aid?",
         options: [
           "Having a W on the transcript",
-          "Withdrawing after the deadline",
           "Dropping below twelve credits",
-          "Withdrawing without advisor approval"
+          "Withdrawing after the deadline",
+          "Withdrawing without advisor approval",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "The staff says financial aid is affected 'if you drop below full-time status, which is twelve credits.'"
       }
     ]
@@ -1571,22 +1571,22 @@ Student B: Perfect. I'll have everything done by then.`,
         question: "What is Student B having trouble with?",
         options: [
           "The introduction",
-          "The data visualization and graphs",
           "Finding research sources",
-          "The conclusion"
+          "The data visualization and graphs",
+          "The conclusion",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "Student B says 'I'm still working on the data visualization part. The graphs aren't looking quite right.'"
       },
       {
         question: "How long will Student B's speaking portion be?",
         options: [
           "Five minutes",
-          "Seven minutes",
           "Ten minutes",
-          "Fifteen minutes"
+          "Fifteen minutes",
+          "Seven minutes",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "Student A says 'you could cover the methodology and results for about seven' minutes."
       }
     ]
@@ -1624,12 +1624,12 @@ export const announcementScenarios: AnnouncementScenario[] = [
       {
         question: "Which areas of the library will remain open during renovations?",
         options: [
+          "The first floor, including computer lab and reserve desk",
           "All floors with reduced hours",
           "The second and third floors only",
-          "The first floor, including computer lab and reserve desk",
-          "Only the entrance and lobby"
+          "Only the entrance and lobby",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The announcement says 'the first floor, including the computer lab and reserve desk, will remain open.'"
       },
       {
@@ -1638,7 +1638,7 @@ export const announcementScenarios: AnnouncementScenario[] = [
           "The gymnasium and cafeteria",
           "The student center and science building basement",
           "Off-campus coffee shops",
-          "The parking garage"
+          "The parking garage",
         ],
         correctAnswer: "B",
         explanation: "The announcement mentions 'Alternative study spaces have been arranged in the student center and the basement of the science building.'"
@@ -1658,7 +1658,7 @@ export const announcementScenarios: AnnouncementScenario[] = [
           "Alphabetically by last name",
           "By credit hours completed",
           "Seniors first, then juniors, sophomores, and freshmen",
-          "First-come, first-served"
+          "First-come, first-served",
         ],
         correctAnswer: "C",
         explanation: "The announcement states 'Seniors can register starting Wednesday, followed by juniors on Thursday, sophomores on Friday, and freshmen the following Monday.'"
@@ -1667,11 +1667,11 @@ export const announcementScenarios: AnnouncementScenario[] = [
         question: "What must students do before they can register?",
         options: [
           "Pay tuition",
-          "Clear their advisor hold by meeting with their advisor",
           "Submit a registration request form",
-          "Attend an orientation session"
+          "Attend an orientation session",
+          "Clear their advisor hold by meeting with their advisor",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "The announcement says 'Advisor holds have been placed on all accounts and must be cleared before you can register.'"
       }
     ]
@@ -1686,23 +1686,23 @@ export const announcementScenarios: AnnouncementScenario[] = [
       {
         question: "What is the main hazard mentioned in the alert?",
         options: [
-          "Heavy rain",
           "Icy walkways",
+          "Heavy rain",
           "Strong winds",
-          "Power outages"
+          "Power outages",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The announcement says 'Due to icy conditions this morning, several walkways are hazardous.'"
       },
       {
         question: "What alternative does the announcement suggest?",
         options: [
           "Taking the campus shuttle",
-          "Staying home",
           "Using indoor corridors between buildings",
-          "Wearing special footwear"
+          "Staying home",
+          "Wearing special footwear",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "The announcement suggests 'use the indoor corridors connecting the main academic buildings.'"
       }
     ]
@@ -1718,11 +1718,11 @@ export const announcementScenarios: AnnouncementScenario[] = [
         question: "What should students bring to the career fair?",
         options: [
           "Just their student ID",
-          "Multiple copies of their resume",
           "A laptop and portfolio",
-          "Reference letters"
+          "Multiple copies of their resume",
+          "Reference letters",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The announcement says 'Students are encouraged to bring multiple copies of their resume.'"
       },
       {
@@ -1730,10 +1730,10 @@ export const announcementScenarios: AnnouncementScenario[] = [
         options: [
           "Mock interviews",
           "Professional photos",
+          "Suit rentals",
           "Resume reviews",
-          "Suit rentals"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The announcement mentions 'The career services office is offering free resume reviews this week.'"
       }
     ]
@@ -1748,12 +1748,12 @@ export const announcementScenarios: AnnouncementScenario[] = [
       {
         question: "Why is parking lot D being closed?",
         options: [
-          "For repaving",
           "Due to construction of the new science building",
+          "For repaving",
           "For a special event",
-          "Because of safety violations"
+          "Because of safety violations",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The announcement says 'Due to construction of the new science building, parking lot D will be closed.'"
       },
       {
@@ -1762,7 +1762,7 @@ export const announcementScenarios: AnnouncementScenario[] = [
           "Reduced parking fees",
           "Free shuttle service between lot F and main campus",
           "Reserved spaces in other lots",
-          "Temporary parking passes for the garage"
+          "Temporary parking passes for the garage",
         ],
         correctAnswer: "B",
         explanation: "The announcement mentions 'A free shuttle service will run every ten minutes between lot F and the main campus.'"
@@ -1782,11 +1782,11 @@ export const announcementScenarios: AnnouncementScenario[] = [
         question: "What is the main topic of Dr. Thompson's lecture?",
         options: [
           "Mental health treatment",
-          "How early childhood experiences affect adult decision-making",
           "Educational policy reform",
-          "Brain chemistry and emotions"
+          "How early childhood experiences affect adult decision-making",
+          "Brain chemistry and emotions",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The announcement says Dr. Thompson will discuss 'how early childhood experiences shape adult decision-making.'"
       },
       {
@@ -1794,10 +1794,10 @@ export const announcementScenarios: AnnouncementScenario[] = [
         options: [
           "A book signing",
           "A Q&A session only",
+          "A workshop on research methods",
           "A reception where students can meet Dr. Thompson",
-          "A workshop on research methods"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The announcement mentions 'A reception will follow where students can meet Dr. Thompson and discuss her work.'"
       }
     ]
@@ -1812,12 +1812,12 @@ export const announcementScenarios: AnnouncementScenario[] = [
       {
         question: "What change is being made to weekday dining hours?",
         options: [
+          "Extending late-night hours until eleven PM",
           "Opening earlier for breakfast",
           "Closing earlier in the evening",
-          "Extending late-night hours until eleven PM",
-          "Adding weekend brunch service"
+          "Adding weekend brunch service",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The announcement says 'We're also extending late-night dining hours on weekdays until eleven PM instead of ten PM.'"
       },
       {
@@ -1826,7 +1826,7 @@ export const announcementScenarios: AnnouncementScenario[] = [
           "A separate allergy-free cooking area",
           "A new labeling system for the top eight allergens",
           "Staff members trained in allergy management",
-          "An online menu with ingredient lists"
+          "An online menu with ingredient lists",
         ],
         correctAnswer: "B",
         explanation: "The announcement mentions 'we've implemented a new labeling system that clearly identifies the top eight allergens in each dish.'"
@@ -1846,7 +1846,7 @@ export const announcementScenarios: AnnouncementScenario[] = [
           "Next Monday",
           "Next Wednesday",
           "Next Friday",
-          "The following Monday"
+          "The following Monday",
         ],
         correctAnswer: "C",
         explanation: "The professor says 'the exam has been moved to Friday of the same week.'"
@@ -1855,11 +1855,11 @@ export const announcementScenarios: AnnouncementScenario[] = [
         question: "What should students do if they have a conflict with the new exam date?",
         options: [
           "Email the department",
-          "Speak with the professor after class",
           "Submit a request through the registrar",
-          "Take the exam at the original time"
+          "Take the exam at the original time",
+          "Speak with the professor after class",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "The professor says 'If the new date creates a conflict, please see me after class today.'"
       }
     ]
@@ -1874,23 +1874,23 @@ export const announcementScenarios: AnnouncementScenario[] = [
       {
         question: "Who can receive free flu vaccines?",
         options: [
+          "Currently enrolled students",
           "All students and staff",
           "Only students living in residence halls",
-          "Currently enrolled students",
-          "Only freshmen and sophomores"
+          "Only freshmen and sophomores",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The announcement says 'The vaccine is free for all currently enrolled students.'"
       },
       {
         question: "Why does the announcement specifically mention residence hall students?",
         options: [
           "They get priority scheduling",
-          "They receive a different vaccine",
           "Illnesses spread quickly in residence halls",
-          "They must show proof of vaccination"
+          "They receive a different vaccine",
+          "They must show proof of vaccination",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "The announcement says 'especially those living in residence halls where illnesses can spread quickly.'"
       }
     ]
@@ -1906,11 +1906,11 @@ export const announcementScenarios: AnnouncementScenario[] = [
         question: "Where is the meeting being held?",
         options: [
           "The student center as usual",
-          "The botanical garden greenhouse",
           "The science building",
-          "Online via video call"
+          "The botanical garden greenhouse",
+          "Online via video call",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The announcement says the meeting 'has been moved from the student center to the botanical garden greenhouse.'"
       },
       {
@@ -1918,10 +1918,10 @@ export const announcementScenarios: AnnouncementScenario[] = [
         options: [
           "Climate change research",
           "Recycling techniques",
+          "Careers in environmental science",
           "Opportunities for student involvement in local conservation",
-          "Careers in environmental science"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The announcement says the guest will 'talk about opportunities for student involvement in local conservation efforts.'"
       }
     ]
@@ -1965,12 +1965,12 @@ Interestingly, the mere exposure effect works best when the initial exposure is 
       {
         question: "What is the main idea of the mere exposure effect?",
         options: [
-          "People prefer new and unfamiliar things.",
           "Familiarity leads to increased preference.",
+          "People prefer new and unfamiliar things.",
           "Repeated exposure causes boredom.",
-          "First impressions are most important."
+          "First impressions are most important.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The professor explains that 'people tend to develop a preference for things merely because they are familiar with them.'"
       },
       {
@@ -1979,7 +1979,7 @@ Interestingly, the mere exposure effect works best when the initial exposure is 
           "Chinese food they tasted more often",
           "Chinese characters they had seen more frequently",
           "Songs they heard repeatedly",
-          "Faces of people they met multiple times"
+          "Faces of people they met multiple times",
         ],
         correctAnswer: "B",
         explanation: "In Zajonc's experiments, 'participants consistently chose the ones they had seen more often' referring to Chinese characters."
@@ -1988,11 +1988,11 @@ Interestingly, the mere exposure effect works best when the initial exposure is 
         question: "According to the professor, when does the mere exposure effect work best?",
         options: [
           "When people are consciously aware of the repetition",
-          "When exposure is subtle or unconscious",
           "When the stimulus is very unusual",
-          "When people are in a positive mood"
+          "When exposure is subtle or unconscious",
+          "When people are in a positive mood",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The professor states 'the mere exposure effect works best when the initial exposure is subtle or unconscious.'"
       },
       {
@@ -2000,10 +2000,10 @@ Interestingly, the mere exposure effect works best when the initial exposure is 
         options: [
           "Education and learning",
           "Medical treatment",
+          "Political campaigns",
           "Advertising and marketing",
-          "Political campaigns"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The professor says 'This effect has significant implications for advertising and marketing.'"
       }
     ]
@@ -2024,23 +2024,23 @@ Now, bleaching doesn't immediately kill coral. If temperatures return to normal 
       {
         question: "What are zooxanthellae?",
         options: [
-          "A type of coral species",
           "Tiny algae that live inside coral",
+          "A type of coral species",
           "Bacteria that cause coral disease",
-          "Nutrients found in seawater"
+          "Nutrients found in seawater",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The professor describes zooxanthellae as 'tiny algae' that live 'in their tissues' referring to coral."
       },
       {
         question: "What percentage of a coral's energy comes from zooxanthellae?",
         options: [
           "About fifty percent",
-          "Up to seventy percent",
           "Up to ninety percent",
-          "One hundred percent"
+          "Up to seventy percent",
+          "One hundred percent",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "The professor states that zooxanthellae 'provide up to ninety percent of the coral's energy needs.'"
       },
       {
@@ -2049,7 +2049,7 @@ Now, bleaching doesn't immediately kill coral. If temperatures return to normal 
           "Ocean pollution",
           "Predators eating the coral",
           "Rising ocean temperatures",
-          "Lack of sunlight"
+          "Lack of sunlight",
         ],
         correctAnswer: "C",
         explanation: "The professor explains that 'When ocean temperatures rise even slightly... corals become stressed and expel the zooxanthellae.'"
@@ -2060,7 +2060,7 @@ Now, bleaching doesn't immediately kill coral. If temperatures return to normal 
           "The coral changes color permanently",
           "New algae species colonize the coral",
           "The coral becomes stronger",
-          "The coral weakens, becomes susceptible to disease, and may die"
+          "The coral weakens, becomes susceptible to disease, and may die",
         ],
         correctAnswer: "D",
         explanation: "The professor says 'prolonged or repeated bleaching events weaken the coral, making it susceptible to disease and eventually causing death.'"
@@ -2083,12 +2083,12 @@ The response to these urban problems eventually led to important reforms. Public
       {
         question: "What percentage of the population lived in rural areas before industrialization?",
         options: [
+          "About eighty percent",
           "About twenty percent",
           "About fifty percent",
-          "About eighty percent",
-          "About ninety percent"
+          "About ninety percent",
         ],
-        correctAnswer: "C",
+        correctAnswer: "A",
         explanation: "The professor states 'about eighty percent of the population lived in rural areas.'"
       },
       {
@@ -2097,7 +2097,7 @@ The response to these urban problems eventually led to important reforms. Public
           "Agricultural improvements",
           "The factory system",
           "Population growth",
-          "Government policies"
+          "Government policies",
         ],
         correctAnswer: "B",
         explanation: "The professor says 'The primary driver of urbanization was the factory system.'"
@@ -2106,11 +2106,11 @@ The response to these urban problems eventually led to important reforms. Public
         question: "What problems resulted from rapid urban growth?",
         options: [
           "Labor shortages and high wages",
-          "Inadequate housing, poor sanitation, and disease",
           "Lack of factories and jobs",
-          "Political instability and riots"
+          "Inadequate housing, poor sanitation, and disease",
+          "Political instability and riots",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "The professor mentions 'Housing was inadequate, sanitation was poor, and diseases spread easily in crowded conditions.'"
       },
       {
@@ -2118,10 +2118,10 @@ The response to these urban problems eventually led to important reforms. Public
         options: [
           "People moved back to rural areas",
           "Factories were relocated outside cities",
+          "Immigration was restricted",
           "Public health reforms and urban planning emerged",
-          "Immigration was restricted"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The professor explains that 'Public health movements emerged, building codes were established, and urban planning became a profession.'"
       }
     ]
@@ -2142,12 +2142,12 @@ These insights have practical applications. Governments use behavioral economics
       {
         question: "How does behavioral economics differ from traditional economics?",
         options: [
-          "It focuses on government policy instead of markets.",
           "It studies how psychological factors influence economic decisions.",
+          "It focuses on government policy instead of markets.",
           "It only examines irrational behavior.",
-          "It ignores individual decision-making."
+          "It ignores individual decision-making.",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The professor says behavioral economics studies 'how psychological factors influence economic decisions.'"
       },
       {
@@ -2156,7 +2156,7 @@ These insights have practical applications. Governments use behavioral economics
           "Fear of taking any financial risks",
           "Losing something causes more psychological pain than gaining provides pleasure",
           "Preferring to lose slowly rather than all at once",
-          "Avoiding investments that might lose value"
+          "Avoiding investments that might lose value",
         ],
         correctAnswer: "B",
         explanation: "The professor explains that 'losing something causes roughly twice as much psychological pain as gaining the same thing provides pleasure.'"
@@ -2165,11 +2165,11 @@ These insights have practical applications. Governments use behavioral economics
         question: "What did the coffee mug experiments demonstrate?",
         options: [
           "People prefer coffee over other beverages",
-          "People value things more once they own them",
           "Coffee mugs are overpriced",
-          "People are bad at estimating prices"
+          "People value things more once they own them",
+          "People are bad at estimating prices",
         ],
-        correctAnswer: "B",
+        correctAnswer: "C",
         explanation: "This demonstrates the endowment effect: 'Once we own something, we value it more than before we owned it.'"
       },
       {
@@ -2177,10 +2177,10 @@ These insights have practical applications. Governments use behavioral economics
         options: [
           "By banning certain products",
           "By increasing taxes on losses",
+          "By requiring economics education in schools",
           "By making retirement savings opt-out to increase participation",
-          "By requiring economics education in schools"
         ],
-        correctAnswer: "C",
+        correctAnswer: "D",
         explanation: "The professor mentions that 'making retirement savings opt-out rather than opt-in significantly increases participation.'"
       }
     ]
@@ -2201,23 +2201,23 @@ Perhaps most importantly, sleep deprivation severely impairs the ability to form
       {
         question: "During which sleep stage does memory consolidation primarily occur?",
         options: [
-          "Light sleep",
           "Deep sleep or slow-wave sleep",
+          "Light sleep",
           "The transition between sleep stages",
-          "Only during dreaming"
+          "Only during dreaming",
         ],
-        correctAnswer: "B",
+        correctAnswer: "A",
         explanation: "The professor says 'The key stage for memory consolidation is deep sleep, also called slow-wave sleep.'"
       },
       {
         question: "What type of memory does REM sleep particularly benefit?",
         options: [
           "Memory for facts and dates",
-          "Memory for faces and names",
           "Procedural memory and creative problem-solving",
-          "Short-term memory only"
+          "Memory for faces and names",
+          "Short-term memory only",
         ],
-        correctAnswer: "C",
+        correctAnswer: "B",
         explanation: "The professor explains that REM sleep 'is particularly important for procedural memory' and 'creative problem-solving.'"
       },
       {
@@ -2226,7 +2226,7 @@ Perhaps most importantly, sleep deprivation severely impairs the ability to form
           "Up to ten percent",
           "Up to twenty percent",
           "Up to forty percent",
-          "Up to sixty percent"
+          "Up to sixty percent",
         ],
         correctAnswer: "C",
         explanation: "The professor states that sleep deprivation can 'reduce the brain's capacity to learn new information by up to forty percent.'"
@@ -2235,11 +2235,11 @@ Perhaps most importantly, sleep deprivation severely impairs the ability to form
         question: "What implication does the professor draw for students?",
         options: [
           "Students should study during deep sleep",
-          "Sacrificing sleep to study more may be counterproductive",
           "Only morning studying is effective",
-          "Sleep is only important during exam periods"
+          "Sleep is only important during exam periods",
+          "Sacrificing sleep to study more may be counterproductive",
         ],
-        correctAnswer: "B",
+        correctAnswer: "D",
         explanation: "The professor says 'students who sacrifice sleep to study more—the strategy may actually be counterproductive.'"
       }
     ]
