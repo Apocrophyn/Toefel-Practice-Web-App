@@ -35,8 +35,9 @@ import {
   buildReadingSecondModule,
   type ReadingForm,
 } from "@/lib/toefl/reading-form";
-import { SECTIONS, moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
+import { ROUTING, SECTIONS, moduleSeconds, routeToModule } from "@/data/toefl-2026-blueprint";
 import { BoardButton, FlapClock, ScoreBoard } from "@/components/board";
+import { DailyLifeArtefact } from "@/components/practice/DailyLifeArtefact";
 
 type PracticeState = "setup" | "intro_module1" | "practice" | "interim_report" | "intro_module2" | "review";
 type ModuleType = "module1" | "module2_easy" | "module2_hard";
@@ -49,6 +50,8 @@ interface PracticeStep {
   data: any;
   passageContent: string;
   passageTitle?: string;
+  /** Read in Daily Life only: the artefact genre, used to pick a layout. */
+  passageCategory?: string;
   parentId: string;
   fullAnswer?: any; // For review/feedback
 }
@@ -112,6 +115,7 @@ export function ReadingPractice() {
             },
             passageContent: item.passage,
             passageTitle: (item as AcademicQuestion).title,
+            passageCategory: (item as DailyLifeQuestion).category,
             parentId: item.id
           });
         });
@@ -355,8 +359,8 @@ export function ReadingPractice() {
                   <span className="text-white font-semibold">Duration</span>
                 </div>
                 <p className="text-sm text-slate-400">
-                  18-27 minutes (adaptive)<br />
-                  Module 2 varies by track
+                  27-30 minutes (adaptive)<br />
+                  Router 18-21 min + module 2 of 9 min
                 </p>
               </div>
               <div className="p-4 rounded-panel bg-white/5 border border-white/10">
@@ -366,7 +370,7 @@ export function ReadingPractice() {
                 </div>
                 <p className="text-sm text-slate-400">
                   {SECTIONS.reading.totalItems} items<br />
-                  (10 per module)
+                  (33 router + 17 in module 2)
                 </p>
               </div>
               <div className="p-4 rounded-panel bg-white/5 border border-white/10">
@@ -674,6 +678,12 @@ export function ReadingPractice() {
 
             {currentStep.stepType === "complete_words" ? (
               renderCompleteWords(currentStep.data as CompleteWordsQuestion)
+            ) : currentStep.parentTaskType === "daily_life" ? (
+              /* The artefact's layout is part of the construct on this task. */
+              <DailyLifeArtefact
+                passage={currentStep.passageContent}
+                category={currentStep.passageCategory}
+              />
             ) : (
               <div className="prose prose-invert prose-sm max-w-none text-steel-300 whitespace-pre-wrap leading-relaxed">
                 {renderTextWithFormatting(currentStep.passageContent)}
@@ -897,7 +907,10 @@ function ReadingReviewBoard({
   const m2Total = total - module1.total;
   const pct = (c: number, t: number) => (t > 0 ? Math.round((c / t) * 100) : 0);
   const cleared = (c: number, t: number) =>
-    t > 0 && c / t >= READING_CONFIG.HARD_TRACK_THRESHOLD ? "cleared" : "cancelled";
+    // Same cut the router itself uses. This previously read the legacy
+    // READING_CONFIG.HARD_TRACK_THRESHOLD (0.60) while routing used the
+    // blueprint's 0.65, so a 62% score was routed down but reported "cleared".
+    t > 0 && c / t >= ROUTING.upperModuleThreshold ? "cleared" : "cancelled";
 
   return (
     <ScoreBoard

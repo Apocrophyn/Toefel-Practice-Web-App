@@ -557,7 +557,8 @@ export function ListeningPractice() {
         title="Listening"
         standfirst="Two adaptive modules. Every clip plays once — there is no replay, exactly as on the day."
         manifest={[
-          { field: "Duration", value: "18–27", note: "Minutes. Module 2 length varies by track." },
+          { field: "Duration", value: "25–29", note: "Minutes. Router 18 min, then 7 or 11 by track." },
+          { field: "Items", value: "47", note: "29 in the router, 18 in the second module" },
           { field: "Playback", value: "ONCE", note: "No rewind and no second listen on any item" },
           { field: "Routing", value: "ADAPTIVE", note: "Module 2 is set by how Module 1 goes" },
         ]}

@@ -100,6 +100,7 @@ export interface WritingEvaluationResult {
   word_count: number;
   task_specific_feedback?: {
     appropriateness?: string; // For emails
+    bullet_coverage?: string; // For emails - which of the three required points were addressed
     critical_thinking?: string; // For academic discussion
     sentence_accuracy?: string; // For build sentence
   };
@@ -179,12 +180,24 @@ ACTUAL WORD COUNT: ${wordCount} words
 STUDENT'S EMAIL:
 "${text}"
 
-Evaluate this email based on:
-1. Appropriateness (polite, professional tone suitable for the context)
-2. Clarity (clear purpose, specific request/information)
-3. Organization (proper greeting, body paragraphs, closing)
-4. Completeness (addresses all parts of the scenario)
-5. Grammar and vocabulary (accurate, appropriate level)
+Evaluate this email as an ETS rater would score the 2026 "Write an Email" task,
+which is worth 5 raw points.
+
+The single most important criterion is COVERAGE OF THE THREE BULLET POINTS listed
+in the prompt above. Check each bullet individually and say in content_notes which
+of the three were addressed and which were not. A response that is fluent and
+well written but silently drops one of the three bullets cannot score in the top
+band; a response that drops two cannot score above the middle of the scale.
+
+Then evaluate:
+1. Register (does the tone fit the stated relationship to the named recipient?
+   A professor and a roommate are not written to the same way.)
+2. Clarity (a clear purpose and a specific, actionable request)
+3. Organization (greeting, body, closing appropriate to the register)
+4. Grammar and vocabulary (accuracy and range)
+
+The word-count target below is guidance only. ETS publishes no word count for this
+task, so do NOT penalise a response purely for falling outside the range.
 
 IMPORTANT: Return your evaluation as a valid JSON object with this EXACT structure:
 {
@@ -202,7 +215,8 @@ IMPORTANT: Return your evaluation as a valid JSON object with this EXACT structu
     "content_notes": "<content feedback>"
   },
   "task_specific_feedback": {
-    "appropriateness": "<analysis of tone, politeness, and professionalism>"
+    "appropriateness": "<analysis of register against the stated relationship to the recipient>",
+    "bullet_coverage": "<state for each of the three bullets whether it was addressed>"
   }
 }`;
     } else if (taskType === "academic_discussion") {

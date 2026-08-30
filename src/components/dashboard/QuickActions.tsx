@@ -14,7 +14,7 @@ import {
 const actions = [
   {
     title: "Full Mock Test",
-    description: "67-85 min adaptive test",
+    description: "83-89 min adaptive test",
     href: "/practice/mock",
     icon: Play,
     color: "from-amber-500 to-amber-600",
@@ -22,14 +22,14 @@ const actions = [
   },
   {
     title: "Reading",
-    description: "18-27 min",
+    description: "27-30 min",
     href: "/practice/reading",
     icon: BookOpen,
     color: "from-amber-500 to-amber-600",
   },
   {
     title: "Listening",
-    description: "18-27 min",
+    description: "25-29 min",
     href: "/practice/listening",
     icon: Headphones,
     color: "from-amber-500 to-amber-600",

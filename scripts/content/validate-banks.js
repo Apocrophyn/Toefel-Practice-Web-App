@@ -131,6 +131,115 @@ const BAS = load("data/questions/2026/build-a-sentence.js");
   console.log(`  Build a Sentence           n=${BAS.buildASentenceItems.length} items`);
 }
 
+/**
+ * Write an Email, Write for an Academic Discussion, Read in Daily Life and the
+ * two Speaking tasks used to have no coverage here at all, which is why the
+ * email bank could sit at a one-line scenario with zero bullet points through
+ * two rounds of remediation. Anything a form can deliver is checked.
+ */
+const WM = load("data/questions/writing-massive.js");
+{
+  const words = (t) => t.trim().split(/\s+/).length;
+  let emailWordsLo = Infinity, emailWordsHi = 0;
+  for (const t of WM.emailTasks) {
+    // ETS: exactly three bullets, and all three must be addressed to score well.
+    if (!Array.isArray(t.bullets) || t.bullets.length !== 3) {
+      note("Write an Email", t.id, `bullets=${t.bullets ? t.bullets.length : 0}, must be exactly 3`);
+    }
+    const w = words(t.situation || "");
+    emailWordsLo = Math.min(emailWordsLo, w); emailWordsHi = Math.max(emailWordsHi, w);
+    if (w < 70 || w > 115) note("Write an Email", t.id, `situation ${w} words, target 70-110`);
+    if (!t.recipient) note("Write an Email", t.id, "no named recipient");
+    if (!t.recipientRole) note("Write an Email", t.id, "no stated relationship to set register");
+    // 7:00 on its own clock, per the blueprint.
+    if (t.timeLimit !== 420) note("Write an Email", t.id, `timeLimit=${t.timeLimit}s, blueprint is 420s`);
+    const prompt = WM.emailPromptText(t);
+    for (const b of t.bullets || []) {
+      if (!prompt.includes(b)) note("Write an Email", t.id, "bullet missing from flattened prompt sent to the grader");
+    }
+  }
+  console.log(`  Write an Email             n=${WM.emailTasks.length} items, situations ${emailWordsLo}-${emailWordsHi} words, 3 bullets each`);
+
+  let profLo = Infinity, profHi = 0;
+  for (const t of WM.academicDiscussionTasks) {
+    // ETS: a professor's post and EXACTLY TWO named students with opposing views.
+    if (!t.professor || !t.professor.name || !t.professor.message) note("Academic Discussion", t.id, "no professor post");
+    else {
+      const w = words(t.professor.message);
+      profLo = Math.min(profLo, w); profHi = Math.max(profHi, w);
+      if (w < 50 || w > 100) note("Academic Discussion", t.id, `professor post ${w} words, target 60-85`);
+    }
+    if (!Array.isArray(t.students) || t.students.length !== 2) {
+      note("Academic Discussion", t.id, `students=${t.students ? t.students.length : 0}, must be exactly 2`);
+    }
+    for (const st of t.students || []) {
+      if (!st.name) note("Academic Discussion", t.id, "student post has no name");
+      const w = words(st.message || "");
+      if (w < 30 || w > 75) note("Academic Discussion", t.id, `student post ${w} words, target 40-60`);
+    }
+    if (t.minWords !== 100) note("Academic Discussion", t.id, `minWords=${t.minWords}, directions state 100`);
+    if (t.timeLimit !== 600) note("Academic Discussion", t.id, `timeLimit=${t.timeLimit}s, blueprint is 600s`);
+  }
+  console.log(`  Academic Discussion        n=${WM.academicDiscussionTasks.length} items, professor posts ${profLo}-${profHi} words, 2 students each`);
+}
+
+console.log("READ IN DAILY LIFE");
+const RBL = load("data/questions/reading-bank.js");
+{
+  const dist = { A: 0, B: 0, C: 0, D: 0 }; let n = 0; const sizes = {};
+  let lo = Infinity, hi = 0;
+  for (const set of RBL.dailyLifeQuestions) {
+    const w = set.passage.trim().split(/\s+/).length;
+    lo = Math.min(lo, w); hi = Math.max(hi, w);
+    // ETS stimulus range for this task is 15-150 words.
+    if (w < 15 || w > 150) note("Read in Daily Life", set.id, `${w} words, target 15-150`);
+    // ETS delivers this task in 2-item and 3-item sets only.
+    if (![2, 3].includes(set.questions.length)) note("Read in Daily Life", set.id, `items=${set.questions.length}, must be 2 or 3`);
+    sizes[set.questions.length] = (sizes[set.questions.length] || 0) + 1;
+    if (!set.category) note("Read in Daily Life", set.id, "no category to drive the artefact renderer");
+    for (const q of set.questions) {
+      checkChoice(set.id, q, "Read in Daily Life");
+      const i = keyIndex(q); if (i < 0) note("Read in Daily Life", set.id, "key not among options"); else dist["ABCD"[i]]++;
+      n++;
+    }
+  }
+  console.log(`  sets ${RBL.dailyLifeQuestions.length}, words ${lo}-${hi}, set sizes ${JSON.stringify(sizes)}`);
+  report("Read in Daily Life", dist, n);
+}
+
+console.log("SPEAKING");
+const SM = load("data/questions/speaking-massive.js");
+{
+  for (const sc of SM.listenRepeatScenarios) {
+    // A Listen and Repeat set is exactly the 7 items ETS delivers.
+    if (sc.sentences.length !== 7) note("Listen and Repeat", sc.id, `sentences=${sc.sentences.length}, must be 7`);
+    // A static contextual image of the location accompanies the audio.
+    if (!sc.imageDescription) note("Listen and Repeat", sc.id, "no context image description");
+    sc.sentences.forEach((sentence, i) => {
+      const w = sentence.trim().split(/\s+/).length;
+      // Length ramps across the set; the published windows are 8/8/10/10/10/12/12s.
+      if (w < 4 || w > 16) note("Listen and Repeat", sc.id, `sentence ${i + 1} is ${w} words`);
+    });
+    // The set must ramp: the last two sentences should not be shorter than the first two.
+    const head = sc.sentences.slice(0, 2).reduce((a, x) => a + x.split(/\s+/).length, 0) / 2;
+    const tail = sc.sentences.slice(5).reduce((a, x) => a + x.split(/\s+/).length, 0) / 2;
+    if (tail < head) note("Listen and Repeat", sc.id, `does not ramp: opens at ${head.toFixed(1)} words, closes at ${tail.toFixed(1)}`);
+  }
+  console.log(`  Listen and Repeat          n=${SM.listenRepeatScenarios.length} sets of 7`);
+
+  const ESCALATION = ["recollection", "preference", "stance", "policy"];
+  for (const t of SM.interviewTopics) {
+    // Four questions on ONE theme, escalating in cognitive demand.
+    if (t.questions.length !== 4) note("Take an Interview", t.id, `questions=${t.questions.length}, must be 4`);
+    const types = t.questions.map((q) => q.type);
+    if (types.join(",") !== ESCALATION.join(",")) {
+      note("Take an Interview", t.id, `escalation is ${types.join(">")}, expected ${ESCALATION.join(">")}`);
+    }
+    if (!t.topic) note("Take an Interview", t.id, "no shared theme");
+  }
+  console.log(`  Take an Interview          n=${SM.interviewTopics.length} themed sets of 4`);
+}
+
 console.log("FORM ASSEMBLY");
 const RF = load("lib/toefl/reading-form.js");
 {

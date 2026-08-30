@@ -20,6 +20,12 @@ export interface CompleteWordsQuestion {
 export interface DailyLifeQuestion {
     id: string;
     taskType: "daily_life";
+    /**
+     * The artefact's genre, e.g. "Campus Email", "Cafe Menu", "Shuttle Service".
+     * Drives the per-genre renderer: the layout of the artefact is part of what
+     * this task measures, so a menu has to look like a menu.
+     */
+    category?: string;
     passage: string;
     questions: {
         id: string;
@@ -65,31 +71,23 @@ export interface AdaptiveReadingTest {
 // TOEFL 2026 Reading Section Configuration
 // Official Format Effective January 21, 2026
 // ==========================================
+/**
+ * DEPRECATED — legacy pre-blueprint reading configuration.
+ *
+ * Every operational number for the Reading section now comes from
+ * `src/data/toefl-2026-blueprint.ts` (item counts, module timings, routing cut)
+ * and `src/lib/toefl/form-builder.ts` (the router/module item split).
+ *
+ * The values that used to live here described a 20-item section on an 18-minute
+ * second module with a 0.60 routing cut. All three are wrong against the ETS
+ * 2026 blueprint (50 items, 9-minute second module, and a single routing cut
+ * shared with `routeToModule`), and having them in scope meant the results
+ * screen could report a different verdict than the router had acted on. Only
+ * the router fallback time survives; do not add values back here.
+ */
 export const READING_CONFIG = {
-    // Timer settings (in seconds)
-    // Reading section is 18-27 minutes total (adaptive)
-    MODULE1_TIME: 18 * 60, // 18 minutes - baseline assessment
-    MODULE2_TIME_HARD: 18 * 60, // 18 minutes - complex academic content
-    MODULE2_TIME_EASY: 9 * 60, // 9 minutes - simpler daily life content
-
-    // Question counts
-    MODULE1_QUESTIONS: 10,
-    MODULE2_QUESTIONS: 10,
-    TOTAL_QUESTIONS: 20,
-
-    // Adaptive threshold (accuracy required for hard track)
-    HARD_TRACK_THRESHOLD: 0.60, // 60% or higher = hard track
-
-    // Content mix for Module 1 (baseline)
-    MODULE1_ACADEMIC_RATIO: 0.5, // 50% academic
-    MODULE1_DAILY_LIFE_RATIO: 0.3, // 30% daily life
-    MODULE1_COMPLETE_WORDS_RATIO: 0.2, // 20% complete words
-
-    // Module 2 Hard Track (C1-C2 level)
-    MODULE2_HARD_ACADEMIC_RATIO: 0.8, // 80% academic passages
-
-    // Module 2 Easy Track (B1-B2 level)
-    MODULE2_EASY_DAILY_LIFE_RATIO: 0.8, // 80% daily life content
+    /** Fallback only. `SECTIONS.reading.timing.routerSeconds` is authoritative. */
+    MODULE1_TIME: 19 * 60 + 30,
 };
 
 // ==========================================
@@ -201,165 +199,12 @@ export const adaptiveReadingTest: AdaptiveReadingTest = {
  * Creates a new reading session that ensures no duplicate questions
  * across both modules within a single practice test.
  */
-export class ReadingSessionManager {
-    private usedQuestionIds: Set<string> = new Set();
-    private module1Questions: ReadingQuestionItem[] = [];
-    private module2Questions: ReadingQuestionItem[] = [];
-    private module1Score: number = 0;
-    private module1Total: number = 0;
-
-    constructor() {
-        this.reset();
-    }
-
-    /**
-     * Reset the session for a new practice test
-     */
-    reset(): void {
-        this.usedQuestionIds = new Set();
-        this.module1Questions = [];
-        this.module2Questions = [];
-        this.module1Score = 0;
-        this.module1Total = 0;
-    }
-
-    /**
-     * Select questions for a module based on configured ratios
-     */
-    private selectQuestionsForModule(count: number, academicRatio: number, dailyLifeRatio: number): ReadingQuestionItem[] {
-        const selected: ReadingQuestionItem[] = [];
-
-        // Use full pools for maximum variety across different runs
-        const academicPool = shuffleArray([...academic]);
-        const dailyLifePool = shuffleArray([...dailyLife]);
-        const completeWordsPool = shuffleArray([...completeWords]);
-
-        const academicTarget = Math.floor(count * academicRatio);
-        const dailyLifeTarget = Math.floor(count * dailyLifeRatio);
-        const completeWordsTarget = count - academicTarget - dailyLifeTarget;
-
-        let academicCount = 0;
-        let dailyLifeCount = 0;
-        let completeWordsCount = 0;
-
-        // 1. Try to fill academic
-        for (const q of academicPool) {
-            if (academicCount >= academicTarget) break;
-            if (!this.usedQuestionIds.has(q.id)) {
-                selected.push(q);
-                this.usedQuestionIds.add(q.id);
-                academicCount++;
-            }
-        }
-
-        // 2. Try to fill daily life
-        for (const q of dailyLifePool) {
-            if (dailyLifeCount >= dailyLifeTarget) break;
-            if (!this.usedQuestionIds.has(q.id)) {
-                selected.push(q);
-                this.usedQuestionIds.add(q.id);
-                dailyLifeCount++;
-            }
-        }
-
-        // 3. Try to fill complete words
-        for (const q of completeWordsPool) {
-            if (completeWordsCount >= completeWordsTarget) break;
-            if (!this.usedQuestionIds.has(q.id)) {
-                selected.push(q);
-                this.usedQuestionIds.add(q.id);
-                completeWordsCount++;
-            }
-        }
-
-        // 4. Fill remaining from a giant mixed pool if needed
-        if (selected.length < count) {
-            const mixedPool = shuffleArray([...academic, ...dailyLife, ...completeWords]);
-            for (const q of mixedPool) {
-                if (selected.length >= count) break;
-                if (!this.usedQuestionIds.has(q.id)) {
-                    selected.push(q);
-                    this.usedQuestionIds.add(q.id);
-                }
-            }
-        }
-
-        return shuffleArray(selected);
-    }
-
-    /**
-     * Select questions for Module 1 (baseline difficulty)
-     */
-    selectModule1Questions(count: number = READING_CONFIG.MODULE1_QUESTIONS): ReadingQuestionItem[] {
-        this.module1Questions = this.selectQuestionsForModule(
-            count,
-            READING_CONFIG.MODULE1_ACADEMIC_RATIO,
-            READING_CONFIG.MODULE1_DAILY_LIFE_RATIO
-        );
-        return this.module1Questions;
-    }
-
-    /**
-     * Record Module 1 performance to determine adaptive path
-     */
-    recordModule1Performance(correct: number, total: number): void {
-        this.module1Score = correct;
-        this.module1Total = total;
-    }
-
-    /**
-     * Determine which track the user should take based on Module 1 performance
-     */
-    getAdaptiveTrack(): "hard" | "easy" {
-        if (this.module1Total === 0) return "easy";
-        const accuracy = this.module1Score / this.module1Total;
-        return accuracy >= READING_CONFIG.HARD_TRACK_THRESHOLD ? "hard" : "easy";
-    }
-
-    /**
-     * Select questions for Module 2 based on adaptive track
-     */
-    selectModule2Questions(
-        track: "hard" | "easy" = this.getAdaptiveTrack(),
-        count: number = READING_CONFIG.MODULE2_QUESTIONS
-    ): ReadingQuestionItem[] {
-        if (track === "hard") {
-            this.module2Questions = this.selectQuestionsForModule(
-                count,
-                READING_CONFIG.MODULE2_HARD_ACADEMIC_RATIO,
-                0.1 // Small amount of daily life for variety
-            );
-        } else {
-            this.module2Questions = this.selectQuestionsForModule(
-                count,
-                0.2, // Small amount of academic for variety
-                READING_CONFIG.MODULE2_EASY_DAILY_LIFE_RATIO
-            );
-        }
-        return this.module2Questions;
-    }
-
-    /**
-     * Get all used question IDs (for debugging/analytics)
-     */
-    getUsedQuestionIds(): string[] {
-        return Array.from(this.usedQuestionIds);
-    }
-
-    /**
-     * Get session statistics
-     */
-    getSessionStats() {
-        return {
-            module1QuestionsCount: this.module1Questions.length,
-            module2QuestionsCount: this.module2Questions.length,
-            module1Score: this.module1Score,
-            module1Total: this.module1Total,
-            adaptiveTrack: this.getAdaptiveTrack(),
-            totalUniqueQuestions: this.usedQuestionIds.size
-        };
-    }
-}
-
-// Export a singleton instance for convenience
-export const readingSession = new ReadingSessionManager();
+/*
+ * The legacy `ReadingSessionManager` used to live here. It selected a fixed 10
+ * items per module against a 20-item section, routed on a 0.60 accuracy cut and
+ * mixed content by ratio rather than by ETS item counts — all three wrong against
+ * the 2026 blueprint. Nothing referenced it after the engine moved to
+ * `src/lib/toefl/reading-form.ts`, and leaving a second, wrong adaptive engine in
+ * the tree is how the pre-2026 numbers kept resurfacing. Use `buildReadingRouter`
+ * and `buildReadingSecondModule` instead.
+ */

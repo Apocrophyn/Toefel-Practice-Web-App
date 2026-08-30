@@ -74,6 +74,7 @@ import {
 // Writing Data & Types
 import {
   emailTasks,
+  emailPromptText,
   academicDiscussionTasks,
   type EmailTask,
   type AcademicDiscussionTask
@@ -84,6 +85,7 @@ import {
   type BuildASentenceItem,
 } from "@/data/questions/2026/build-a-sentence";
 import { BuildASentenceTask } from "@/components/practice/BuildASentenceTask";
+import { DailyLifeArtefact } from "@/components/practice/DailyLifeArtefact";
 
 // Shared Utils
 import { generateAudio, evaluateSpeaking, type VoiceType, type SpeakingEvaluationResult } from "@/lib/audio";
@@ -128,6 +130,8 @@ interface ReadingStep {
   data: any;
   passageContent: string;
   passageTitle?: string;
+  /** Read in Daily Life only: the artefact genre, used to pick a layout. */
+  passageCategory?: string;
   parentId: string;
 }
 
@@ -273,6 +277,7 @@ export function FullTestSection() {
             data: { ...q, passageId: item.id },
             passageContent: item.passage,
             passageTitle: (item as AcademicQuestion).title,
+            passageCategory: (item as DailyLifeQuestion).category,
             parentId: item.id
           });
         });
@@ -682,7 +687,7 @@ export function FullTestSection() {
         body: JSON.stringify({
           text: writingCurrentText,
           taskType: currentTask.type,
-          prompt: currentTask.type === "email" ? currentTask.emailPrompt : currentTask.topic,
+          prompt: currentTask.type === "email" ? emailPromptText(currentTask) : currentTask.topic,
         }),
       }).then(res => res.json()).then(evaluation => {
         setWritingAnswers(prev => prev.map(a => a.questionId === answer.questionId ? { ...a, evaluation } : a));
@@ -1139,6 +1144,16 @@ export function FullTestSection() {
                   return elements;
                 })()}
               </div>
+            ) : currentStep.parentTaskType === "daily_life" ? (
+              /*
+                The artefact's layout is part of the construct on this task: an
+                email, a menu and a shuttle timetable are read differently. This
+                panel used to render all three as one pre-wrapped prose block.
+              */
+              <DailyLifeArtefact
+                passage={currentStep.passageContent}
+                category={currentStep.passageCategory}
+              />
             ) : (
               <div className="prose prose-invert prose-sm max-w-none text-steel-300 whitespace-pre-wrap leading-relaxed">
                 {renderTextWithFormatting(currentStep.passageContent)}
@@ -1525,10 +1540,27 @@ export function FullTestSection() {
               {task.type === "email" && (
                 <div className="space-y-4">
                   <h3 className="text-emerald-400 mt-0">Write an Email</h3>
-                  <p className="text-lg text-white">{(task as EmailTask).scenario}</p>
                   <p className="text-slate-300">{(task as EmailTask).instructions}</p>
-                  <div className="p-4 bg-black/30 rounded-flap text-sm text-emerald-300/80 whitespace-pre-wrap">
-                    {(task as EmailTask).emailPrompt}
+                  {/*
+                    The ETS prompt is a ~90-word situation, a NAMED recipient whose
+                    relationship sets the register, and exactly three bullets that all
+                    have to be addressed. Rendering only the one-line label, as this
+                    panel used to, hid the part of the prompt the task is scored on.
+                  */}
+                  <div className="p-4 bg-black/30 rounded-flap text-base text-slate-200 leading-relaxed">
+                    {(task as EmailTask).situation}
+                  </div>
+                  <div className="p-4 rounded-flap border border-emerald-500/25 bg-emerald-500/5">
+                    <p className="text-sm text-white m-0">
+                      Write an email to <strong>{(task as EmailTask).recipient}</strong>.
+                    </p>
+                    <p className="text-xs text-slate-400 mt-1 mb-3">{(task as EmailTask).recipientRole}</p>
+                    <p className="text-sm text-emerald-300 m-0 mb-2">In your email, be sure to:</p>
+                    <ul className="text-sm text-slate-200 space-y-1 m-0">
+                      {(task as EmailTask).bullets.map((point, i) => (
+                        <li key={i}>{point}</li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               )}

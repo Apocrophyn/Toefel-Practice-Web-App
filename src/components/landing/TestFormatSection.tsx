@@ -7,16 +7,16 @@ const sections = [
   {
     icon: BookOpen,
     name: "Reading",
-    duration: "18-27 min",
-    format: "Adaptive",
+    duration: "27-30 min",
+    format: "50 items · adaptive",
     tasks: ["Complete the Words", "Read in Daily Life", "Academic Text"],
     color: "bg-amber-500",
   },
   {
     icon: Headphones,
     name: "Listening",
-    duration: "18-27 min",
-    format: "Adaptive",
+    duration: "25-29 min",
+    format: "47 items · adaptive",
     tasks: ["Choose a Response", "Conversation", "Announcement", "Lecture"],
     color: "bg-amber-500",
   },
@@ -24,16 +24,16 @@ const sections = [
     icon: Mic,
     name: "Speaking",
     duration: "~8 min",
-    format: "4 Tasks",
-    tasks: ["Listen & Repeat", "Interview (4 questions)", "Integrated Tasks"],
+    format: "11 items",
+    tasks: ["Listen & Repeat (7 items)", "Take an Interview (4 questions)"],
     color: "bg-platform-500",
   },
   {
     icon: PenTool,
     name: "Writing",
     duration: "~23 min",
-    format: "3 Tasks",
-    tasks: ["Build a Sentence", "Write an Email", "Academic Discussion"],
+    format: "12 items",
+    tasks: ["Build a Sentence (10 items)", "Write an Email", "Academic Discussion"],
     color: "bg-amber-500",
   },
 ];
@@ -71,7 +71,7 @@ export function TestFormatSection() {
             transition={{ delay: 0.2 }}
             className="text-lg text-steel-600 max-w-2xl mx-auto"
           >
-            The new TOEFL iBT is 67-85 minutes with adaptive Reading & Listening
+            The new TOEFL iBT is 83-89 minutes with adaptive Reading & Listening
             and the new 1-6 band scoring system.
           </motion.p>
         </div>
@@ -143,7 +143,7 @@ export function TestFormatSection() {
               <p className="text-xs text-steel-400 uppercase tracking-wider">
                 Total Duration
               </p>
-              <p className="text-2xl font-bold text-white">67-85 minutes</p>
+              <p className="text-2xl font-bold text-white">83-89 minutes</p>
             </div>
             <div className="w-px h-12 bg-steel-700" />
             <div className="text-left">

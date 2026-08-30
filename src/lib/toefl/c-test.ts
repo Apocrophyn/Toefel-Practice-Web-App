@@ -57,6 +57,65 @@ const STOP_WORDS = new Set([
 const SENTENCE_SPLIT = /(?<=[.!?])\s+(?=[A-Z"'(])/;
 
 /**
+ * Markup that has no business appearing in an exam stimulus.
+ *
+ * The Complete the Words paragraphs are harvested from the legacy passage bank,
+ * which was authored in Markdown with the occasional inline LaTeX formula. That
+ * markup was rendering literally on screen: test takers were shown
+ * `*Photons*`, `* Red photons are "weak" bullets.` and `($E=hf$)` inside what is
+ * supposed to be a plain academic paragraph. The renderer only understands
+ * `**bold**`, so nothing else was ever stripped.
+ */
+const MARKUP_PATTERNS: { pattern: RegExp; replacement: string }[] = [
+  // Bold and italic markers around a word or phrase: **term** / *term* / _term_.
+  { pattern: /\*\*([^*]+)\*\*/g, replacement: "$1" },
+  { pattern: /(?<![A-Za-z0-9])\*([^*\n]+)\*(?![A-Za-z0-9])/g, replacement: "$1" },
+  { pattern: /(?<![A-Za-z0-9])_([A-Za-z][^_\n]*)_(?![A-Za-z0-9])/g, replacement: "$1" },
+  // Inline code and Markdown headings.
+  { pattern: /`([^`]*)`/g, replacement: "$1" },
+  { pattern: /^#{1,6}\s+/gm, replacement: "" },
+  // Simple chemical formulae written as LaTeX: $CO_2$ -> CO2, $H_2O$ -> H2O.
+  { pattern: /\$([A-Za-z]{1,3})_\{?(\d+)\}?\$/g, replacement: "$1$2" },
+  // A bullet marker that survived being flattened into a prose paragraph.
+  { pattern: /(^|\s)\*\s+/g, replacement: "$1" },
+];
+
+/**
+ * A numbered-list marker left behind when a list was flattened into prose:
+ * `... zeitgeist. 1. It was "Free." ... 2. It was "Sublime."`
+ *
+ * Only stripped when the paragraph carries at least two of them, which is what
+ * distinguishes a real list from a sentence that happens to end in a number. A
+ * single digit is required so that a year ("in 1965. The") can never match.
+ */
+const LIST_MARKER = /(^|(?<=[.!?])\s)[1-9]\.\s(?=[A-Z"'])/g;
+
+/**
+ * Anything still matching after normalisation means the paragraph is carrying
+ * structure a prose stimulus cannot represent — a real formula, a table, a link.
+ * Those paragraphs are rejected rather than mangled into something that reads
+ * like a typo.
+ */
+const RESIDUAL_MARKUP = /[$`|#*]|\\[A-Za-z]+|\[[^\]]*\]\([^)]*\)|<\/?[a-z][^>]*>/i;
+
+/** Strip authoring markup from a harvested paragraph. */
+export function sanitizeParagraph(paragraph: string): string {
+  let text = paragraph;
+  for (const { pattern, replacement } of MARKUP_PATTERNS) {
+    text = text.replace(pattern, replacement);
+  }
+  if ((text.match(LIST_MARKER) ?? []).length >= 2) {
+    text = text.replace(LIST_MARKER, "$1");
+  }
+  return text.replace(/\s+/g, " ").trim();
+}
+
+/** True when a paragraph is clean enough to show to a test taker. */
+export function isCleanStimulus(paragraph: string): boolean {
+  return !RESIDUAL_MARKUP.test(sanitizeParagraph(paragraph));
+}
+
+/**
  * A token is gappable if it is a plain alphabetic word of sufficient length
  * that does not also appear intact elsewhere in the paragraph.
  *
@@ -133,7 +192,10 @@ export function generateCTest(
   const targetBlanks = options.blanks ?? COMPLETE_THE_WORDS.blanksPerParagraph;
   const every = options.every ?? COMPLETE_THE_WORDS.gapEveryNthWord;
 
-  const text = paragraph.replace(/\s+/g, " ").trim();
+  const text = sanitizeParagraph(paragraph);
+  // A paragraph that still carries markup after normalisation is not a usable
+  // stimulus; shipping it would print raw syntax inside the reading passage.
+  if (RESIDUAL_MARKUP.test(text)) return null;
   const sentences = text.split(SENTENCE_SPLIT);
   if (sentences.length < 2) return null;
 
@@ -188,7 +250,9 @@ export function generateCTest(
 
 /** True when a paragraph is the right length to be a Complete the Words stimulus. */
 export function isSuitableParagraph(paragraph: string): boolean {
-  const n = paragraph.trim().split(/\s+/).length;
+  const text = sanitizeParagraph(paragraph);
+  if (RESIDUAL_MARKUP.test(text)) return false;
+  const n = text.split(/\s+/).length;
   return n >= COMPLETE_THE_WORDS.paragraphWords.min && n <= COMPLETE_THE_WORDS.paragraphWords.max;
 }
 

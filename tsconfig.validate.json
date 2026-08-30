@@ -2,4 +2,6 @@
    "skipLibCheck": true, "esModuleInterop": true, "rootDir": "src", "baseUrl": ".", "paths": { "@/*": ["src/*"] } },
   "files": ["src/data/questions/2026/reading-bank.ts", "src/data/questions/2026/listening-bank.ts",
             "src/data/questions/2026/build-a-sentence.ts", "src/lib/toefl/reading-form.ts",
-            "src/lib/toefl/c-test.ts", "src/lib/toefl/scoring.ts"] }
+            "src/lib/toefl/c-test.ts", "src/lib/toefl/scoring.ts",
+            "src/data/questions/writing-massive.ts", "src/data/questions/reading-bank.ts",
+            "src/data/questions/speaking-massive.ts"] }

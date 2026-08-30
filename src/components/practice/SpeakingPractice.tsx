@@ -20,9 +20,9 @@ import {
   MessageSquare,
   Image as ImageIcon,
   Loader2,
-  BookOpen,
 } from "lucide-react";
 import { SectionBrief } from "@/components/board";
+import { LISTEN_AND_REPEAT, SECTIONS, TAKE_AN_INTERVIEW } from "@/data/toefl-2026-blueprint";
 import {
   listenRepeatScenarios,
   interviewTopics,
@@ -81,7 +81,19 @@ export function SpeakingPractice() {
   // TOEFL 2026 Format: Listen & Repeat = 12 seconds, Interview = 45 seconds
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
-  const [maxRecordingTime, setMaxRecordingTime] = useState(12); // Default for Listen & Repeat
+  /**
+   * The response window for the CURRENT item.
+   *
+   * Listen and Repeat is tiered by item index on the real test —
+   * 8/8/10/10/10/12/12 seconds — because the sentences get longer as the set
+   * goes on. This screen used to hold a flat 12 s for all seven, which gives a
+   * test taker 50% more time than the exam allows on items 1 and 2 and trains
+   * the wrong pacing. The full mock test already tiered it; only this
+   * section-practice screen did not.
+   */
+  const [maxRecordingTime, setMaxRecordingTime] = useState<number>(
+    LISTEN_AND_REPEAT.responseWindowSeconds[0]
+  );
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -152,7 +164,8 @@ export function SpeakingPractice() {
     setCurrentTask("listen_repeat");
     setState("listen_repeat");
     setOverallScores([]);
-    setTotalTimeLeft(480); // Reset to 8 minutes
+    setMaxRecordingTime(LISTEN_AND_REPEAT.responseWindowSeconds[0]);
+    setTotalTimeLeft(SECTIONS.speaking.timing.totalSeconds ?? 8 * 60);
 
     // Reset internal state to prevents bugs on restart
     evaluationPromisesRef.current = [];
@@ -522,15 +535,21 @@ export function SpeakingPractice() {
 
     if (currentTask === "listen_repeat" && currentScenario) {
       if (sentenceIndex < currentScenario.sentences.length - 1) {
-        setSentenceIndex(prev => prev + 1);
+        const next = sentenceIndex + 1;
+        setSentenceIndex(next);
         setState("listen_repeat");
         setCurrentEvaluation(null);
+        // Tiered by item index: 8/8/10/10/10/12/12 seconds.
+        setMaxRecordingTime(
+          LISTEN_AND_REPEAT.responseWindowSeconds[next] ??
+            LISTEN_AND_REPEAT.responseWindowSeconds[LISTEN_AND_REPEAT.responseWindowSeconds.length - 1]
+        );
       } else {
         // Move to interview task
         setCurrentTask("interview");
         setState("interview");
         setCurrentEvaluation(null);
-        setMaxRecordingTime(45);
+        setMaxRecordingTime(TAKE_AN_INTERVIEW.responseSeconds);
       }
     } else if (currentTask === "interview" && currentInterview) {
       if (interviewIndex < currentInterview.questions.length - 1) {
@@ -603,17 +622,16 @@ export function SpeakingPractice() {
       <SectionBrief
         icon={Mic}
         title="Speaking"
-        standfirst="Four tasks recorded through your microphone, then scored on delivery, language use and topic development."
+        standfirst="Eleven items recorded through your microphone, then scored on delivery, language use and topic development. The 2026 section has no integrated tasks and no preparation time."
         manifest={[
-          { field: "Duration", value: "~8", note: "Minutes across the four tasks" },
+          { field: "Duration", value: "~8", note: "Minutes across all eleven items" },
+          { field: "Items", value: "11", note: "7 Listen and Repeat, then a 4-question interview" },
           { field: "Preparation", value: "NONE", note: "Recording begins the moment a task opens" },
           { field: "Scoring", value: "1–6", note: "AI band score on delivery, language use and topic development" },
         ]}
         tasks={[
           { name: "Listen and Repeat", detail: "Repeat seven sentences as accurately as you can", icon: Volume2 },
-          { name: "Take an Interview", detail: "Four questions, forty-five seconds for each", icon: MessageSquare },
-          { name: "Integrated task 1", detail: "Read, then listen, then summarise", icon: BookOpen },
-          { name: "Integrated task 2", detail: "Listen, then give your own view", icon: Mic },
+          { name: "Take an Interview", detail: "Four questions on one theme, forty-five seconds for each", icon: MessageSquare },
         ]}
         action="Start speaking"
         onAction={startPractice}
@@ -749,8 +767,12 @@ export function SpeakingPractice() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-mono text-white mb-2">{formatTime(recordingTime)}</p>
-                  <p className="text-sm text-steel-400">Recording... Speak now</p>
+                  <p className="text-2xl font-mono text-white mb-2">
+                    {formatTime(recordingTime)} / {formatTime(maxRecordingTime)}
+                  </p>
+                  <p className="text-sm text-steel-400">
+                    Recording &mdash; this item allows {maxRecordingTime} seconds
+                  </p>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
@@ -873,14 +895,14 @@ export function SpeakingPractice() {
                   <Mic className="w-10 h-10 text-white" />
                 </div>
 
-                <p className={`text-4xl font-mono font-bold mb-2 ${recordingTime >= 40 ? "text-signal-400" : "text-white"}`}>
+                <p className={`text-4xl font-mono font-bold mb-2 ${recordingTime >= maxRecordingTime - 5 ? "text-signal-400" : "text-white"}`}>
                   {formatTime(recordingTime)} / {formatTime(maxRecordingTime)}
                 </p>
                 <div className="w-full max-w-sm h-2.5 bg-steel-800 rounded-full overflow-hidden relative border border-white/5">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(recordingTime / maxRecordingTime) * 100}%` }}
-                    className={`h-full rounded-full ${recordingTime >= 40 ? "bg-signal-500" : "bg-amber-500"}`}
+                    className={`h-full rounded-full ${recordingTime >= maxRecordingTime - 5 ? "bg-signal-500" : "bg-amber-500"}`}
                     transition={{ duration: 1, ease: 'linear' }}
                   />
                 </div>

@@ -142,8 +142,8 @@ single-select 4-option multiple choice, plus the typed Complete-the-Words gaps.
 
 ### 2️⃣ Listening Section
 
-**Duration:** 18-27 minutes (adaptive)
-**Format:** Multistage adaptive (Module 1 → Module 2 based on performance)
+**Items:** 47 (35 raw points) · **Base time:** ~25–29 min (router 18 + lower 7 / upper 11)
+**Format:** two-stage adaptive (router module → lower or upper second module)
 
 #### Task Types
 
@@ -273,7 +273,7 @@ live word counter.
   - Instant results with scoring
 
 - [ ] **Full Mock Test**
-  - Complete 67-85 minute simulated test
+  - Complete 83-89 minute simulated test (ETS: 1 hr 23 min – 1 hr 29 min)
   - Adaptive Reading & Listening modules
   - Auto-save progress every 30 seconds
   - Score report with section breakdown
@@ -1340,11 +1340,20 @@ def calculate_overall_score(reading, listening, speaking, writing):
 **Prompts Design:**
 
 **Build a Sentence:**
-- Provide: 3-5 words + structural cue
-- Example: Words: "students / library / study" → Write a sentence using present continuous tense
-- Grammar focus: Verb tenses, prepositions, articles, conditionals
+> ⚠️ **Correction.** This is NOT "give 3-5 words and a grammar cue, then type a
+> sentence". See `BUILD_A_SENTENCE` in the blueprint, which is authoritative.
+- A **context line** the assembled sentence must respond to
+- A word bank of **5–7 tiles**, which may be **multi-word chunks** ("showed us around")
+- Some items ship **distractor tiles**; some ship **prefilled/locked slots**
+- Click-to-place and drag both work; scored **all-or-nothing**, machine-scored locally
+- Grammar focus: verb tenses, prepositions, articles, conditionals
 
 **Email Prompts:**
+Every prompt has three load-bearing parts, and a prompt missing any of them is
+not this task: a **70–110 word situation**, a **named recipient whose relationship
+sets the register**, and **exactly three bullet points**, all of which must be
+addressed to score in the upper bands. See `WRITE_AN_EMAIL` in the blueprint and
+`emailTasks` in `src/data/questions/writing-massive.ts` for the shape.
 - Scenarios:
   - Request: Ask professor for deadline extension
   - Complaint: Report maintenance issue in dorm
@@ -2778,7 +2787,7 @@ toefl-practice-platform/
 
 - [ ] 500+ high-quality questions across all sections
 - [ ] Users can take section-wise practice tests
-- [ ] Users can take full mock tests (67-85 min, adaptive)
+- [ ] Users can take full mock tests (83-89 min, adaptive)
 - [ ] AI evaluation works for Speaking & Writing (80%+ accuracy)
 - [ ] Score reports display 1-6 band + legacy scores
 - [ ] Dashboard shows progress history & analytics

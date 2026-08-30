@@ -74,7 +74,7 @@ const features = [
     icon: Clock,
     title: "Exam-Accurate Timing",
     description:
-      "Practice with real time limits (67-85 min) to build test stamina.",
+      "Practice with real time limits (83-89 min) to build test stamina.",
     color: "from-amber-500 to-amber-500",
     gridClass: "",
   },

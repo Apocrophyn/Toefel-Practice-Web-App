@@ -247,3 +247,139 @@ the source of Complete the Words paragraphs, which is what they are well suited 
    Adding conversations and announcements is the cheapest way to raise that.
 3. **Band conversion remains a documented estimate** — ETS does not publish the
    raw-to-band table.
+
+---
+
+# Remediation status — round 3
+
+Rounds 1 and 2 fixed structure, timing, scoring and the item shapes. This round
+audits what a test taker actually **sees and is told**, which is where the
+remaining divergences had collected: the app was still advertising a task type
+that does not exist in 2026, and the two banks nobody had validated were the two
+that were furthest off spec.
+
+## Measured defects found and fixed
+
+| Defect | Measured before | After |
+|---|---|---|
+| Speaking tasks advertised in the UI | **4**, including two integrated tasks that do not exist in 2026 | 2 (Listen and Repeat, Take an Interview) |
+| Write an Email prompts carrying the required three bullets | **0 of 30** | 30 of 30 |
+| Write an Email situation length | ~30–50 words | 75–91 words (ETS 70–110) |
+| Write an Email timer in the bank | 480 s | 420 s, per the blueprint |
+| Read in Daily Life answer-key distribution | **A 2% / B 42% / C 48% / D 8%** | 26 / 26 / 24 / 24 |
+| Read in Daily Life rendered as its artefact genre | 0 of 30 | 30 of 30 |
+| C-test paragraphs printing raw Markdown or LaTeX | **137 of 270** | 0 |
+| Listen and Repeat response window in section practice | flat 12 s on all 7 items | tiered 8/8/10/10/10/12/12 |
+| Banks with no validator coverage | email, discussion, daily life, speaking | all covered |
+
+## The phantom Speaking tasks
+
+The Speaking board, the landing board and the format panel all listed
+**"Integrated task 1 — read, then listen, then summarise"** and
+**"Integrated task 2 — listen, then give your own view"**. Both are pre-2026
+tasks and both were removed in the 2026 update. The *engine* never delivered
+them — it has always run 7 + 4 — so this was purely a promise the UI made and
+the test did not keep, which is the worst kind of fidelity bug: a student
+budgets preparation time for a task that will not appear.
+
+Removed from `src/app/page.tsx`, `SpeakingPractice.tsx` and
+`landing/TestFormatSection.tsx`.
+
+## Write an Email was missing the part it is scored on
+
+The ETS prompt has three load-bearing parts: a ~90-word situation, a **named
+recipient whose relationship sets the register**, and **exactly three bullet
+points**, all of which must be addressed to score in the upper bands.
+
+The bank had none of them. It stored a one-line internal label
+(`"Address noise issue with roommate"` — the user's own example), a 30–50 word
+situation, and no bullets at all. `WritingPractice` rendered **only that
+one-line label**, so a student practising the email task saw a fragment of a
+prompt and was then scored by a grader that had never seen the bullets either,
+because only the label was forwarded to it.
+
+All 30 prompts were rewritten to the ETS shape, `EmailTask` now carries
+`situation` / `recipient` / `recipientRole` / `bullets`, both renderers show the
+full prompt, and `emailPromptText()` flattens it for the grader. The evaluation
+rubric in `api/evaluate/writing` now checks the three bullets individually and
+reports coverage, because "addressed all three points" is the single largest
+driver of the 0–5 score on this task.
+
+## The two unvalidated banks were the two worst
+
+`validate:content` covered reading, listening and Build a Sentence. It did not
+cover Write an Email, Write for an Academic Discussion, Read in Daily Life or
+either Speaking task — and those are exactly where the defects had survived two
+rounds of remediation. The validator now covers all of them, and the first run
+of the new checks immediately surfaced an exploitable one:
+
+**Read in Daily Life answer keys sat at A 2% / B 42% / C 48% / D 8%.** A test
+taker who always guessed B or C scored roughly 90% on that task without reading
+a single artefact. The existing `balance-answer-keys.py` had silently skipped
+this bank because it only understands letter-valued keys
+(`correctAnswer: "B"`), and the daily-life sets store the key as option text.
+`balance-daily-life-keys.py` handles the text-valued form; the bank is now
+26/26/24/24.
+
+## Read in Daily Life now renders as an artefact
+
+The artefact's layout is part of the construct — locating a departure time in a
+shuttle timetable is not the same reading skill as locating it in a paragraph —
+and all 30 stimuli were rendering through one flat `whitespace-pre-wrap` block.
+
+`DailyLifeArtefact.tsx` parses the conventions the bank was already written in
+(`From:/To:/Subject:` chrome, ALL-CAPS banners and section headings, `- ` list
+items, `Label: value` fields, ` | ` columns) into real structure. Verified
+against all 30 stimuli with zero character loss: 28 banners, 70 headings, 74
+lists, 35 fields, 3 column rows and 2 emails with header chrome.
+
+## Markdown and LaTeX were printing inside reading passages
+
+The Complete the Words paragraphs are harvested from the legacy passage bank,
+which was authored in Markdown. 125 of 270 paragraphs contained italic markers
+and 12 contained inline LaTeX, and the renderer only understands `**bold**`, so
+test takers were shown `*Photons*`, `($E=hf$)` and `* Red photons are "weak"
+bullets.` inside what is supposed to be a plain academic paragraph.
+
+`sanitizeParagraph()` in `c-test.ts` normalises emphasis, inline code, headings,
+simple chemical formulae (`$CO_2$` → `CO2`) and flattened list markers, and
+`generateCTest` now **rejects** any paragraph still carrying markup rather than
+mangling a real formula into something that reads like a typo. 257 clean
+paragraphs remain, against the 3 a form needs.
+
+## Two engines, two different routing thresholds
+
+`ReadingPractice` routed to the second module on the blueprint's 0.65 cut but
+labelled the result "cleared"/"cancelled" on the legacy
+`READING_CONFIG.HARD_TRACK_THRESHOLD` of 0.60, so a 62% score was routed down
+and reported as cleared. Both now read `ROUTING.upperModuleThreshold`.
+
+The legacy `ReadingSessionManager` — a second, wrong adaptive engine selecting
+10 items per module against a 50-item section — was dead code and has been
+removed, along with the stale constants in `READING_CONFIG` that described the
+pre-2026 section.
+
+## Copy corrected against the blueprint
+
+| Claim | Was | Now |
+|---|---|---|
+| Total test time | 67–85 min | 83–89 min (ETS 1:23–1:29) |
+| Reading duration | 18–27 min | 27–30 min (router 18–21 + 9) |
+| Listening duration | 18–27 min | 25–29 min (router 18 + 7/11) |
+| Section order on the board | R, L, **Speaking**, **Writing** | R, L, **Writing**, **Speaking** |
+| Speaking | "Gate 3 · 4 tasks" | "Gate 4 · 11 items" |
+| Writing | "Gate 4 · 3 tasks" | "Gate 3 · 12 items" |
+| Build a Sentence brief | "5 grammar tasks · ~5 min" | "10 items on one pooled 6:50 clock" |
+
+## Still outstanding
+
+1. **Bank depth.** Two non-overlapping Listening forms and four Reading forms.
+   Conversations and announcements remain the cheapest way to raise that.
+2. **Band conversion remains a documented estimate** — ETS does not publish the
+   raw-to-band table, and this is surfaced to the user as an estimate.
+3. **Genre variety in Read in Daily Life.** The renderer now handles email
+   chrome, notices, flyers, menus and timetables. The bank has no SMS/chat
+   thread stimuli, which ETS does use; the renderer would need a thread layout
+   to support them.
+4. **No first-hand test-taker reports.** Unchanged from round 1: every
+   interaction mechanic is sourced from ETS plus prep publishers.

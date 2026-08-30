@@ -975,7 +975,7 @@ Housing Services`,
     questions: [
       {
         question: "When will the water be shut off?",
-        options: ["Monday morning", "Tuesday morning", "Wednesday afternoon", "Thursday afternoon"],
+        options: ["Tuesday morning", "Monday morning", "Wednesday afternoon", "Thursday afternoon"],
         correctAnswer: "Tuesday morning",
         explanation: "The email states 'Water will be shut off on Tuesday from 9 AM to 12 PM.'"
       },
@@ -1013,13 +1013,13 @@ Study rooms can be reserved at the information desk.`,
       },
       {
         question: "When does the food court close on a regular Friday?",
-        options: ["10 PM", "11 PM", "12 AM", "1 AM"],
+        options: ["10 PM", "12 AM", "1 AM", "11 PM"],
         correctAnswer: "11 PM",
         explanation: "The building closes at midnight on Friday, and 'The food court closes one hour before building closure.'"
       },
       {
         question: "What are the hours during Finals Week?",
-        options: ["7 AM - 11 PM", "7 AM - 2 AM", "10 AM - 6 PM", "24 hours"],
+        options: ["7 AM - 2 AM", "7 AM - 11 PM", "10 AM - 6 PM", "24 hours"],
         correctAnswer: "7 AM - 2 AM",
         explanation: "Finals Week has 'Extended hours until 2 AM daily' with regular opening times."
       }
@@ -1086,19 +1086,19 @@ Dr. Chen`,
     questions: [
       {
         question: "What is the total point value of the exam?",
-        options: ["100 points", "125 points", "150 points", "175 points"],
+        options: ["100 points", "125 points", "175 points", "150 points"],
         correctAnswer: "150 points",
         explanation: "50 multiple choice at 2 points = 100, plus 2 essays at 25 points = 50. Total = 150."
       },
       {
         question: "What items are NOT allowed during the exam?",
-        options: ["Student ID", "#2 pencils", "Calculators", "Textbooks"],
+        options: ["Calculators", "Student ID", "#2 pencils", "Textbooks"],
         correctAnswer: "Calculators",
         explanation: "The email states 'Calculators are NOT permitted.'"
       },
       {
         question: "When is the first review session?",
-        options: ["October 12 at 2 PM", "October 13 at 2 PM", "October 12 at 4 PM", "October 15 at 10 AM"],
+        options: ["October 13 at 2 PM", "October 12 at 2 PM", "October 12 at 4 PM", "October 15 at 10 AM"],
         correctAnswer: "October 12 at 2 PM",
         explanation: "Review sessions are 'October 12 (2 PM) and October 13 (4 PM).'"
       }
@@ -1170,19 +1170,19 @@ Rain location: Recreation Center Gymnasium`,
     questions: [
       {
         question: "How much do students pay for admission?",
-        options: ["$5", "$10", "$15", "Free with ID"],
+        options: ["Free with ID", "$5", "$10", "$15"],
         correctAnswer: "Free with ID",
         explanation: "Students get in 'FREE with ID.'"
       },
       {
         question: "Where will the event be held if it rains?",
-        options: ["University Quad", "Student Center", "Recreation Center Gymnasium", "Science Hall"],
+        options: ["University Quad", "Recreation Center Gymnasium", "Student Center", "Science Hall"],
         correctAnswer: "Recreation Center Gymnasium",
         explanation: "'Rain location: Recreation Center Gymnasium.'"
       },
       {
         question: "When are the live performances?",
-        options: ["11 AM and 1 PM", "1 PM and 3 PM", "2 PM and 4 PM", "All day"],
+        options: ["11 AM and 1 PM", "2 PM and 4 PM", "1 PM and 3 PM", "All day"],
         correctAnswer: "1 PM and 3 PM",
         explanation: "'Live cultural performances at 1 PM and 3 PM.'"
       }
@@ -1213,13 +1213,13 @@ Questions? Call 555-HEALTH`,
     questions: [
       {
         question: "Where can students get vaccinated on October 9?",
-        options: ["Student Health Center", "Science Building", "Recreation Center", "Library"],
+        options: ["Student Health Center", "Science Building", "Library", "Recreation Center"],
         correctAnswer: "Recreation Center",
         explanation: "'October 9: Recreation Center (11 AM - 7 PM).'"
       },
       {
         question: "What option is available for students with egg allergies?",
-        options: ["No vaccination available", "Egg-free vaccines", "Delayed vaccination", "Doctor's note required"],
+        options: ["Egg-free vaccines", "No vaccination available", "Delayed vaccination", "Doctor's note required"],
         correctAnswer: "Egg-free vaccines",
         explanation: "'Students with egg allergies: egg-free vaccines available.'"
       }
@@ -1252,7 +1252,7 @@ Please be respectful of other students during this stressful time.`,
     questions: [
       {
         question: "What time does the library close on Sunday during finals?",
-        options: ["10 PM", "12 AM", "2 AM", "3 AM"],
+        options: ["10 PM", "3 AM", "12 AM", "2 AM"],
         correctAnswer: "3 AM",
         explanation: "'Sunday: 9 AM - 3 AM' during finals period."
       },
@@ -1264,7 +1264,7 @@ Please be respectful of other students during this stressful time.`,
       },
       {
         question: "Until what time is the coffee cart available?",
-        options: ["9 PM", "10 PM", "11 PM", "12 AM"],
+        options: ["9 PM", "10 PM", "12 AM", "11 PM"],
         correctAnswer: "11 PM",
         explanation: "'Coffee cart available until 11 PM.'"
       }
@@ -1299,7 +1299,7 @@ Interviews will be held October 8-10.`,
     questions: [
       {
         question: "What is the hourly pay for this position?",
-        options: ["$12.50", "$13.50", "$14.50", "$15.50"],
+        options: ["$14.50", "$12.50", "$13.50", "$15.50"],
         correctAnswer: "$14.50",
         explanation: "'Pay: $14.50/hour.'"
       },
@@ -1311,7 +1311,7 @@ Interviews will be held October 8-10.`,
       },
       {
         question: "When is the application deadline?",
-        options: ["September 15", "October 1", "October 8", "October 10"],
+        options: ["September 15", "October 8", "October 1", "October 10"],
         correctAnswer: "October 1",
         explanation: "'Submit resume and class schedule... by October 1.'"
       }
@@ -1346,13 +1346,13 @@ Lockers available for rent: $25/semester.`,
     questions: [
       {
         question: "How many laps equal one mile on the indoor track?",
-        options: ["2 laps", "3 laps", "4 laps", "5 laps"],
+        options: ["2 laps", "4 laps", "5 laps", "3 laps"],
         correctAnswer: "3 laps",
         explanation: "'Indoor track (3 laps = 1 mile).'"
       },
       {
         question: "When is Zumba offered?",
-        options: ["Monday at 7 AM", "Wednesday at 5 PM", "Thursday at 6 PM", "Saturday at 10 AM"],
+        options: ["Saturday at 10 AM", "Monday at 7 AM", "Wednesday at 5 PM", "Thursday at 6 PM"],
         correctAnswer: "Saturday at 10 AM",
         explanation: "'Zumba: Sat 10 AM.'"
       }
@@ -1386,13 +1386,13 @@ Reserve now at bookstore.university.edu`,
     questions: [
       {
         question: "What is the late return fee?",
-        options: ["$10 per book", "$15 per book", "$25 per book", "$50 per book"],
+        options: ["$10 per book", "$25 per book", "$15 per book", "$50 per book"],
         correctAnswer: "$25 per book",
         explanation: "'Late returns: $25 fee per book.'"
       },
       {
         question: "What cannot be rented?",
-        options: ["Textbooks", "Lab manuals", "E-books", "Novels"],
+        options: ["Textbooks", "E-books", "Lab manuals", "Novels"],
         correctAnswer: "Lab manuals",
         explanation: "'Lab manuals: Cannot be rented (must purchase).'"
       }
@@ -1423,13 +1423,13 @@ Questions? Contact president@photoclub.university.edu`,
     questions: [
       {
         question: "When and where do regular meetings take place?",
-        options: ["Monday at 6 PM in Arts 204", "Thursday at 6 PM in Arts 204", "Friday at 7 PM in Arts 204", "Saturday at 2 PM in Arts 204"],
+        options: ["Monday at 6 PM in Arts 204", "Friday at 7 PM in Arts 204", "Saturday at 2 PM in Arts 204", "Thursday at 6 PM in Arts 204"],
         correctAnswer: "Thursday at 6 PM in Arts 204",
         explanation: "'Weekly meetings every Thursday at 6 PM in Arts Building Room 204.'"
       },
       {
         question: "What does membership include?",
-        options: ["Free equipment", "Darkroom access", "Free photo printing", "Camera purchase discount"],
+        options: ["Darkroom access", "Free equipment", "Free photo printing", "Camera purchase discount"],
         correctAnswer: "Darkroom access",
         explanation: "'$20 per semester (includes darkroom access).'"
       }
@@ -1462,19 +1462,19 @@ SUPPORT:
     questions: [
       {
         question: "How long will old email addresses continue forwarding?",
-        options: ["1 month", "3 months", "6 months", "12 months"],
+        options: ["1 month", "6 months", "3 months", "12 months"],
         correctAnswer: "6 months",
         explanation: "'Old email addresses will forward for 6 months.'"
       },
       {
         question: "What is the new storage capacity?",
-        options: ["25GB", "50GB", "75GB", "100GB"],
+        options: ["25GB", "75GB", "50GB", "100GB"],
         correctAnswer: "50GB",
         explanation: "'Increased storage: 50GB (up from 25GB).'"
       },
       {
         question: "Where is the walk-in IT support located?",
-        options: ["Student Center", "Administration Building", "Library basement", "Science Hall"],
+        options: ["Student Center", "Administration Building", "Science Hall", "Library basement"],
         correctAnswer: "Library basement",
         explanation: "'Walk-in hours: Library basement, Mon-Fri 9 AM - 5 PM.'"
       }
@@ -1506,7 +1506,7 @@ Note: Students with GPA below 2.0 may not be eligible for housing.`,
     questions: [
       {
         question: "When do juniors select rooms?",
-        options: ["Feb 20", "Mar 1-5", "Mar 8-12", "Mar 15-19"],
+        options: ["Mar 8-12", "Feb 20", "Mar 1-5", "Mar 15-19"],
         correctAnswer: "Mar 8-12",
         explanation: "'Mar 8-12: Juniors select rooms.'"
       },
@@ -1549,7 +1549,7 @@ Free WiFi | Mobile ordering available`,
       },
       {
         question: "When are sandwiches available?",
-        options: ["All day", "7 AM - 12 PM", "11 AM - 2 PM", "12 PM - 5 PM"],
+        options: ["All day", "7 AM - 12 PM", "12 PM - 5 PM", "11 AM - 2 PM"],
         correctAnswer: "11 AM - 2 PM",
         explanation: "'Sandwiches: $6-8 (available 11 AM - 2 PM).'"
       }
@@ -1583,13 +1583,13 @@ Questions? Visit the Registrar's Office or call 555-CLASSES`,
     questions: [
       {
         question: "When can students with 75 credits register?",
-        options: ["November 1", "November 3", "November 5", "November 7"],
+        options: ["November 3", "November 1", "November 5", "November 7"],
         correctAnswer: "November 3",
         explanation: "75 credits falls in the 60-89 range (Juniors), who register November 3."
       },
       {
         question: "How many courses can you waitlist?",
-        options: ["3", "4", "5", "Unlimited"],
+        options: ["3", "5", "4", "Unlimited"],
         correctAnswer: "5",
         explanation: "'Waitlist spots are limited to 5 per course.'"
       }
@@ -1621,13 +1621,13 @@ Emergency? Always call 911 first, then Campus Security at 555-9111.`,
     questions: [
       {
         question: "What is the latest time escorts are available on Saturday?",
-        options: ["2 AM", "3 AM", "4 AM", "24 hours"],
+        options: ["2 AM", "4 AM", "3 AM", "24 hours"],
         correctAnswer: "3 AM",
         explanation: "'Friday-Saturday: 9 PM - 3 AM.'"
       },
       {
         question: "How far off campus will escorts go?",
-        options: ["On campus only", "Within 0.5 miles", "Within 1 mile", "Anywhere requested"],
+        options: ["On campus only", "Within 0.5 miles", "Anywhere requested", "Within 1 mile"],
         correctAnswer: "Within 1 mile",
         explanation: "'Nearby off-campus locations (within 1 mile of campus boundary).'"
       }
@@ -1666,13 +1666,13 @@ Note: Late orders after March 15 add $20 rush fee.`,
     questions: [
       {
         question: "What is the deadline for regular-priced orders?",
-        options: ["March 1", "March 15", "April 15", "April 20"],
+        options: ["March 15", "March 1", "April 15", "April 20"],
         correctAnswer: "March 15",
         explanation: "'Orders for May graduation ceremony must be placed by March 15!'"
       },
       {
         question: "What is the rush fee for late orders?",
-        options: ["$10", "$15", "$20", "$25"],
+        options: ["$10", "$20", "$15", "$25"],
         correctAnswer: "$20",
         explanation: "'Late orders after March 15 add $20 rush fee.'"
       }
@@ -1748,7 +1748,7 @@ RSVP at studyabroad.university.edu (recommended but not required)`,
     questions: [
       {
         question: "When is the information session?",
-        options: ["October 10 at 3 PM", "October 10 at 4 PM", "October 15 at 4 PM", "October 15 at 5 PM"],
+        options: ["October 10 at 4 PM", "October 10 at 3 PM", "October 15 at 4 PM", "October 15 at 5 PM"],
         correctAnswer: "October 10 at 4 PM",
         explanation: "'Date: Thursday, October 10' and 'Time: 4:00 PM - 5:30 PM.'"
       },
@@ -1795,7 +1795,7 @@ RULES:
       },
       {
         question: "What payment method is accepted?",
-        options: ["Cash only", "Credit card only", "Student ID card only", "All methods"],
+        options: ["Cash only", "Credit card only", "All methods", "Student ID card only"],
         correctAnswer: "Student ID card only",
         explanation: "'Payment: Student ID card only (no cash).'"
       }
@@ -1833,13 +1833,13 @@ All services covered by student health fee.`,
     questions: [
       {
         question: "When are Saturday services available?",
-        options: ["8 AM - 6 PM", "10 AM - 2 PM", "10 AM - 6 PM", "Not available"],
+        options: ["10 AM - 2 PM", "8 AM - 6 PM", "10 AM - 6 PM", "Not available"],
         correctAnswer: "10 AM - 2 PM",
         explanation: "'Saturday: 10 AM - 2 PM (urgent only).'"
       },
       {
         question: "How are counseling services paid for?",
-        options: ["Out of pocket", "Insurance required", "Covered by student health fee", "Sliding scale"],
+        options: ["Out of pocket", "Covered by student health fee", "Insurance required", "Sliding scale"],
         correctAnswer: "Covered by student health fee",
         explanation: "'All services covered by student health fee.'"
       }
@@ -1888,7 +1888,7 @@ Questions? Email sustainability@university.edu`,
       },
       {
         question: "What should you do with containers before recycling?",
-        options: ["Remove labels", "Rinse them", "Crush them", "Nothing"],
+        options: ["Remove labels", "Crush them", "Nothing", "Rinse them"],
         correctAnswer: "Rinse them",
         explanation: "'Rinse containers before recycling.'"
       }
@@ -1922,7 +1922,7 @@ NO: Outside food, professional cameras, lawn chairs, umbrellas`,
     questions: [
       {
         question: "How many tickets can a student purchase?",
-        options: ["1", "2", "4", "Unlimited"],
+        options: ["2", "1", "4", "Unlimited"],
         correctAnswer: "2",
         explanation: "'Students: $25 (limit 2 per ID).'"
       },
@@ -1973,7 +1973,7 @@ Tip: Label your belongings with your name and phone number!`,
       },
       {
         question: "What happens to found student IDs?",
-        options: ["Held for 30 days", "Returned to card office", "Donated", "Discarded"],
+        options: ["Held for 30 days", "Donated", "Discarded", "Returned to card office"],
         correctAnswer: "Returned to card office",
         explanation: "'Student IDs (returned to card office).'"
       }
@@ -2011,13 +2011,13 @@ Additional credit can be purchased at:
     questions: [
       {
         question: "How much free printing credit do students get?",
-        options: ["$10", "$15", "$20", "$25"],
+        options: ["$20", "$10", "$15", "$25"],
         correctAnswer: "$20",
         explanation: "'Every student receives $20 printing credit per semester.'"
       },
       {
         question: "How much does color printing cost?",
-        options: ["$0.05/page", "$0.10/page", "$0.25/page", "$0.50/page"],
+        options: ["$0.05/page", "$0.25/page", "$0.10/page", "$0.50/page"],
         correctAnswer: "$0.25/page",
         explanation: "'Color: $0.25 per page.'"
       }
@@ -2050,13 +2050,13 @@ Service hours tracked automatically and appear on your co-curricular transcript.
     questions: [
       {
         question: "When is Homework Help offered?",
-        options: ["Mon/Wed 3-5 PM", "Tues/Thu 3-5 PM", "Weekends only", "Daily"],
+        options: ["Mon/Wed 3-5 PM", "Weekends only", "Tues/Thu 3-5 PM", "Daily"],
         correctAnswer: "Tues/Thu 3-5 PM",
         explanation: "'Homework Help: Tues/Thu 3-5 PM at Jefferson Elementary.'"
       },
       {
         question: "What is required before volunteering?",
-        options: ["Background check", "Online orientation", "Interview", "Deposit"],
+        options: ["Background check", "Interview", "Deposit", "Online orientation"],
         correctAnswer: "Online orientation",
         explanation: "'All volunteers must complete online orientation first.'"
       }
@@ -2094,13 +2094,13 @@ Always check before traveling to campus!`,
     questions: [
       {
         question: "When is the decision made for evening classes?",
-        options: ["5:30 AM", "10:00 AM", "3:00 PM", "5:00 PM"],
+        options: ["3:00 PM", "5:30 AM", "10:00 AM", "5:00 PM"],
         correctAnswer: "3:00 PM",
         explanation: "'3:00 PM: Decision made for evening classes.'"
       },
       {
         question: "What happens during Level 2 closure?",
-        options: ["Normal operations", "10 AM opening", "All classes cancelled", "Campus completely closed"],
+        options: ["Normal operations", "All classes cancelled", "10 AM opening", "Campus completely closed"],
         correctAnswer: "All classes cancelled",
         explanation: "Level 2 states 'All classes cancelled.'"
       }
@@ -2143,7 +2143,7 @@ Email: insurance@university.edu`,
       },
       {
         question: "What is the primary care co-pay for the University Plan?",
-        options: ["$10", "$15", "$20", "$25"],
+        options: ["$10", "$15", "$25", "$20"],
         correctAnswer: "$20",
         explanation: "'Low co-pays ($20 primary care).'"
       }
@@ -2181,7 +2181,7 @@ Contact: mailcenter@university.edu`,
     questions: [
       {
         question: "How long do you have to pick up a package?",
-        options: ["7 days", "10 days", "14 days", "30 days"],
+        options: ["14 days", "7 days", "10 days", "30 days"],
         correctAnswer: "14 days",
         explanation: "'Must pick up within 14 days.'"
       },

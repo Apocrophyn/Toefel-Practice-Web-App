@@ -71,6 +71,9 @@ function adaptDailyLife(set: (typeof dailyLifeBank)[number]): DailyLifeQuestion 
   return {
     id: set.id,
     taskType: "daily_life",
+    // Carried through so the artefact renderer can pick a layout. It used to be
+    // dropped here, which is why every artefact arrived at the UI as bare prose.
+    category: set.category,
     passage: set.passage,
     questions: set.questions.map((q, i) => ({
       id: `${set.id}_Q${i + 1}`,

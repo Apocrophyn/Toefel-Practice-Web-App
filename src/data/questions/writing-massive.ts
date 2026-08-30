@@ -373,351 +373,642 @@ export const buildSentenceTasks: BuildSentenceTask[] = [
 ];
 
 // ==================== TASK 2: WRITE AN EMAIL ====================
-// Functional writing: Write short, polite, effective email responses
-// Time limit: 8 minutes | Word count: 80-120 words
+/**
+ * Write an Email — 1 item, 5 raw points, 7:00 on its own clock.
+ *
+ * The ETS prompt has three parts and all three are load-bearing:
+ *   1. a situation of roughly 70-110 words that establishes the context,
+ *   2. a NAMED recipient whose relationship to the test taker sets the register
+ *      (a professor and a roommate are not written to the same way), and
+ *   3. EXACTLY THREE bullet points, every one of which must be addressed for a
+ *      response to score in the upper bands.
+ *
+ * The previous bank had none of that: a one-line label such as "Address noise
+ * issue with roommate", a 30-word situation and no bullets at all. Practising
+ * against it taught nothing about the thing the task actually measures, which is
+ * covering three required points in a register that fits the reader, inside seven
+ * minutes. ETS publishes no word count for this task, so minWords/maxWords are a
+ * SOFT target shown as guidance and never enforced as a gate.
+ *
+ * Spec: WRITE_AN_EMAIL in src/data/toefl-2026-blueprint.ts
+ */
 
 export interface EmailTask {
   id: string;
   type: "email";
+  /** Short internal label for menus and history rows. Never shown as the prompt. */
   scenario: string;
-  emailPrompt: string; // The actual email or situation description
-  instructions: string;
+  /** Named recipient. The name and role are what set the register. */
   recipient: string;
+  /** The relationship, spelled out, so the expected register is unambiguous. */
+  recipientRole: string;
+  /** Subject line shown in the email chrome. */
+  subject: string;
+  /** The situation the test taker reads. 70-110 words. */
+  situation: string;
+  /** Exactly three points. All three must be addressed to score well. */
+  bullets: [string, string, string];
+  /** Directions line, taken from the blueprint. */
+  instructions: string;
+  /** Seconds. 7:00, per the blueprint. */
   timeLimit: number;
+  /** Soft guidance only - ETS publishes no word count for this task. */
   minWords: number;
   maxWords: number;
+}
+
+const EMAIL_DIRECTIONS =
+  "Read the situation below and write an email in response. " +
+  "Be sure to address all three of the points listed.";
+
+/**
+ * The full prompt as the test taker sees it, flattened to text.
+ *
+ * The AI evaluator needs the bullets, not just the situation: "addressed all
+ * three points" is the single largest driver of the 0-5 score on this task, and
+ * a grader that never sees the bullets cannot check it. Previously only a short
+ * scenario string was sent.
+ */
+export function emailPromptText(task: EmailTask): string {
+  return [
+    task.situation,
+    "",
+    `Write an email to ${task.recipient} (${task.recipientRole}).`,
+    "In your email, be sure to:",
+    ...task.bullets.map((b) => `- ${b}`),
+  ].join("\n");
 }
 
 export const emailTasks: EmailTask[] = [
   {
     id: "EMAIL_001",
     type: "email",
-    scenario: "Request deadline extension from professor",
-    emailPrompt: "From: You\nTo: Professor Martinez\nSubject: Research Paper Extension Request\n\nYour research paper for Professor Martinez's History class is due tomorrow, but you've been sick with the flu this week and unable to complete it.",
-    instructions: "Write an email to Professor Martinez requesting a 3-day extension. Be polite and professional.",
+    scenario: "Request a deadline extension from a professor",
     recipient: "Professor Martinez",
-    timeLimit: 480,
+    recipientRole: "Your history professor — formal register",
+    subject: "Research Paper Extension Request",
+    situation:
+      "You are taking History 240 with Professor Martinez. The final research paper is due tomorrow at nine in the morning, and it is worth thirty per cent of the course grade. You have had influenza for the past six days and spent two of them at the campus health centre, so roughly half the paper is still unwritten. Professor Martinez has said in class that extensions are possible but must be requested before the deadline, not after it. Write an email to Professor Martinez.",
+    bullets: [
+      "explain why you cannot meet the deadline",
+      "ask for a specific new deadline",
+      "say what you will do to make sure the work is finished by then",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_002",
     type: "email",
-    scenario: "Join campus club after missing meeting",
-    emailPrompt: "From: You\nTo: Photography Club President\nSubject: Joining Photography Club\n\nThe Photography Club had their first meeting last Wednesday, but you were out of town for a family event. You're interested in joining and want to know about membership requirements.",
-    instructions: "Write an email to the club president asking about how to join and what you missed.",
-    recipient: "Club President",
-    timeLimit: 480,
+    scenario: "Join a campus club after missing the first meeting",
+    recipient: "Nadia Osei, Photography Club president",
+    recipientRole: "A fellow student you have not met — polite but not formal",
+    subject: "Joining the Photography Club",
+    situation:
+      "The Photography Club held its first meeting of the term last Wednesday evening in the student centre. You were away at a family wedding and could not attend. A friend who went told you that the club assigned everyone to a project group and handed out a printed schedule of weekend shoots. You still want to join, and the club's page says new members are accepted for two more weeks. Write an email to Nadia Osei, the club president.",
+    bullets: [
+      "explain why you missed the first meeting",
+      "ask what you need to do to join now",
+      "ask about the materials that were handed out",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_003",
     type: "email",
-    scenario: "Report broken heating in dorm",
-    emailPrompt: "From: You\nTo: Campus Housing Maintenance\nSubject: Heating System Not Working - Room 304B\n\nThe heating in your dorm room hasn't worked for two days. It's winter and very cold. You submitted a repair request online yesterday but haven't received a response.",
-    instructions: "Write a follow-up email to Housing Maintenance requesting urgent attention to this issue.",
-    recipient: "Housing Maintenance",
-    timeLimit: 480,
+    scenario: "Report a broken heating system in a residence hall",
+    recipient: "Campus Housing Maintenance",
+    recipientRole: "A university department — formal register",
+    subject: "Heating Not Working — Room 304B",
+    situation:
+      "The heating in your residence hall room, 304B in Kestrel Hall, stopped working on Sunday night. It is the middle of winter and the temperature in the room has stayed near ten degrees. You filed a repair request through the housing website on Monday morning and received an automatic confirmation, but nobody has visited the room and nobody has contacted you. Your roommate has already moved temporarily to a friend's room. Write an email to Campus Housing Maintenance.",
+    bullets: [
+      "describe the problem and how long it has lasted",
+      "mention the repair request you already submitted",
+      "explain why this needs urgent attention",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_004",
     type: "email",
-    scenario: "Reschedule academic advising appointment",
-    emailPrompt: "From: You\nTo: Dr. Chen (Academic Advisor)\nSubject: Reschedule Advising Appointment\n\nYou have an academic advising appointment with Dr. Chen next Tuesday at 2 PM, but you just scheduled a medical appointment at the same time.",
-    instructions: "Write an email to Dr. Chen requesting to reschedule and suggesting alternative times.",
-    recipient: "Dr. Chen",
-    timeLimit: 480,
+    scenario: "Reschedule an academic advising appointment",
+    recipient: "Dr. Chen, your academic advisor",
+    recipientRole: "A faculty advisor — formal register",
+    subject: "Rescheduling Tuesday's Advising Appointment",
+    situation:
+      "You have an academic advising appointment with Dr. Chen next Tuesday at two in the afternoon to plan your courses for next term. Registration opens the following Monday, so the meeting cannot simply be dropped. This morning the campus clinic offered you a specialist appointment that has a three-month waiting list, and the only slot available is Tuesday at two. You are free most of Wednesday and on Thursday morning. Write an email to Dr. Chen.",
+    bullets: [
+      "explain why you need to move the appointment",
+      "suggest specific alternative times",
+      "confirm what you would like to discuss when you meet",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_005",
     type: "email",
-    scenario: "Return found student ID",
-    emailPrompt: "From: You\nTo: Library Lost and Found\nSubject: Found Student ID Card\n\nYou found a student ID card in the library belonging to Alex Johnson. You want to return it to the owner.",
-    instructions: "Write an email to the library's lost and found department reporting what you found.",
+    scenario: "Return a student identity card you found",
     recipient: "Library Lost and Found",
-    timeLimit: 480,
+    recipientRole: "A university service desk — polite and businesslike",
+    subject: "Found Student ID Card",
+    situation:
+      "While studying on the third floor of the main library yesterday evening, you found a student identity card wedged between the cushions of an armchair near the window. The card belongs to a student named Alex Johnson and it also works as a meal card and a door key for the residence halls, so losing it is a serious inconvenience. The library was closing and the service desk was already shut, so you took the card home for safekeeping. Write an email to the library's lost and found office.",
+    bullets: [
+      "explain what you found and where you found it",
+      "explain why you still have the card",
+      "ask how and when you should hand it in",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_006",
     type: "email",
-    scenario: "Thank professor for recommendation letter",
-    emailPrompt: "From: You\nTo: Professor Williams\nSubject: Thank You\n\nProfessor Williams recently wrote you a recommendation letter for a summer internship scholarship. You want to express your gratitude.",
-    instructions: "Write a thank-you email to Professor Williams for taking the time to support your application.",
+    scenario: "Thank a professor for writing a recommendation letter",
     recipient: "Professor Williams",
-    timeLimit: 480,
+    recipientRole: "A professor who did you a favour — warm but formal",
+    subject: "Thank You for Your Recommendation",
+    situation:
+      "Professor Williams wrote you a recommendation letter for a competitive summer research scholarship at the national laboratory. She wrote it during examination week, at short notice, and she asked to see your project proposal first so that the letter could refer to it in detail. You heard this morning that you have been awarded the scholarship and will start in June. You have not yet told her the outcome. Write an email to Professor Williams.",
+    bullets: [
+      "tell her the outcome of your application",
+      "thank her for the specific help she gave",
+      "say how you plan to keep in touch during the summer",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_007",
     type: "email",
-    scenario: "Clarify assignment instructions",
-    emailPrompt: "From: You\nTo: Professor Anderson\nSubject: Question About Group Project Requirements\n\nThe instructions for next week's group project don't clearly specify the page limit or required format (APA vs. MLA).",
-    instructions: "Write an email to Professor Anderson asking for clarification on these specific points.",
+    scenario: "Ask a professor to clarify assignment instructions",
     recipient: "Professor Anderson",
-    timeLimit: 480,
+    recipientRole: "Your course instructor — formal register",
+    subject: "Question About the Group Project Requirements",
+    situation:
+      "The instructions for the group project in Professor Anderson's sociology course are posted on the course website, but two things are unclear. The instructions say the report should be 'substantial' without giving a page or word limit, and they refer to 'standard academic citation' without saying whether the department expects APA or MLA style. Your group has to submit in nine days and has already started drafting. Two other groups have told you they are equally unsure. Write an email to Professor Anderson.",
+    bullets: [
+      "identify exactly which points are unclear",
+      "explain why your group needs an answer soon",
+      "ask whether the answer applies to every group",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_008",
     type: "email",
-    scenario: "Apply for campus bookstore job",
-    emailPrompt: "From: You\nTo: Campus Bookstore Manager\nSubject: Application for Sales Assistant Position\n\nYou saw a job posting for part-time sales assistants at the campus bookstore. You have previous retail experience at a clothing store.",
-    instructions: "Write an email expressing interest in the position and asking about the application process.",
-    recipient: "Bookstore Manager",
-    timeLimit: 480,
+    scenario: "Apply for a part-time job at the campus bookstore",
+    recipient: "Ms. Okonjo, University Bookstore manager",
+    recipientRole: "A prospective employer — formal register",
+    subject: "Application for Part-Time Sales Assistant",
+    situation:
+      "The university bookstore has advertised two part-time sales assistant positions for next term, twelve hours a week, with a preference for students who can work during the busy first fortnight. You worked in a bookshop at home for two summers and you handled the till, stock deliveries and customer orders. Your class timetable next term leaves you free on Tuesday and Thursday afternoons and all day Saturday. The advertisement asks interested students to write to the manager directly. Write an email to Ms. Okonjo.",
+    bullets: [
+      "say which position you are applying for",
+      "describe the relevant experience you have",
+      "state clearly when you are available to work",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_009",
     type: "email",
-    scenario: "Address noise issue with roommate",
-    emailPrompt: "From: You\nTo: Your roommate Sam\nSubject: Quick Chat\n\nYour roommate Sam has had friends over late at night three times this week, and the noise has kept you awake. You have 8 AM classes every morning.",
-    instructions: "Write a polite email to Sam addressing this issue and suggesting a compromise.",
-    recipient: "Sam (Roommate)",
-    timeLimit: 480,
+    scenario: "Ask a roommate to reduce late-night noise",
+    recipient: "Sam, your roommate",
+    recipientRole: "A friend you live with — informal but tactful",
+    subject: "Late nights",
+    situation:
+      "Your roommate Sam has started producing music in your shared room, usually between eleven at night and two in the morning, with the speakers on rather than headphones. You have an eight o'clock laboratory session four mornings a week and you have been arriving exhausted; last week you made a mistake that cost your lab partner an afternoon of work. Sam is easy to get on with and almost certainly has not realised there is a problem. You do not want to involve the residence advisor. Write an email to Sam.",
+    bullets: [
+      "describe the problem without blaming Sam",
+      "explain how it is affecting you",
+      "suggest a workable arrangement for both of you",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_010",
     type: "email",
-    scenario: "Notify study group about missing meeting",
-    emailPrompt: "From: You\nTo: Study Group Members\nSubject: Can't Make Next Week's Meeting\n\nYou have a family emergency and need to travel home next week, which means you'll miss your study group's meeting on Wednesday.",
-    instructions: "Write an email to your study group explaining the situation and offering to contribute remotely.",
-    recipient: "Study Group",
-    timeLimit: 480,
+    scenario: "Tell a study group you will miss a session",
+    recipient: "Your economics study group",
+    recipientRole: "Fellow students you work with — friendly and direct",
+    subject: "Missing Thursday's session",
+    situation:
+      "Your economics study group meets every Thursday evening to work through the problem set before it is submitted on Friday. You agreed at the last meeting to prepare the answers for questions four to seven and to bring them for the group to check. Your sister is having surgery on Thursday and you will be at the hospital all day and evening. You have finished your questions and can send them in advance. Write an email to the group.",
+    bullets: [
+      "tell them you cannot attend and why",
+      "explain what will happen to the work you agreed to do",
+      "ask them for something you will need afterwards",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_011",
     type: "email",
-    scenario: "Request library database access",
-    emailPrompt: "From: You\nTo: University Librarian\nSubject: Database Access for Thesis Research\n\nYou're writing your senior thesis on climate change policy and need access to the JSTOR Political Science database, which requires special permission.",
-    instructions: "Write an email requesting access and explaining why it's necessary for your research.",
-    recipient: "University Librarian",
-    timeLimit: 480,
+    scenario: "Request access to a restricted library database",
+    recipient: "Mr. Halloran, subject librarian",
+    recipientRole: "A university librarian — formal register",
+    subject: "Access to the Historical Newspapers Archive",
+    situation:
+      "Your dissertation compares newspaper coverage of two elections, and almost all the material you need is in the Historical Newspapers Archive. The archive is restricted to postgraduate students, and your undergraduate account cannot open it. Your supervisor, Dr. Ferreira, has agreed to sponsor an exception and has said she will confirm this if the library contacts her. Your dissertation is due at the end of the term, so you have about eleven weeks left. Write an email to the subject librarian.",
+    bullets: [
+      "explain what access you need and why",
+      "mention that your supervisor supports the request",
+      "ask what the library needs from you to approve it",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_012",
     type: "email",
-    scenario: "Report lost laptop in classroom",
-    emailPrompt: "From: You\nTo: Professor Taylor\nSubject: Left Laptop in Room 304\n\nYou accidentally left your laptop in Professor Taylor's classroom (Room 304) about 30 minutes after class ended this morning.",
-    instructions: "Write an email asking if the laptop was found and how you can retrieve it.",
+    scenario: "Report a laptop left behind in a classroom",
     recipient: "Professor Taylor",
-    timeLimit: 480,
+    recipientRole: "Your course instructor — formal register",
+    subject: "Laptop Left in Room 118",
+    situation:
+      "After Professor Taylor's Tuesday lecture in Room 118 you went straight to a seminar across campus and left your laptop under the desk. When you returned an hour later the room was locked and the building office had closed for the day. The laptop holds the only complete draft of an essay due on Friday, and it is not backed up. The room is used for another class first thing tomorrow morning. Write an email to Professor Taylor.",
+    bullets: [
+      "explain what you left and where you left it",
+      "explain why you cannot simply collect it yourself",
+      "ask for the specific help you need before tomorrow",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_013",
     type: "email",
-    scenario: "Volunteer for career fair",
-    emailPrompt: "From: You\nTo: Student Union Event Coordinator\nSubject: Volunteering for Career Fair\n\nThe student union is organizing a career fair next month and posted a call for volunteers. You're interested in helping and have experience with event planning.",
-    instructions: "Write an email expressing your interest and asking about volunteer roles and time commitment.",
-    recipient: "Event Coordinator",
-    timeLimit: 480,
+    scenario: "Volunteer to help at the university career fair",
+    recipient: "Ms. Delgado, career fair coordinator",
+    recipientRole: "A university staff organiser — formal register",
+    subject: "Volunteering at the Spring Career Fair",
+    situation:
+      "The careers service has asked for student volunteers for the spring career fair, which runs over two days next month in the sports hall. Volunteers greet employers, direct visitors and help set up and clear the stands. You attended the fair last year as a visitor, you speak Mandarin and Spanish as well as English, and you are free all day on the second day and after two o'clock on the first. Write an email to the coordinator.",
+    bullets: [
+      "say that you want to volunteer and when you are free",
+      "describe anything that makes you useful to the team",
+      "ask what happens next and whether there is training",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_014",
     type: "email",
-    scenario: "Report meal plan card issue",
-    emailPrompt: "From: You\nTo: Dining Services Office\nSubject: Meal Plan Card Not Working\n\nYou tried to use your meal plan card at the dining hall today, but it was declined even though you have an active unlimited meal plan.",
-    instructions: "Write an email to Dining Services reporting the problem and requesting help.",
+    scenario: "Report a problem with a meal plan card",
     recipient: "Dining Services",
-    timeLimit: 480,
+    recipientRole: "A university department — formal register",
+    subject: "Meal Plan Card Being Charged Twice",
+    situation:
+      "Your meal plan card has been deducting two meals instead of one every time you use it in the north dining hall. You noticed this on Monday, and by Thursday your balance had fallen by fourteen meals although you had eaten seven. The staff at the till told you the terminal has been unreliable since it was replaced but that they cannot adjust balances themselves. You have kept the printed receipts from every meal this week. Write an email to Dining Services.",
+    bullets: [
+      "describe the problem and when it started",
+      "give the evidence you have",
+      "say what you would like them to do about it",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_015",
     type: "email",
-    scenario: "Request to add full class",
-    emailPrompt: "From: You\nTo: Registrar's Office\nSubject: Request to Enroll in Biology 201\n\nBiology 201 is required for your major, but it shows as full when you try to register online. The semester starts in two weeks.",
-    instructions: "Write an email to the Registrar asking about options for joining the class (waitlist, override, etc.).",
+    scenario: "Ask to be added to a class that is full",
     recipient: "Registrar's Office",
-    timeLimit: 480,
+    recipientRole: "A university office — formal register",
+    subject: "Request to Enrol in Statistics 210, Section B",
+    situation:
+      "Statistics 210 is a prerequisite for every course in your major next year, and the only section that fits your timetable, Section B, filled within minutes of registration opening. The waiting list shows you in fourth place. The department has told you that the registrar, not the instructor, decides whether the cap can be raised. If you cannot take the course this term, you will not be able to take two required courses next year and your graduation date will move. Write an email to the Registrar's Office.",
+    bullets: [
+      "say exactly which course and section you need",
+      "explain the consequences of not getting a place",
+      "ask what options are open to you if the cap cannot be raised",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_016",
     type: "email",
-    scenario: "Request exam grade review",
-    emailPrompt: "From: You\nTo: Professor Johnson\nSubject: Question About Midterm Grade\n\nYou received a C on your midterm exam, but you believe one of your essay answers was misunderstood by the grader.",
-    instructions: "Write a polite email to Professor Johnson requesting a meeting to discuss your exam.",
+    scenario: "Ask a professor to review an examination grade",
     recipient: "Professor Johnson",
-    timeLimit: 480,
+    recipientRole: "Your course instructor — formal and careful register",
+    subject: "Question About My Midterm Grade",
+    situation:
+      "Your midterm examination in Professor Johnson's chemistry course came back with sixty-one marks out of one hundred. When you added up the marks written beside each question, the total came to seventy-three, and question six appears to have no mark at all although you answered it in full on the reverse of the page. Grades are final two weeks after they are released and one week of that has already passed. You want the paper looked at again. Write an email to Professor Johnson.",
+    bullets: [
+      "describe the specific discrepancy you found",
+      "ask for the paper to be checked again",
+      "mention the deadline you are working against",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_017",
     type: "email",
-    scenario: "Request late withdrawal from class",
-    emailPrompt: "From: You\nTo: Dean of Students Office\nSubject: Late Withdrawal Request - Chemistry 102\n\nUnexpected family circumstances have made it impossible to keep up with your Chemistry course. The standard withdrawal deadline has passed.",
-    instructions: "Write an email requesting permission for a late withdrawal and asking about the process.",
-    recipient: "Dean of Students",
-    timeLimit: 480,
+    scenario: "Request a late withdrawal from a course",
+    recipient: "Dean of Students Office",
+    recipientRole: "A senior university office — formal register",
+    subject: "Request for Late Withdrawal from Physics 305",
+    situation:
+      "The deadline to withdraw from Physics 305 passed three weeks ago. Since then your father has been in hospital and you have travelled home every weekend to help your family; you have missed four laboratory sessions that cannot be repeated, and you are certain to fail. Your other three courses are unaffected and you are passing all of them. The university allows late withdrawal for documented personal circumstances, and the hospital can provide a letter. Write an email to the Dean of Students Office.",
+    bullets: [
+      "state what you are asking for",
+      "explain the circumstances behind the request",
+      "offer the documentation you can provide",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_018",
     type: "email",
-    scenario: "Appeal financial aid package",
-    emailPrompt: "From: You\nTo: Financial Aid Office\nSubject: Aid Package Reconsideration Request\n\nYour family's financial situation has changed significantly since you submitted your FAFSA. Your financial aid package is less than you need.",
-    instructions: "Write an email requesting reconsideration of your aid and asking about the appeal process.",
+    scenario: "Appeal a financial aid decision",
     recipient: "Financial Aid Office",
-    timeLimit: 480,
+    recipientRole: "A university office — formal register",
+    subject: "Appeal of Aid Package for the Coming Year",
+    situation:
+      "Your financial aid package for next year has been reduced by roughly a third because it was calculated from your family's income two years ago. Since then your mother has lost her job and your family's income has fallen by more than half. With the reduced package you cannot cover tuition and housing, and you would have to interrupt your studies. Your mother can provide her redundancy letter and this year's tax documents. Write an email to the Financial Aid Office.",
+    bullets: [
+      "explain why the calculation no longer reflects your situation",
+      "describe what the reduction would mean for you",
+      "ask about the appeal process and what evidence is needed",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_019",
     type: "email",
-    scenario: "Propose independent study project",
-    emailPrompt: "From: You\nTo: Professor Greene\nSubject: Independent Study Proposal\n\nYou're interested in researching sustainable architecture next semester and would like Professor Greene to supervise an independent study project.",
-    instructions: "Write an email proposing your research idea and requesting a meeting to discuss details.",
+    scenario: "Propose an independent study project",
     recipient: "Professor Greene",
-    timeLimit: 480,
+    recipientRole: "A professor you have studied with — formal register",
+    subject: "Proposal for an Independent Study Next Term",
+    situation:
+      "You took Professor Greene's course on urban water systems last term and wrote your final essay on rainwater harvesting in informal settlements. She wrote on the essay that the topic deserved more space than an essay allows. The department permits a one-term independent study of four credits if a faculty member agrees to supervise it, and the paperwork must be filed before the end of this month. You have drafted a reading list and a plan for a fieldwork visit. Write an email to Professor Greene.",
+    bullets: [
+      "remind her of the work that led to this idea",
+      "describe what you want to study and how",
+      "ask whether she will supervise it and mention the deadline",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_020",
     type: "email",
-    scenario: "Request disability accommodations",
-    emailPrompt: "From: You\nTo: Professor Lee\nSubject: Exam Accommodation Letter\n\nYou have ADHD and receive official accommodations (extended time on exams). Professor Lee seems unaware of your accommodation letter for next week's exam.",
-    instructions: "Write an email to Professor Lee politely reminding them of your accommodations and offering to provide documentation.",
+    scenario: "Arrange approved examination accommodations",
     recipient: "Professor Lee",
-    timeLimit: 480,
+    recipientRole: "Your course instructor — formal and matter-of-fact register",
+    subject: "Approved Exam Accommodations for This Course",
+    situation:
+      "The disability services office has approved you for extra time and a separate room for examinations, and it has sent the formal letter to your department. The office asks students to contact each instructor at least two weeks before an examination so that arrangements can be made. Professor Lee's midterm is in sixteen days. You have not discussed this with Professor Lee before and you would prefer the arrangement to be handled discreetly. Write an email to Professor Lee.",
+    bullets: [
+      "state which accommodations have been approved",
+      "confirm that the official letter has been sent",
+      "ask how the arrangements will be made for this exam",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_021",
     type: "email",
-    scenario: "Address unequal group project contribution",
-    emailPrompt: "From: You\nTo: Your project partner Jordan\nSubject: Group Project Check-in\n\nYou've completed most of the work for your joint presentation due next week, while your partner Jordan has contributed very little.",
-    instructions: "Write a diplomatic email to Jordan addressing the issue and proposing a clear division of remaining tasks.",
-    recipient: "Jordan (Project Partner)",
-    timeLimit: 480,
+    scenario: "Raise unequal workload with a project partner",
+    recipient: "Jordan, your project partner",
+    recipientRole: "A classmate you must keep working with — direct but civil",
+    subject: "Splitting the rest of the project",
+    situation:
+      "You and Jordan are writing a marketing report together, and it is due in six days. You have written the introduction, the market analysis and the survey section; Jordan agreed a fortnight ago to write the competitor analysis and the conclusion and has not sent anything or answered your last two messages. The grade is shared. You would rather resolve this between yourselves than raise it with the instructor, and you still have to work with Jordan for the presentation. Write an email to Jordan.",
+    bullets: [
+      "set out plainly what has and has not been done",
+      "explain the consequence if nothing changes",
+      "propose a clear plan with dates for the remaining work",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_022",
     type: "email",
-    scenario: "Request major change guidance",
-    emailPrompt: "From: You\nTo: Academic Advisor\nSubject: Changing Major from Business to Environmental Science\n\nYou want to change your major but need to understand how your completed courses will transfer and what additional requirements you'll face.",
-    instructions: "Write an email to your advisor requesting a meeting to discuss changing your major.",
-    recipient: "Academic Advisor",
-    timeLimit: 480,
+    scenario: "Ask an advisor about changing your major",
+    recipient: "Ms. Barros, your academic advisor",
+    recipientRole: "Your academic advisor — formal register",
+    subject: "Considering a Change of Major",
+    situation:
+      "You are in the second year of a biology degree and you have decided you want to change to environmental policy. You have already taken two policy courses as electives and did well in both. You do not know how many of your biology credits would transfer, whether the change would delay your graduation, or whether the scholarship you hold is tied to your current department. The deadline for changing majors for next term is in three weeks. Write an email to your advisor.",
+    bullets: [
+      "explain what change you are considering and why",
+      "list the specific questions you need answered",
+      "ask to meet before the deadline",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_023",
     type: "email",
-    scenario: "Request recommendation from former professor",
-    emailPrompt: "From: You\nTo: Professor Davis\nSubject: Letter of Recommendation Request\n\nProfessor Davis taught you in freshman year (Introduction to Sociology - you earned an A). You need a recommendation letter for a summer internship. The application is due in 3 weeks.",
-    instructions: "Write an email requesting a recommendation letter and offering to provide materials to help Professor Davis remember you.",
+    scenario: "Ask a former professor for a recommendation",
     recipient: "Professor Davis",
-    timeLimit: 480,
+    recipientRole: "A professor who taught you two years ago — formal register",
+    subject: "Request for a Recommendation Letter",
+    situation:
+      "You are applying to a master's programme in public health and the application asks for two academic references. Professor Davis taught you epidemiology in your second year and supervised the group project on vaccination campaigns for which you were the lead author. You have not been in touch since that course finished eighteen months ago. The application closes in five weeks and references are submitted through an online form that emails the referee a link. Write an email to Professor Davis.",
+    bullets: [
+      "remind her who you are and what you did in her course",
+      "explain what you are applying for and why",
+      "tell her what the process involves and when it closes",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_024",
     type: "email",
-    scenario: "Appeal parking citation",
-    emailPrompt: "From: You\nTo: Campus Parking Services\nSubject: Parking Citation Appeal - Ticket #A47291\n\nYou received a parking ticket for parking in a spot you believed was open to students. The signage was unclear about restricted hours.",
-    instructions: "Write an email appealing the citation and explaining the misunderstanding.",
+    scenario: "Appeal a parking citation",
     recipient: "Parking Services",
-    timeLimit: 480,
+    recipientRole: "A university service — formal register",
+    subject: "Appeal of Citation Number 48-2291",
+    situation:
+      "You received a ninety-dollar citation for parking in Lot C without a valid permit. You do hold a valid permit for Lot C; it was renewed in September and the payment has cleared. On the morning in question the permit had slipped off the windscreen onto the passenger seat, where the officer would not have seen it. You have the receipt, the permit number and a photograph of the permit taken that afternoon. Appeals must be filed within ten days and six have passed. Write an email to Parking Services.",
+    bullets: [
+      "identify the citation and say why you are appealing",
+      "describe the evidence you can provide",
+      "ask what the next step is and confirm the deadline",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_025",
     type: "email",
-    scenario: "Report campus safety concern",
-    emailPrompt: "From: You\nTo: Campus Security\nSubject: Broken Light in Parking Lot C\n\nSeveral lights in Parking Lot C have been broken for over a week, making the area very dark at night. This is a safety concern for students walking to their cars.",
-    instructions: "Write an email to Campus Security reporting this issue and requesting repair.",
+    scenario: "Report a safety concern on campus",
     recipient: "Campus Security",
-    timeLimit: 480,
+    recipientRole: "A university service — formal and precise register",
+    subject: "Broken Lighting on the Riverside Path",
+    situation:
+      "The lighting along the riverside path between the science building and the north residence halls has been out for at least two weeks. The path is the shortest route back from evening laboratory sessions and it is completely dark between the bridge and the car park. Two students in your class have said they now walk the long way round instead. Nothing appears to have been reported, and the university's own safety guidance asks students to report outages directly. Write an email to Campus Security.",
+    bullets: [
+      "describe the problem and its exact location",
+      "explain why it matters and who is affected",
+      "ask what will be done and by when",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_026",
     type: "email",
-    scenario: "Request lab section change",
-    emailPrompt: "From: You\nTo: Professor Kim\nSubject: Request to Switch Lab Sections\n\nYour Chemistry lab is on Thursday mornings, but you just accepted a part-time job that requires Thursday morning shifts. Another lab section meets Tuesday afternoons and has open spots.",
-    instructions: "Write an email to Professor Kim requesting permission to switch lab sections.",
+    scenario: "Request a change of laboratory section",
     recipient: "Professor Kim",
-    timeLimit: 480,
+    recipientRole: "Your course instructor — formal register",
+    subject: "Request to Move to the Wednesday Lab Section",
+    situation:
+      "You are enrolled in the Monday afternoon laboratory section of Professor Kim's biology course. The section runs from two until five, and you have just been offered a paid research assistantship in another department that requires Monday afternoons for the whole term. The Wednesday morning section has spaces and fits your timetable. The department says section changes in the first three weeks need the instructor's approval, and this is the third week. Write an email to Professor Kim.",
+    bullets: [
+      "say which section you are in and which you want",
+      "explain why you need to change",
+      "acknowledge the deadline and ask for approval",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_027",
     type: "email",
-    scenario: "Inform professor about missing class",
-    emailPrompt: "From: You\nTo: Professor Rodriguez\nSubject: Absence from Class Next Week\n\nYou need to miss three classes next week due to a required court appearance (you're serving as a witness). You want to get assignments and stay caught up.",
-    instructions: "Write an email to Professor Rodriguez explaining your absence and asking how to keep up with coursework.",
+    scenario: "Tell a professor you will miss a class",
     recipient: "Professor Rodriguez",
-    timeLimit: 480,
+    recipientRole: "Your course instructor — formal register",
+    subject: "Absence from Thursday's Seminar",
+    situation:
+      "You will miss Thursday's seminar in Professor Rodriguez's literature course because you are presenting a poster at an undergraduate research conference in another city that day. Attendance in the seminar counts towards the grade, and Thursday is the session where the reading response for the week is discussed and collected. You found out about the conference acceptance only yesterday. You have already done the reading and drafted your response. Write an email to Professor Rodriguez.",
+    bullets: [
+      "say which class you will miss and why",
+      "explain what you have already prepared",
+      "ask how you should handle the work for that session",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_028",
     type: "email",
-    scenario: "Request gym membership extension",
-    emailPrompt: "From: You\nTo: Campus Recreation Center\nSubject: Gym Membership Question\n\nYour student gym membership expires at the end of the semester, but you're staying on campus over the summer for an internship.",
-    instructions: "Write an email asking about extending your membership and the cost.",
+    scenario: "Ask for a gym membership to be extended",
     recipient: "Recreation Center",
-    timeLimit: 480,
+    recipientRole: "A university service — polite and businesslike",
+    subject: "Request to Extend My Membership",
+    situation:
+      "You paid for a six-month membership at the recreation centre in January. The centre closed for unplanned repairs for five weeks in March and April, and during that period the pool and the weights room were both unavailable. Your membership expires at the end of this month. The notice on the door at the time said members should contact the office about the closure, but no further information was ever sent. Write an email to the Recreation Center.",
+    bullets: [
+      "explain what you paid for and what you lost",
+      "say what you would like the centre to do",
+      "ask how long a decision will take",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_029",
     type: "email",
-    scenario: "Report vending machine issue",
-    emailPrompt: "From: You\nTo: Facilities Management\nSubject: Vending Machine Took Money - Student Center\n\nThe snack vending machine in the Student Center took your $5 but didn't dispense the item you selected. This happened 30 minutes ago.",
-    instructions: "Write an email to Facilities Management reporting the issue and requesting a refund.",
+    scenario: "Report a vending machine that took payment",
     recipient: "Facilities Management",
-    timeLimit: 480,
+    recipientRole: "A university department — polite and businesslike",
+    subject: "Vending Machine on the Second Floor of Hartley Hall",
+    situation:
+      "The vending machine on the second floor of Hartley Hall took four dollars from your card on Tuesday and did not dispense anything. You tried the refund button and then the number printed on the machine, which rang out. A note taped to the front of the machine says it was serviced last month. Two other students were waiting behind you and the same thing happened to one of them. The machine is still in service. Write an email to Facilities Management.",
+    bullets: [
+      "describe what happened and when",
+      "mention what you have already tried",
+      "ask both for a refund and for the machine to be checked",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
   {
     id: "EMAIL_030",
     type: "email",
-    scenario: "Request transcript for job application",
-    emailPrompt: "From: You\nTo: Registrar's Office\nSubject: Urgent Transcript Request\n\nYou need an official transcript sent to a potential employer by Friday (3 days from now) for a job application. You're willing to pay for expedited processing.",
-    instructions: "Write an email to the Registrar requesting expedited transcript processing and asking about next steps.",
+    scenario: "Request an official transcript for a job application",
     recipient: "Registrar's Office",
-    timeLimit: 480,
+    recipientRole: "A university office — formal register",
+    subject: "Request for an Official Transcript",
+    situation:
+      "An employer has offered you a graduate position conditional on an official transcript reaching their human resources office by the fifteenth of next month. The registrar's website lists two options: an electronic transcript sent directly to an institution, and a sealed paper copy posted to an address. The employer's letter says either is acceptable but the envelope must be unopened. You have never requested a transcript before and you do not know the fee or how long it takes. Write an email to the Registrar's Office.",
+    bullets: [
+      "explain what you need and the deadline you must meet",
+      "state which delivery option suits your situation",
+      "ask about the cost and the processing time",
+    ],
+    instructions: EMAIL_DIRECTIONS,
+    timeLimit: 420,
     minWords: 80,
-    maxWords: 120
+    maxWords: 120,
   },
 ];
 

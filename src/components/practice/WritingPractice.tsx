@@ -23,6 +23,7 @@ import { SectionBrief, GlassPlate, Lamp } from "@/components/board";
 import {
   buildSentenceTasks,
   emailTasks,
+  emailPromptText,
   academicDiscussionTasks,
   type EmailTask,
   type AcademicDiscussionTask
@@ -325,7 +326,7 @@ export function WritingPractice() {
   }, [state, timeRemaining, handleSubmitCurrent]);
   const getPromptText = (question: WritingTask): string => {
     if (isBuildASentence(question)) return question.context;
-    if (question.type === "email") return question.scenario;
+    if (question.type === "email") return emailPromptText(question);
     return question.professor.message;
   };
 
@@ -351,30 +352,30 @@ export function WritingPractice() {
   // ============ SETUP SCREEN ============
   if (state === "setup") {
     const MODES = [
-      { mode: "all" as const, label: "Full section", desc: "All three task types, in order · ~23 min", icon: BookOpen },
-      { mode: "build_sentence" as const, label: "Build a Sentence", desc: "5 grammar tasks · ~5 min", icon: GripVertical },
-      { mode: "email" as const, label: "Write an Email", desc: "3 email tasks · ~24 min", icon: Mail },
-      { mode: "academic_discussion" as const, label: "Academic Discussion", desc: "3 discussion tasks · ~30 min", icon: MessageSquare },
+      { mode: "all" as const, label: "Full section", desc: "All 12 items, in order · ~23 min", icon: BookOpen },
+      { mode: "build_sentence" as const, label: "Build a Sentence", desc: "10 items on one pooled 6:50 clock", icon: GripVertical },
+      { mode: "email" as const, label: "Write an Email", desc: "3 emails · 7:00 each", icon: Mail },
+      { mode: "academic_discussion" as const, label: "Academic Discussion", desc: "3 discussions · 10:00 each", icon: MessageSquare },
     ];
 
     return (
       <SectionBrief
         icon={PenTool}
         title="Writing"
-        standfirst="Three timed tasks, typed. Spell-check is off and paste is disabled, the way the real section runs."
+        standfirst="Twelve items across three task types, typed. Spell-check is off and paste is disabled, the way the real section runs."
         manifest={[
           { field: "Duration", value: "~23", note: "Minutes across the full section" },
-          { field: "Tasks", value: "3", note: "Or run one task type on its own" },
-          { field: "Scoring", value: "1–6", note: "AI band score on grammar, organisation, vocabulary and development" },
+          { field: "Items", value: "12", note: "10 Build a Sentence, 1 email, 1 discussion" },
+          { field: "Scoring", value: "20", note: "Raw points: 1 per sentence, 5 for the email, 5 for the discussion" },
         ]}
         tasks={[
-          { name: "Build a Sentence", detail: "Construct a sentence from given words and a structural cue", icon: GripVertical },
-          { name: "Write an Email", detail: "80–120 words: a request, a complaint or an enquiry", icon: Mail },
+          { name: "Build a Sentence", detail: "Ten items: arrange word tiles into a sentence answering the prompt", icon: GripVertical },
+          { name: "Write an Email", detail: "A scenario and three bullet points, all of which must be addressed", icon: Mail },
           { name: "Academic Discussion", detail: "100+ words added to a class discussion thread", icon: MessageSquare },
         ]}
         action="Start writing"
         onAction={startPractice}
-        footnote="The clock runs per task. A task submits itself when its time is up, so write to the word count early."
+        footnote="Build a Sentence runs on one pooled clock across all ten items; the email and the discussion each get their own. A task submits itself when its time is up."
       >
         <div className="px-6 pb-2 pt-6 sm:px-8">
           <p className="board-label pb-3" id="writing-mode-label">
@@ -526,16 +527,35 @@ export function WritingPractice() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            {/* Scenario */}
-            <div className="p-6 glass-panel rounded-panel">
-              <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+            {/*
+              The full ETS prompt: directions, a ~90-word situation, the named
+              recipient whose relationship sets the register, and the three
+              bullets. This panel used to render only `scenario`, a one-line
+              internal label such as "Address noise issue with roommate", which
+              left out everything the response is actually scored against.
+            */}
+            <div className="p-6 glass-panel rounded-panel space-y-4">
+              <h3 className="text-lg font-semibold text-white mb-0 flex items-center gap-2">
                 <Mail className="w-5 h-5 text-amber-400" />
                 Write an Email
               </h3>
+              <p className="text-sm text-steel-400 m-0">{currentQuestion.instructions}</p>
               <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-panel">
-                <p className="text-sm text-steel-300 whitespace-pre-wrap">
-                  {currentQuestion.scenario}
+                <p className="text-sm text-steel-200 leading-relaxed m-0">
+                  {currentQuestion.situation}
                 </p>
+              </div>
+              <div className="p-4 rounded-panel border border-steel-700/60 bg-steel-900/40">
+                <p className="text-sm text-white m-0">
+                  Write an email to <strong>{currentQuestion.recipient}</strong>.
+                </p>
+                <p className="text-xs text-steel-500 mt-1 mb-3">{currentQuestion.recipientRole}</p>
+                <p className="text-sm text-amber-400 m-0 mb-2">In your email, be sure to:</p>
+                <ul className="text-sm text-steel-300 space-y-1 list-disc pl-5 m-0">
+                  {currentQuestion.bullets.map((point, i) => (
+                    <li key={i}>{point}</li>
+                  ))}
+                </ul>
               </div>
             </div>
 
